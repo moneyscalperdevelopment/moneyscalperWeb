@@ -1,73 +1,55 @@
-# Welcome to your Lovable project
+# 🚀 Money Scalper – The Futuristic Crypto Trading Platform
 
-## Project info
+Welcome to **Money Scalper**, the next-generation platform designed to transform **crypto trading** with **speed, precision, and automation**.  
 
-**URL**: https://lovable.dev/projects/c4de1228-6fa3-4918-a6ea-5ae8ecb33d14
+🌐 **Official Website:** [moneyscalper.com](https://moneyscalper.com)
 
-## How can I edit this code?
+---
 
-There are several ways of editing your application.
+## 📖 What is Money Scalper?
 
-**Use Lovable**
+Money Scalper is a **futuristic crypto trading platform** built for traders who demand **lightning-fast execution**, **scalping-focused strategies**, and **AI-powered insights**.  
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/c4de1228-6fa3-4918-a6ea-5ae8ecb33d14) and start prompting.
+It combines advanced analytics, intuitive design, and secure infrastructure to provide both **new** and **professional traders** with the tools they need to succeed in the fast-paced world of crypto.
 
-Changes made via Lovable will be committed automatically to this repo.
+---
 
-**Use your preferred IDE**
+## ✨ Key Features
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- ⚡ **High-Frequency Scalping Tools** – trade with unmatched speed and precision.  
+- 🤖 **AI-Driven Analytics** – smart algorithms help identify profitable opportunities.  
+- 📊 **Advanced Charting & Data** – real-time market insights at your fingertips.  
+- 🔐 **Secure Infrastructure** – top-level encryption and safety for all transactions.  
+- 🌐 **Cross-Platform Access** – trade seamlessly from desktop or mobile.  
+- 🛠️ **Customizable Strategies** – adapt trading bots and settings to your style.  
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+---
 
-Follow these steps:
+## 💡 Our Vision
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+Money Scalper isn’t just a platform — it’s a **crypto ecosystem** designed for the future of decentralized finance (**DeFi**).  
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+We aim to empower traders with:  
+- 🚀 **Ultra-fast execution speeds**  
+- 🧠 **Smart AI strategy integration**  
+- 🌍 **Scalable, global access**  
+- 🔄 **Automation for efficiency**  
 
-# Step 3: Install the necessary dependencies.
-npm i
+---
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+## 👥 Who is it for?
 
-**Edit a file directly in GitHub**
+- **Beginner Traders** – easy-to-use interface and smart automation.  
+- **Pro Traders** – advanced tools, customizable strategies, and speed.  
+- **Institutions & Bots** – scalable infrastructure for high-volume trading.  
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+---
 
-**Use GitHub Codespaces**
+## 📜 License
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Money Scalper is proprietary software.  
+All rights reserved © 2025 Money Scalper.
 
-## What technologies are used for this project?
+---
 
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/c4de1228-6fa3-4918-a6ea-5ae8ecb33d14) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+💎 *Trade smarter. Trade faster. Trade with Money Scalper.*
