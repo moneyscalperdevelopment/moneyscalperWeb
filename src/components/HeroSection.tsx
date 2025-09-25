@@ -9,9 +9,11 @@ import { useState, useEffect } from "react";
 import emailjs from '@emailjs/browser';
 import { ShootingStars } from "@/components/ui/shooting-stars";
 import { StarsBackground } from "@/components/ui/stars-background";
+import { useToast } from "@/hooks/use-toast";
 const HeroSection = () => {
   const [traderCount, setTraderCount] = useState(12847);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -41,11 +43,20 @@ const HeroSection = () => {
         'XtWp493g7vwVe6q_-' // public key
       );
       
-      alert('Registration successful! You\'ll be notified when we launch.');
+      toast({
+        title: "Registration Successful! 🚀",
+        description: "You'll be notified when we launch. Welcome to the future of trading!",
+        duration: 5000,
+      });
       form.reset();
     } catch (error) {
       console.error('Error sending email:', error);
-      alert('Registration failed. Please try again.');
+      toast({
+        title: "Registration Failed",
+        description: "Please try again. If the problem persists, contact support.",
+        variant: "destructive",
+        duration: 5000,
+      });
     } finally {
       setIsSubmitting(false);
     }
