@@ -96,11 +96,11 @@ const HeroSection = () => {
                 <span className="text">Pre-register</span>
               </button>
             </DialogTrigger>
-            <DialogContent className="shadow-input mx-auto w-full max-w-md rounded-none bg-zinc-900 p-4 md:rounded-2xl md:p-8 border border-zinc-800">
-              <h2 className="text-xl font-bold text-neutral-200">
+            <DialogContent className="shadow-input mx-auto w-full max-w-md rounded-none bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 p-4 md:rounded-2xl md:p-8 border border-blue-800/50">
+              <h2 className="text-xl font-bold text-white">
                 Welcome to MoneyScalper
               </h2>
-              <p className="mt-2 max-w-sm text-sm text-neutral-300">
+              <p className="mt-2 max-w-sm text-sm text-white/80">
                 Join the future of trading - register early for exclusive access
               </p>
               <form className="my-8" onSubmit={handleSubmit}>
@@ -128,7 +128,7 @@ const HeroSection = () => {
                 </LabelInputContainer>
 
                 <button
-                  className="group/btn relative block h-10 w-full rounded-md bg-gradient-to-br from-zinc-900 to-zinc-700 font-medium text-white shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset] hover:from-zinc-800 hover:to-zinc-600 transition-all duration-200"
+                  className="group/btn relative block h-10 w-full rounded-md bg-gradient-to-br from-blue-600 to-blue-800 font-medium text-white shadow-[0px_1px_0px_0px_#1e40af_inset,0px_-1px_0px_0px_#1e40af_inset] hover:from-blue-500 hover:to-blue-700 transition-all duration-200"
                   type="submit"
                   disabled={isSubmitting}>
                   {isSubmitting ? "Pre-registering..." : "Pre-register →"}
