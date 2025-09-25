@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { Zap } from "lucide-react";
 import heroImage from "@/assets/hero-crypto.jpg";
 import { useState, useEffect } from "react";
-import emailjs from '@emailjs/browser';
+import { sendEmail } from "@/utils/emailconfig";
 import { ShootingStars } from "@/components/ui/shooting-stars";
 import { StarsBackground } from "@/components/ui/stars-background";
 import { useToast } from "@/hooks/use-toast";
@@ -30,25 +30,24 @@ const HeroSection = () => {
     const formData = new FormData(form);
 
     try {
-      await emailjs.send(
-        'service_tdx4qi4', // service ID
-        'template_rak8f58', // template ID
-        {
-          firstname: formData.get('firstname'),
-          lastname: formData.get('lastname'),
-          email: formData.get('email'),
-          contact: formData.get('contact'),
-          country: formData.get('country'),
-        },
-        'XtWp493g7vwVe6q_-' // public key
-      );
-      
-      toast({
-        title: "Registration Successful! 🚀",
-        description: "You'll be notified when we launch. Welcome to the future of trading!",
-        duration: 5000,
+      const { success } = await sendEmail({
+        firstName: String(formData.get('firstname') || ''),
+        lastName: String(formData.get('lastname') || ''),
+        email: String(formData.get('email') || ''),
+        contactNumber: String(formData.get('contact') || ''),
+        country: String(formData.get('country') || ''),
       });
-      form.reset();
+      
+      if (success) {
+        toast({
+          title: "Registration Successful! 🚀",
+          description: "You'll be notified when we launch. Welcome to the future of trading!",
+          duration: 5000,
+        });
+        form.reset();
+      } else {
+        throw new Error('Email send failed');
+      }
     } catch (error) {
       console.error('Error sending email:', error);
       toast({
