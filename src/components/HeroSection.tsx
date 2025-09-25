@@ -1,5 +1,8 @@
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 import { Zap } from "lucide-react";
 import heroImage from "@/assets/hero-crypto.jpg";
 import { useState, useEffect } from "react";
@@ -29,8 +32,11 @@ const HeroSection = () => {
         'service_tdx4qi4', // service ID
         'template_rak8f58', // template ID
         {
+          firstname: formData.get('firstname'),
+          lastname: formData.get('lastname'),
           email: formData.get('email'),
-          password: formData.get('password'),
+          contact: formData.get('contact'),
+          country: formData.get('country'),
         },
         'XtWp493g7vwVe6q_-' // public key
       );
@@ -90,22 +96,44 @@ const HeroSection = () => {
                 <span className="text">Pre-register</span>
               </button>
             </DialogTrigger>
-            <DialogContent className="registration-popup">
-              <form className="registration-form" onSubmit={handleSubmit}>
-                <span className="input-span">
-                  <label htmlFor="email" className="label">Email</label>
-                  <input type="email" name="email" id="email" required />
-                </span>
-                <span className="input-span">
-                  <label htmlFor="password" className="label">Password</label>
-                  <input type="password" name="password" id="password" required />
-                </span>
-                <input 
-                  className="submit" 
-                  type="submit" 
-                  value={isSubmitting ? "Submitting..." : "Submit"} 
-                  disabled={isSubmitting}
-                />
+            <DialogContent className="shadow-input mx-auto w-full max-w-md rounded-none bg-white p-4 md:rounded-2xl md:p-8 dark:bg-black">
+              <h2 className="text-xl font-bold text-neutral-800 dark:text-neutral-200">
+                Welcome to MoneyScalper
+              </h2>
+              <p className="mt-2 max-w-sm text-sm text-neutral-600 dark:text-neutral-300">
+                Join the future of trading - register early for exclusive access
+              </p>
+              <form className="my-8" onSubmit={handleSubmit}>
+                <div className="mb-4 flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2">
+                  <LabelInputContainer>
+                    <Label htmlFor="firstname">First name</Label>
+                    <Input id="firstname" name="firstname" placeholder="John" type="text" required />
+                  </LabelInputContainer>
+                  <LabelInputContainer>
+                    <Label htmlFor="lastname">Last name</Label>
+                    <Input id="lastname" name="lastname" placeholder="Doe" type="text" required />
+                  </LabelInputContainer>
+                </div>
+                <LabelInputContainer className="mb-4">
+                  <Label htmlFor="email">Email Address</Label>
+                  <Input id="email" name="email" placeholder="john@example.com" type="email" required />
+                </LabelInputContainer>
+                <LabelInputContainer className="mb-4">
+                  <Label htmlFor="contact">Contact Number</Label>
+                  <Input id="contact" name="contact" placeholder="+1 234 567 8900" type="tel" required />
+                </LabelInputContainer>
+                <LabelInputContainer className="mb-8">
+                  <Label htmlFor="country">Country</Label>
+                  <Input id="country" name="country" placeholder="United States" type="text" required />
+                </LabelInputContainer>
+
+                <button
+                  className="group/btn relative block h-10 w-full rounded-md bg-gradient-to-br from-black to-neutral-600 font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset]"
+                  type="submit"
+                  disabled={isSubmitting}>
+                  {isSubmitting ? "Signing up..." : "Sign up →"}
+                  <BottomGradient />
+                </button>
               </form>
             </DialogContent>
           </Dialog>
@@ -118,4 +146,30 @@ const HeroSection = () => {
       </div>
     </section>;
 };
+
+const BottomGradient = () => {
+  return (
+    <>
+      <span
+        className="absolute inset-x-0 -bottom-px block h-px w-full bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-0 transition duration-500 group-hover/btn:opacity-100" />
+      <span
+        className="absolute inset-x-10 -bottom-px mx-auto block h-px w-1/2 bg-gradient-to-r from-transparent via-indigo-500 to-transparent opacity-0 blur-sm transition duration-500 group-hover/btn:opacity-100" />
+    </>
+  );
+};
+
+const LabelInputContainer = ({
+  children,
+  className
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) => {
+  return (
+    <div className={cn("flex w-full flex-col space-y-2", className)}>
+      {children}
+    </div>
+  );
+};
+
 export default HeroSection;
