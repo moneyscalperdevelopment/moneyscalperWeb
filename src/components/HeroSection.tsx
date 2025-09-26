@@ -9,11 +9,11 @@ import { useState, useEffect } from "react";
 import { sendEmail } from "@/utils/emailconfig";
 import { ShootingStars } from "@/components/ui/shooting-stars";
 import { StarsBackground } from "@/components/ui/stars-background";
-import { useToast } from "@/hooks/use-toast";
+import { SuccessPopup } from "@/components/SuccessPopup";
 const HeroSection = () => {
   const [traderCount, setTraderCount] = useState(12847);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { toast } = useToast();
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -39,23 +39,14 @@ const HeroSection = () => {
       });
       
       if (success) {
-        toast({
-          title: "Registration Successful! 🚀",
-          description: "You'll be notified when we launch. Welcome to the future of trading!",
-          duration: 5000,
-        });
+        setShowSuccessPopup(true);
         form.reset();
       } else {
         throw new Error('Email send failed');
       }
     } catch (error) {
       console.error('Error sending email:', error);
-      toast({
-        title: "Registration Failed",
-        description: "Please try again. If the problem persists, contact support.",
-        variant: "destructive",
-        duration: 5000,
-      });
+      alert("Registration failed. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -154,6 +145,12 @@ const HeroSection = () => {
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-50 animate-cyber-scan" />
       </div>
+
+      {/* Success Popup */}
+      <SuccessPopup 
+        isVisible={showSuccessPopup} 
+        onClose={() => setShowSuccessPopup(false)} 
+      />
     </section>;
 };
 
