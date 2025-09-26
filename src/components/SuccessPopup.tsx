@@ -7,6 +7,7 @@ interface SuccessPopupProps {
 }
 
 export const SuccessPopup = ({ isVisible, onClose }: SuccessPopupProps) => {
+  console.log("SuccessPopup render - isVisible:", isVisible);
   useEffect(() => {
     if (isVisible) {
       const timer = setTimeout(() => {

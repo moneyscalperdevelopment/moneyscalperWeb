@@ -14,6 +14,7 @@ const HeroSection = () => {
   const [traderCount, setTraderCount] = useState(12847);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -39,7 +40,12 @@ const HeroSection = () => {
       });
       
       if (success) {
-        setShowSuccessPopup(true);
+        console.log("Registration successful, showing popup");
+        setIsDialogOpen(false); // Close the dialog first
+        setTimeout(() => {
+          console.log("Setting showSuccessPopup to true");
+          setShowSuccessPopup(true);
+        }, 100); // Small delay to ensure dialog closes first
         form.reset();
       } else {
         throw new Error('Email send failed');
@@ -88,9 +94,12 @@ const HeroSection = () => {
           </div>
 
           {/* Pre-register Button */}
-          <Dialog>
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
-              <button className="pre-register-btn text-xs">
+              <button 
+                className="pre-register-btn text-xs"
+                onClick={() => setIsDialogOpen(true)}
+              >
                 <svg height="24" width="24" fill="#FFFFFF" viewBox="0 0 24 24" data-name="Layer 1" id="Layer_1" className="sparkle">
                   <path d="M10,21.236,6.755,14.745.264,11.5,6.755,8.255,10,1.764l3.245,6.491L19.736,11.5l-6.491,3.245ZM18,21l1.5,3L21,21l3-1.5L21,18l-1.5-3L18,18l-3,1.5ZM19.333,4.667,20.5,7l1.167-2.333L24,3.5,21.667,2.333,20.5,0,19.333,2.333,17,3.5Z"></path>
                 </svg>
