@@ -66,9 +66,9 @@ export const SuccessPopup = ({ isVisible, onClose }: SuccessPopupProps) => {
           <Meteors number={15} className="bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400" />
           
           {/* Animated background patterns */}
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/10 to-cyan-500/5 animate-pulse" />
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-400 to-transparent animate-pulse" />
-          <div className="absolute bottom-0 right-0 w-full h-1 bg-gradient-to-r from-transparent via-purple-400 to-transparent animate-pulse" style={{ animationDelay: '1s' }} />
+          <div aria-hidden className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/10 to-cyan-500/5 animate-pulse pointer-events-none z-0" />
+          <div aria-hidden className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-blue-400 to-transparent animate-pulse pointer-events-none z-0" />
+          <div aria-hidden className="absolute bottom-0 right-0 w-full h-1 bg-gradient-to-r from-transparent via-purple-400 to-transparent animate-pulse pointer-events-none z-0" style={{ animationDelay: '1s' }} />
           
           {/* Success icon */}
           <motion.div 
@@ -138,8 +138,8 @@ export const SuccessPopup = ({ isVisible, onClose }: SuccessPopupProps) => {
           </motion.div>
           
           {/* Cyber scan lines */}
-          <div className="absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-400/50 to-transparent animate-pulse" />
-          <div className="absolute bottom-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-400/50 to-transparent animate-pulse" style={{ animationDelay: '2s' }} />
+          <div aria-hidden className="absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-400/50 to-transparent animate-pulse pointer-events-none z-0" />
+          <div aria-hidden className="absolute bottom-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-400/50 to-transparent animate-pulse pointer-events-none z-0" style={{ animationDelay: '2s' }} />
         </div>
       </motion.div>
     </div>
