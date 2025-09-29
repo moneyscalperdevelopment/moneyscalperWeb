@@ -15,10 +15,12 @@ export const SuccessPopup = ({ isVisible, onClose }: SuccessPopupProps) => {
   if (!isVisible) return null;
 
   const handleDiscordRedirect = () => {
+    console.log("Discord button clicked");
     window.open("https://discord.gg/VNkhzUGw", "_blank");
   };
 
   const handleTelegramRedirect = () => {
+    console.log("Telegram button clicked");
     window.open("https://t.me/+lARYvYyc_odjODY1", "_blank");
   };
 
