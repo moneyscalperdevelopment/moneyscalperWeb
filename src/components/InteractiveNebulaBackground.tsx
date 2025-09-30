@@ -44,9 +44,9 @@ const InteractiveNebulaBackground = () => {
       'rgba(59, 130, 246, ', // blue-500
       'rgba(96, 165, 250, ', // blue-400
       'rgba(147, 197, 253, ', // blue-300
-      'rgba(139, 92, 246, ', // purple-500
-      'rgba(168, 85, 247, ', // purple-400
-      'rgba(192, 132, 252, ', // purple-300
+      'rgba(255, 255, 255, ', // white
+      'rgba(203, 213, 225, ', // slate-300
+      'rgba(148, 163, 184, ', // slate-400
       'rgba(34, 211, 238, ', // cyan-400
     ];
 
@@ -203,7 +203,7 @@ const InteractiveNebulaBackground = () => {
       <div className="absolute inset-0 z-[2] pointer-events-none">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-[120px] animate-pulse" 
              style={{ animationDuration: '8s' }} />
-        <div className="absolute top-1/3 right-1/4 w-[30rem] h-[30rem] bg-purple-500/10 rounded-full blur-[140px] animate-pulse" 
+        <div className="absolute top-1/3 right-1/4 w-[30rem] h-[30rem] bg-slate-900/20 rounded-full blur-[140px] animate-pulse" 
              style={{ animationDuration: '10s', animationDelay: '2s' }} />
         <div className="absolute bottom-1/4 left-1/3 w-80 h-80 bg-cyan-500/10 rounded-full blur-[100px] animate-pulse" 
              style={{ animationDuration: '12s', animationDelay: '4s' }} />

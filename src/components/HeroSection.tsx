@@ -8,6 +8,7 @@ import heroImage from "@/assets/hero-crypto.jpg";
 import { useState, useEffect } from "react";
 import { sendEmail } from "@/utils/emailconfig";
 import InteractiveNebulaBackground from "@/components/InteractiveNebulaBackground";
+import FallingStars from "@/components/FallingStars";
 import { SuccessPopup } from "@/components/SuccessPopup";
 const HeroSection = () => {
   const [traderCount, setTraderCount] = useState(12847);
@@ -59,6 +60,7 @@ const HeroSection = () => {
   return <section className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden">
       {/* Interactive Nebula Background */}
       <InteractiveNebulaBackground />
+      <FallingStars />
 
       {/* Main Content */}
       <div className="relative z-10 text-center max-w-6xl mx-auto">
