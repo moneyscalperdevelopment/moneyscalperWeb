@@ -52,7 +52,7 @@ const plans = [
 
 const PricingPlans = () => {
   return (
-    <section className="py-20 px-6 bg-muted/30">
+    <section className="py-20 px-6 bg-gradient-to-br from-background via-primary/5 to-background">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -61,7 +61,7 @@ const PricingPlans = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">
             Simple, Transparent Pricing
           </h2>
           <p className="text-muted-foreground text-lg">
@@ -80,32 +80,40 @@ const PricingPlans = () => {
               className="relative"
             >
               {plan.popular && (
-                <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground">
+                <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-blue-500 to-purple-600 text-white border-0">
                   Most Popular
                 </Badge>
               )}
-              <Card className={`h-full bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 ${plan.popular ? 'shadow-lg shadow-primary/20 border-primary/50' : ''}`}>
-                <CardHeader>
-                  <CardTitle className="text-2xl">{plan.name}</CardTitle>
-                  <CardDescription>{plan.description}</CardDescription>
-                  <div className="mt-4">
-                    <span className="text-4xl font-bold">${plan.price}</span>
-                    <span className="text-muted-foreground">/month</span>
+              <Card className={`h-full backdrop-blur-sm transition-all duration-300 ${
+                plan.popular 
+                  ? 'bg-gradient-to-br from-card via-card to-primary/10 border-2 border-blue-500/50 shadow-xl shadow-blue-500/20' 
+                  : 'bg-card/80 border border-border/50 hover:border-primary/30'
+              }`}>
+                <CardHeader className="pb-8">
+                  <CardTitle className="text-2xl font-bold">{plan.name}</CardTitle>
+                  <CardDescription className="text-base">{plan.description}</CardDescription>
+                  <div className="mt-6">
+                    <span className="text-5xl font-bold">${plan.price}</span>
+                    <span className="text-muted-foreground text-lg">/month</span>
                   </div>
                 </CardHeader>
-                <CardContent>
-                  <ul className="space-y-3">
+                <CardContent className="pb-8">
+                  <ul className="space-y-4">
                     {plan.features.map((feature) => (
-                      <li key={feature} className="flex items-start gap-2">
-                        <Check className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                        <span className="text-sm">{feature}</span>
+                      <li key={feature} className="flex items-start gap-3">
+                        <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
+                        <span className="text-sm leading-relaxed">{feature}</span>
                       </li>
                     ))}
                   </ul>
                 </CardContent>
-                <CardFooter>
+                <CardFooter className="pt-0">
                   <Button 
-                    className="w-full" 
+                    className={`w-full py-6 text-base font-semibold ${
+                      plan.popular 
+                        ? 'bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700' 
+                        : ''
+                    }`}
                     variant={plan.popular ? "default" : "outline"}
                   >
                     Get Started
