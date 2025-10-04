@@ -1,38 +1,31 @@
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
-import { TrendingUp, TrendingDown } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-interface CryptoPrice {
-  id: string;
-  name: string;
-  symbol: string;
-  current_price: number;
-  price_change_percentage_24h: number;
-}
-
 const LivePrices = () => {
-  const [prices, setPrices] = useState<CryptoPrice[]>([]);
+  const [prices, setPrices] = useState<{ bitcoin?: number; ethereum?: number }>({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchPrices = async () => {
       try {
-        const response = await fetch(
-          "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum&order=market_cap_desc&per_page=2&page=1&sparkline=false"
+        const res = await fetch(
+          "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd"
         );
-        const data = await response.json();
-        setPrices(data);
+        const data = await res.json();
+        setPrices({
+          bitcoin: data.bitcoin.usd,
+          ethereum: data.ethereum.usd,
+        });
         setLoading(false);
-      } catch (error) {
-        console.error("Error fetching prices:", error);
+      } catch (err) {
+        console.error("Error fetching prices", err);
         setLoading(false);
       }
     };
 
     fetchPrices();
-    const interval = setInterval(fetchPrices, 30000); // Update every 30 seconds
-
+    const interval = setInterval(fetchPrices, 10000); // Update every 10 seconds
     return () => clearInterval(interval);
   }, []);
 
@@ -69,42 +62,45 @@ const LivePrices = () => {
               ))}
             </>
           ) : (
-            prices.map((crypto, index) => (
+            <>
               <motion.div
-                key={crypto.id}
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                transition={{ duration: 0.5 }}
               >
                 <Card className="bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10">
-                  <CardHeader className="flex flex-row items-center justify-between pb-2">
-                    <CardTitle className="text-2xl font-bold">{crypto.name}</CardTitle>
-                    <span className="text-sm text-muted-foreground uppercase">{crypto.symbol}</span>
+                  <CardHeader>
+                    <CardTitle className="text-2xl font-bold">Bitcoin (BTC)</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="flex items-end justify-between">
-                      <div>
-                        <p className="text-3xl font-bold">
-                          ${crypto.current_price.toLocaleString()}
-                        </p>
-                      </div>
-                      <div className={`flex items-center gap-1 ${crypto.price_change_percentage_24h >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                        {crypto.price_change_percentage_24h >= 0 ? (
-                          <TrendingUp className="w-5 h-5" />
-                        ) : (
-                          <TrendingDown className="w-5 h-5" />
-                        )}
-                        <span className="font-semibold">
-                          {Math.abs(crypto.price_change_percentage_24h).toFixed(2)}%
-                        </span>
-                      </div>
-                    </div>
-                    <p className="text-sm text-muted-foreground mt-2">24h change</p>
+                    <p className="text-3xl font-bold font-mono">
+                      ${prices.bitcoin?.toLocaleString() || "Loading..."}
+                    </p>
+                    <p className="text-sm text-muted-foreground mt-2">Live Price</p>
                   </CardContent>
                 </Card>
               </motion.div>
-            ))
+
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+              >
+                <Card className="bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10">
+                  <CardHeader>
+                    <CardTitle className="text-2xl font-bold">Ethereum (ETH)</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-3xl font-bold font-mono">
+                      ${prices.ethereum?.toLocaleString() || "Loading..."}
+                    </p>
+                    <p className="text-sm text-muted-foreground mt-2">Live Price</p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </>
           )}
         </div>
       </div>
