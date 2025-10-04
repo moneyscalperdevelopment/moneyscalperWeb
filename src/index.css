@@ -181,27 +181,6 @@ All colors MUST be HSL.
     animation: meteor 5s linear infinite;
   }
 
-  @keyframes shooting-star {
-    0% {
-      transform: translateY(-100vh) translateX(0) rotate(45deg);
-      opacity: 0;
-    }
-    5% {
-      opacity: 1;
-    }
-    95% {
-      opacity: 1;
-    }
-    100% {
-      transform: translateY(100vh) translateX(-100px) rotate(45deg);
-      opacity: 0;
-    }
-  }
-
-  .shooting-star {
-    animation: shooting-star 3s linear infinite;
-  }
-
   /* Scrollbar Styling */
   ::-webkit-scrollbar {
     width: 8px;
