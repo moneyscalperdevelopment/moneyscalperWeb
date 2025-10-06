@@ -1,4 +1,7 @@
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import discordIcon from "@/assets/discord-icon.png";
+import telegramIcon from "@/assets/telegram-icon.png";
 
 const Header = () => {
   return (
@@ -11,6 +14,49 @@ const Header = () => {
               Money Scalper
             </span>
           </div>
+
+          {/* Join Now Button */}
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700">
+                Join Now
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-md">
+              <DialogHeader>
+                <DialogTitle className="text-2xl font-bold text-center">Join Our Community</DialogTitle>
+                <DialogDescription className="text-center">
+                  Connect with us on your preferred platform
+                </DialogDescription>
+              </DialogHeader>
+              <div className="flex flex-col gap-4 py-4">
+                <a
+                  href="https://discord.gg/VNkhzUGw"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-4 p-4 rounded-lg bg-[#5865F2] hover:bg-[#4752C4] transition-colors"
+                >
+                  <img src={discordIcon} alt="Discord" className="w-12 h-12" />
+                  <div className="flex-1 text-white">
+                    <h3 className="font-semibold text-lg">Discord</h3>
+                    <p className="text-sm text-white/80">Join our Discord server</p>
+                  </div>
+                </a>
+                <a
+                  href="https://t.me/+lARYvYyc_odjODY1"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-4 p-4 rounded-lg bg-[#0088cc] hover:bg-[#006699] transition-colors"
+                >
+                  <img src={telegramIcon} alt="Telegram" className="w-12 h-12" />
+                  <div className="flex-1 text-white">
+                    <h3 className="font-semibold text-lg">Telegram</h3>
+                    <p className="text-sm text-white/80">Join our Telegram group</p>
+                  </div>
+                </a>
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
     </header>

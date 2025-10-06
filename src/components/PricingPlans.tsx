@@ -7,11 +7,11 @@ import { Badge } from "@/components/ui/badge";
 const plans = [
   {
     name: "Starter",
-    price: "29",
+    price: "2,399",
     description: "Perfect for beginners",
     features: [
       "Basic AI trading bot",
-      "Up to $5,000 portfolio",
+      "Up to ₹5,000 portfolio",
       "2 cryptocurrency pairs",
       "Email support",
       "Basic analytics",
@@ -20,11 +20,11 @@ const plans = [
   },
   {
     name: "Standard",
-    price: "79",
+    price: "6,499",
     description: "Most popular choice",
     features: [
       "Advanced AI trading bot",
-      "Up to $50,000 portfolio",
+      "Up to ₹50,000 portfolio",
       "10 cryptocurrency pairs",
       "Priority support 24/7",
       "Advanced analytics",
@@ -34,7 +34,7 @@ const plans = [
   },
   {
     name: "Pro",
-    price: "199",
+    price: "16,399",
     description: "For serious traders",
     features: [
       "Premium AI trading bot",
@@ -80,21 +80,21 @@ const PricingPlans = () => {
               className="relative"
             >
               {plan.popular && (
-                <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-blue-500 to-purple-600 text-white border-0">
+                <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-blue-500 to-purple-600 text-white border-0 px-4 py-1">
                   Most Popular
                 </Badge>
               )}
               <Card className={`h-full backdrop-blur-sm transition-all duration-300 ${
                 plan.popular 
-                  ? 'bg-gradient-to-br from-card via-card to-primary/10 border-2 border-blue-500/50 shadow-xl shadow-blue-500/20' 
-                  : 'bg-card/80 border border-border/50 hover:border-primary/30'
+                  ? 'bg-gradient-to-br from-card/90 via-card/90 to-blue-500/10 border-2 border-blue-500/50 shadow-2xl shadow-blue-500/30' 
+                  : 'bg-card/50 border border-border/30 hover:border-primary/40'
               }`}>
-                <CardHeader className="pb-8">
-                  <CardTitle className="text-2xl font-bold">{plan.name}</CardTitle>
-                  <CardDescription className="text-base">{plan.description}</CardDescription>
+                <CardHeader className="pb-6">
+                  <CardTitle className="text-2xl font-bold text-white">{plan.name}</CardTitle>
+                  <CardDescription className="text-base text-muted-foreground">{plan.description}</CardDescription>
                   <div className="mt-6">
-                    <span className="text-5xl font-bold">${plan.price}</span>
-                    <span className="text-muted-foreground text-lg">/month</span>
+                    <span className="text-5xl font-bold text-white">₹{plan.price}</span>
+                    <span className="text-muted-foreground text-base">/month</span>
                   </div>
                 </CardHeader>
                 <CardContent className="pb-8">
@@ -109,10 +109,10 @@ const PricingPlans = () => {
                 </CardContent>
                 <CardFooter className="pt-0">
                   <Button 
-                    className={`w-full py-6 text-base font-semibold ${
+                    className={`w-full py-6 text-base font-semibold transition-all ${
                       plan.popular 
-                        ? 'bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700' 
-                        : ''
+                        ? 'bg-gradient-to-r from-blue-500 via-purple-500 to-purple-600 hover:from-blue-600 hover:via-purple-600 hover:to-purple-700 shadow-lg shadow-purple-500/50' 
+                        : 'bg-card/80 hover:bg-card'
                     }`}
                     variant={plan.popular ? "default" : "outline"}
                   >
