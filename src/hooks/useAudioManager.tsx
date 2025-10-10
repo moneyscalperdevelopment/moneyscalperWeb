@@ -7,7 +7,7 @@ export const useAudioManager = () => {
     const stored = localStorage.getItem('sound');
     return stored === 'off';
   });
-  const [isStarted, setIsStarted] = useState(false);
+  const [isStarted, setIsStarted] = useState(true); // Auto-start enabled
   const [currentSection, setCurrentSection] = useState<SectionKey>('hero');
   
   const currentTrack = useRef<Howl | null>(null);
@@ -39,6 +39,29 @@ export const useAudioManager = () => {
       mute: isMuted,
     });
 
+    // Auto-start audio on load
+    const startAudio = async () => {
+      try {
+        // Start ambient loop
+        ambientLoop.current?.play();
+        
+        // Start first track
+        const config = audioConfig.sections.hero;
+        currentTrack.current = new Howl({
+          src: [config.track],
+          loop: true,
+          volume: 0,
+          mute: isMuted,
+        });
+        currentTrack.current.play();
+        currentTrack.current.fade(0, config.volume, audioConfig.fadeDuration);
+      } catch (error) {
+        console.log('Autoplay blocked by browser, waiting for user interaction');
+      }
+    };
+
+    startAudio();
+
     return () => {
       ambientLoop.current?.unload();
       hoverSfx.current?.unload();
@@ -46,7 +69,7 @@ export const useAudioManager = () => {
       currentTrack.current?.unload();
       nextTrack.current?.unload();
     };
-  }, []);
+  }, [isMuted]);
 
   // Update mute state for all tracks
   useEffect(() => {

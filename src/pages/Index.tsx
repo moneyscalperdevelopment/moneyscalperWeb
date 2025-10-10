@@ -10,7 +10,6 @@ import FAQs from "@/components/FAQs";
 import FinalCTA from "@/components/FinalCTA";
 import { Toaster } from "@/components/ui/toaster";
 import { useAudioManager } from "@/hooks/useAudioManager";
-import { StartExperience } from "@/components/StartExperience";
 import { SoundToggle } from "@/components/SoundToggle";
 import { SectionObserver } from "@/components/SectionObserver";
 
@@ -19,13 +18,11 @@ const Index = () => {
     isMuted,
     isStarted,
     toggleMute,
-    startExperience,
     changeSection,
   } = useAudioManager();
 
   return (
     <div className="relative min-h-screen">
-      <StartExperience isVisible={!isStarted} onStart={startExperience} />
       <SoundToggle isMuted={isMuted} onToggle={toggleMute} isVisible={isStarted} />
       
       <Header />
