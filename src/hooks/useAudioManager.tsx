@@ -62,7 +62,37 @@ export const useAudioManager = () => {
 
     startAudio();
 
+    // Fallback: unlock audio on first user interaction (autoplay policies)
+    const onUserInteract = () => {
+      try {
+        if (ambientLoop.current && !ambientLoop.current.playing()) {
+          ambientLoop.current.play();
+        }
+        if (!currentTrack.current) {
+          const cfg = audioConfig.sections.hero;
+          currentTrack.current = new Howl({ src: [cfg.track], loop: true, volume: 0, mute: isMuted });
+          currentTrack.current.play();
+          currentTrack.current.fade(0, cfg.volume, audioConfig.fadeDuration);
+        } else if (!currentTrack.current.playing()) {
+          currentTrack.current.play();
+        }
+      } catch {}
+      window.removeEventListener('pointerdown', onUserInteract);
+      window.removeEventListener('keydown', onUserInteract);
+      window.removeEventListener('touchstart', onUserInteract);
+      window.removeEventListener('scroll', onUserInteract, true);
+    };
+
+    window.addEventListener('pointerdown', onUserInteract, { once: true });
+    window.addEventListener('keydown', onUserInteract, { once: true });
+    window.addEventListener('touchstart', onUserInteract, { passive: true, once: true } as any);
+    window.addEventListener('scroll', onUserInteract, { capture: true, once: true } as any);
+
     return () => {
+      window.removeEventListener('pointerdown', onUserInteract);
+      window.removeEventListener('keydown', onUserInteract);
+      window.removeEventListener('touchstart', onUserInteract);
+      window.removeEventListener('scroll', onUserInteract, true);
       ambientLoop.current?.unload();
       hoverSfx.current?.unload();
       clickSfx.current?.unload();
