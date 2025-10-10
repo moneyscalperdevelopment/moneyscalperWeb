@@ -9,20 +9,54 @@ import PricingPlans from "@/components/PricingPlans";
 import FAQs from "@/components/FAQs";
 import FinalCTA from "@/components/FinalCTA";
 import { Toaster } from "@/components/ui/toaster";
+import { useAudioManager } from "@/hooks/useAudioManager";
+import { StartExperience } from "@/components/StartExperience";
+import { SoundToggle } from "@/components/SoundToggle";
+import { SectionObserver } from "@/components/SectionObserver";
 
 const Index = () => {
+  const {
+    isMuted,
+    isStarted,
+    toggleMute,
+    startExperience,
+    changeSection,
+  } = useAudioManager();
+
   return (
     <div className="relative min-h-screen">
+      <StartExperience isVisible={!isStarted} onStart={startExperience} />
+      <SoundToggle isMuted={isMuted} onToggle={toggleMute} isVisible={isStarted} />
+      
       <Header />
-      <HeroSection />
-      <WhyMoneyScalper />
-      <HowItWorks />
-      <FeaturesTable />
-      <LivePrices />
-      <Testimonials />
-      <PricingPlans />
-      <FAQs />
-      <FinalCTA />
+      
+      <SectionObserver sectionId="hero" onSectionEnter={changeSection}>
+        <HeroSection />
+      </SectionObserver>
+      
+      <SectionObserver sectionId="why" onSectionEnter={changeSection}>
+        <WhyMoneyScalper />
+      </SectionObserver>
+      
+      <SectionObserver sectionId="how" onSectionEnter={changeSection}>
+        <HowItWorks />
+      </SectionObserver>
+      
+      <SectionObserver sectionId="features" onSectionEnter={changeSection}>
+        <FeaturesTable />
+        <LivePrices />
+      </SectionObserver>
+      
+      <SectionObserver sectionId="testimonials" onSectionEnter={changeSection}>
+        <Testimonials />
+      </SectionObserver>
+      
+      <SectionObserver sectionId="prices" onSectionEnter={changeSection}>
+        <PricingPlans />
+        <FAQs />
+        <FinalCTA />
+      </SectionObserver>
+      
       <Toaster />
     </div>
   );
