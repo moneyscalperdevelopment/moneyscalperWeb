@@ -101,13 +101,15 @@ export const useAudioManager = () => {
     };
   }, [isMuted]);
 
-  // Update mute state for all tracks
+  // Update play/pause state for all tracks
   useEffect(() => {
-    currentTrack.current?.mute(isMuted);
-    nextTrack.current?.mute(isMuted);
-    ambientLoop.current?.mute(isMuted);
-    hoverSfx.current?.mute(isMuted);
-    clickSfx.current?.mute(isMuted);
+    if (isMuted) {
+      currentTrack.current?.pause();
+      ambientLoop.current?.pause();
+    } else {
+      currentTrack.current?.play();
+      ambientLoop.current?.play();
+    }
   }, [isMuted]);
 
   const toggleMute = useCallback(() => {
