@@ -23,31 +23,41 @@ const steps = [{
 }];
 const HowItWorks = () => {
   return (
-    <section id="how-it-works" className="py-24 bg-gradient-to-b from-background to-background/80">
-      <div className="container mx-auto px-4">
-        <motion.h2
+    <section className="py-20 px-6 bg-background">
+      <div className="max-w-7xl mx-auto">
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-4xl md:text-5xl font-bold text-center mb-16"
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
         >
-          How It Works
-        </motion.h2>
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 max-w-6xl mx-auto">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            How It Works
+          </h2>
+          <p className="text-muted-foreground text-lg">Get started in 5 simple steps</p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
           {steps.map((step, index) => (
             <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
+              key={step.title}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="flex flex-col items-center text-center"
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="relative"
             >
-              <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                <step.icon className="w-8 h-8 text-primary" />
+              <div className="flex flex-col items-center text-center">
+                <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
+                  <step.icon className="w-8 h-8 text-primary" />
+                </div>
+                <h3 className="text-lg font-semibold mb-2">{step.title}</h3>
+                <p className="text-sm text-muted-foreground">{step.description}</p>
               </div>
-              <h3 className="font-semibold mb-2">{step.title}</h3>
-              <p className="text-sm text-muted-foreground">{step.description}</p>
+              {index < steps.length - 1 && (
+                <div className="hidden md:block absolute top-8 left-[60%] w-[80%] h-0.5 bg-gradient-to-r from-primary/50 to-transparent" />
+              )}
             </motion.div>
           ))}
         </div>
