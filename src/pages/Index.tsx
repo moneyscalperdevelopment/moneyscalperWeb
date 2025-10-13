@@ -19,8 +19,8 @@ const Index = () => {
       <HowItWorks />
       <FeaturesTable />
       <LivePrices />
-      <Testimonials />
       <PricingPlans />
+      <Testimonials />
       <FAQs />
       <FinalCTA />
       <Toaster />
