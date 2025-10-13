@@ -1,7 +1,6 @@
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import WhyMoneyScalper from "@/components/WhyMoneyScalper";
-import HowItWorks from "@/components/HowItWorks";
 import FeaturesTable from "@/components/FeaturesTable";
 import LivePrices from "@/components/LivePrices";
 import Testimonials from "@/components/Testimonials";
@@ -16,7 +15,6 @@ const Index = () => {
       <Header />
       <HeroSection />
       <WhyMoneyScalper />
-      <HowItWorks />
       <FeaturesTable />
       <LivePrices />
       <PricingPlans />
