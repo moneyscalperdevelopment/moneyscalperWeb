@@ -3,14 +3,12 @@ import { useEffect, useState } from "react";
 import { TrendingUp, TrendingDown } from "lucide-react";
 import bitcoinLogo from "@/assets/bitcoin-logo.webp";
 import ethereumLogo from "@/assets/ethereum-logo.png";
-
 const LivePrices = () => {
   const [prices, setPrices] = useState<{
     bitcoin?: number;
     ethereum?: number;
   }>({});
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     const fetchPrices = async () => {
       try {
@@ -30,31 +28,37 @@ const LivePrices = () => {
     const interval = setInterval(fetchPrices, 10000);
     return () => clearInterval(interval);
   }, []);
-
-  return (
-    <section className="py-20 px-6 bg-background">
+  return <section className="py-20 px-6 bg-background">
       <div className="max-w-6xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+        <motion.div initial={{
+        opacity: 0,
+        y: 20
+      }} whileInView={{
+        opacity: 1,
+        y: 0
+      }} viewport={{
+        once: true
+      }} transition={{
+        duration: 0.6
+      }} className="text-center mb-12">
+          <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent py-[20px] md:text-6xl">
             Live Crypto Prices
           </h2>
           <p className="text-muted-foreground text-lg">Real-time market data updated every 10 seconds</p>
         </motion.div>
 
         <div className="grid md:grid-cols-2 gap-6">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="p-6 rounded-2xl border border-border bg-card shadow-lg hover:shadow-xl transition-shadow"
-          >
+          <motion.div initial={{
+          opacity: 0,
+          x: -20
+        }} whileInView={{
+          opacity: 1,
+          x: 0
+        }} viewport={{
+          once: true
+        }} transition={{
+          duration: 0.6
+        }} className="p-6 rounded-2xl border border-border bg-card shadow-lg hover:shadow-xl transition-shadow">
             <div className="flex items-center gap-4 mb-4">
               <img src={bitcoinLogo} alt="Bitcoin" className="w-12 h-12" />
               <div>
@@ -76,13 +80,17 @@ const LivePrices = () => {
             </div>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="p-6 rounded-2xl border border-border bg-card shadow-lg hover:shadow-xl transition-shadow"
-          >
+          <motion.div initial={{
+          opacity: 0,
+          x: 20
+        }} whileInView={{
+          opacity: 1,
+          x: 0
+        }} viewport={{
+          once: true
+        }} transition={{
+          duration: 0.6
+        }} className="p-6 rounded-2xl border border-border bg-card shadow-lg hover:shadow-xl transition-shadow">
             <div className="flex items-center gap-4 mb-4">
               <img src={ethereumLogo} alt="Ethereum" className="w-12 h-12" />
               <div>
@@ -105,8 +113,6 @@ const LivePrices = () => {
           </motion.div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default LivePrices;
