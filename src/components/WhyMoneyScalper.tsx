@@ -1,42 +1,38 @@
 import { motion } from "motion/react";
 import { Zap, Shield, Bot, TrendingUp } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-
-const features = [
-  {
-    icon: Zap,
-    title: "Instant AI Crypto Trading",
-    description: "Execute trades at lightning speed with our advanced AI algorithms",
-  },
-  {
-    icon: Shield,
-    title: "Secure & Transparent",
-    description: "Bank-level security with full transparency on all transactions",
-  },
-  {
-    icon: Bot,
-    title: "AI Trading Bot 24/7",
-    description: "Never miss an opportunity with round-the-clock automated trading",
-  },
-  {
-    icon: TrendingUp,
-    title: "Grow Your Crypto Portfolio",
-    description: "Maximize returns with intelligent portfolio management",
-  },
-];
-
+const features = [{
+  icon: Zap,
+  title: "Instant AI Crypto Trading",
+  description: "Execute trades at lightning speed with our advanced AI algorithms"
+}, {
+  icon: Shield,
+  title: "Secure & Transparent",
+  description: "Bank-level security with full transparency on all transactions"
+}, {
+  icon: Bot,
+  title: "AI Trading Bot 24/7",
+  description: "Never miss an opportunity with round-the-clock automated trading"
+}, {
+  icon: TrendingUp,
+  title: "Grow Your Crypto Portfolio",
+  description: "Maximize returns with intelligent portfolio management"
+}];
 const WhyMoneyScalper = () => {
-  return (
-    <section className="py-20 px-6 bg-background">
+  return <section className="py-20 px-6 bg-background">
       <div className="max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+        <motion.div initial={{
+        opacity: 0,
+        y: 20
+      }} whileInView={{
+        opacity: 1,
+        y: 0
+      }} viewport={{
+        once: true
+      }} transition={{
+        duration: 0.6
+      }} className="text-center mb-12">
+          <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent py-[25px] md:text-6xl">
             Why Money Scalper?
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
@@ -45,14 +41,18 @@ const WhyMoneyScalper = () => {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {features.map((feature, index) => (
-            <motion.div
-              key={feature.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
+          {features.map((feature, index) => <motion.div key={feature.title} initial={{
+          opacity: 0,
+          y: 30
+        }} whileInView={{
+          opacity: 1,
+          y: 0
+        }} viewport={{
+          once: true
+        }} transition={{
+          duration: 0.5,
+          delay: index * 0.1
+        }}>
               <Card className="h-full bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10">
                 <CardHeader>
                   <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
@@ -66,12 +66,9 @@ const WhyMoneyScalper = () => {
                   </CardDescription>
                 </CardContent>
               </Card>
-            </motion.div>
-          ))}
+            </motion.div>)}
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default WhyMoneyScalper;
