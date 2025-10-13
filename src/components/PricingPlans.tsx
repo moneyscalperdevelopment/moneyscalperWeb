@@ -7,7 +7,8 @@ import { Badge } from "@/components/ui/badge";
 const plans = [
   {
     name: "Starter",
-    price: "2,399",
+    price: "99",
+    period: "week",
     description: "Perfect for beginners",
     features: [
       "Basic AI trading bot",
@@ -20,7 +21,8 @@ const plans = [
   },
   {
     name: "Standard",
-    price: "6,499",
+    price: "499",
+    period: "month",
     description: "Most popular choice",
     features: [
       "Advanced AI trading bot",
@@ -34,7 +36,8 @@ const plans = [
   },
   {
     name: "Pro",
-    price: "16,399",
+    price: "1,499",
+    period: "month",
     description: "For serious traders",
     features: [
       "Premium AI trading bot",
@@ -94,7 +97,7 @@ const PricingPlans = () => {
                   <CardDescription className="text-base text-muted-foreground">{plan.description}</CardDescription>
                   <div className="mt-6">
                     <span className="text-5xl font-bold text-white">₹{plan.price}</span>
-                    <span className="text-muted-foreground text-base">/month</span>
+                    <span className="text-muted-foreground text-base">/{plan.period}</span>
                   </div>
                 </CardHeader>
                 <CardContent className="pb-8">
