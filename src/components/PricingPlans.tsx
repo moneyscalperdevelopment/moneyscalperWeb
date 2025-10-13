@@ -3,6 +3,9 @@ import { Check } from "lucide-react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import RegistrationForm from "@/components/RegistrationForm";
+import { useState } from "react";
 
 const plans = [
   {
@@ -54,6 +57,8 @@ const plans = [
 ];
 
 const PricingPlans = () => {
+  const [openDialog, setOpenDialog] = useState<string | null>(null);
+
   return (
     <section className="py-20 px-6 bg-gradient-to-br from-background via-primary/5 to-background">
       <div className="max-w-7xl mx-auto">
@@ -111,16 +116,26 @@ const PricingPlans = () => {
                   </ul>
                 </CardContent>
                 <CardFooter className="pt-0">
-                  <Button 
-                    className={`w-full py-6 text-base font-semibold transition-all ${
-                      plan.popular 
-                        ? 'bg-gradient-to-r from-blue-500 via-purple-500 to-purple-600 hover:from-blue-600 hover:via-purple-600 hover:to-purple-700 shadow-lg shadow-purple-500/50 text-white' 
-                        : 'border-2 border-primary/40 bg-transparent text-white hover:bg-primary/20 hover:border-primary/60 hover:text-white'
-                    }`}
-                    variant={plan.popular ? "default" : "ghost"}
-                  >
-                    Get Started
-                  </Button>
+                  <Dialog open={openDialog === plan.name} onOpenChange={(open) => setOpenDialog(open ? plan.name : null)}>
+                    <DialogTrigger asChild>
+                      <Button 
+                        className={`w-full py-6 text-base font-semibold transition-all ${
+                          plan.popular 
+                            ? 'bg-gradient-to-r from-blue-500 via-purple-500 to-purple-600 hover:from-blue-600 hover:via-purple-600 hover:to-purple-700 shadow-lg shadow-purple-500/50 text-white' 
+                            : 'border-2 border-primary/40 bg-transparent text-white hover:bg-primary/20 hover:border-primary/60 hover:text-white'
+                        }`}
+                        variant={plan.popular ? "default" : "ghost"}
+                      >
+                        Get Started
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
+                      <DialogHeader>
+                        <DialogTitle>Register for {plan.name} Plan</DialogTitle>
+                      </DialogHeader>
+                      <RegistrationForm />
+                    </DialogContent>
+                  </Dialog>
                 </CardFooter>
               </Card>
             </motion.div>
