@@ -1,50 +1,39 @@
 import { motion } from "motion/react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-
-const faqs = [
-  {
-    question: "What is Money Scalper?",
-    answer: "Money Scalper is an AI-powered cryptocurrency trading platform that automates trading strategies using advanced machine learning algorithms. Our bots trade 24/7 to maximize your portfolio returns.",
-  },
-  {
-    question: "How does the AI trading bot work?",
-    answer: "Our AI analyzes market trends, price movements, and historical data in real-time to make informed trading decisions. It executes trades automatically based on proven strategies and adjusts to market conditions.",
-  },
-  {
-    question: "Is my investment secure?",
-    answer: "Yes, we use military-grade encryption and store funds in secure, insured wallets. We never have direct access to your funds, and you can withdraw at any time.",
-  },
-  {
-    question: "What cryptocurrencies can I trade?",
-    answer: "We support Bitcoin, Ethereum, and over 50 other major cryptocurrencies. The exact number depends on your plan, with Pro members having access to all available pairs.",
-  },
-  {
-    question: "Can I withdraw my funds anytime?",
-    answer: "Absolutely! You have full control of your funds and can withdraw at any time, 24/7. Most withdrawals are processed within minutes.",
-  },
-  {
-    question: "Do I need trading experience?",
-    answer: "No experience necessary! Our AI handles all the trading decisions. However, we provide educational resources and analytics to help you understand your portfolio performance.",
-  },
-];
-
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+const faqs = [{
+  question: "What is Money Scalper?",
+  answer: "Money Scalper is an AI-powered cryptocurrency trading platform that automates trading strategies using advanced machine learning algorithms. Our bots trade 24/7 to maximize your portfolio returns."
+}, {
+  question: "How does the AI trading bot work?",
+  answer: "Our AI analyzes market trends, price movements, and historical data in real-time to make informed trading decisions. It executes trades automatically based on proven strategies and adjusts to market conditions."
+}, {
+  question: "Is my investment secure?",
+  answer: "Yes, we use military-grade encryption and store funds in secure, insured wallets. We never have direct access to your funds, and you can withdraw at any time."
+}, {
+  question: "What cryptocurrencies can I trade?",
+  answer: "We support Bitcoin, Ethereum, and over 50 other major cryptocurrencies. The exact number depends on your plan, with Pro members having access to all available pairs."
+}, {
+  question: "Can I withdraw my funds anytime?",
+  answer: "Absolutely! You have full control of your funds and can withdraw at any time, 24/7. Most withdrawals are processed within minutes."
+}, {
+  question: "Do I need trading experience?",
+  answer: "No experience necessary! Our AI handles all the trading decisions. However, we provide educational resources and analytics to help you understand your portfolio performance."
+}];
 const FAQs = () => {
-  return (
-    <section className="py-20 px-6 bg-background">
+  return <section className="py-20 px-6 bg-background">
       <div className="max-w-4xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+        <motion.div initial={{
+        opacity: 0,
+        y: 20
+      }} whileInView={{
+        opacity: 1,
+        y: 0
+      }} viewport={{
+        once: true
+      }} transition={{
+        duration: 0.6
+      }} className="text-center mb-12">
+          <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent py-[10px] md:text-5xl">
             Frequently Asked Questions
           </h2>
           <p className="text-muted-foreground text-lg">
@@ -52,28 +41,29 @@ const FAQs = () => {
           </p>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
+        <motion.div initial={{
+        opacity: 0,
+        y: 30
+      }} whileInView={{
+        opacity: 1,
+        y: 0
+      }} viewport={{
+        once: true
+      }} transition={{
+        duration: 0.6
+      }}>
           <Accordion type="single" collapsible className="w-full">
-            {faqs.map((faq, index) => (
-              <AccordionItem key={index} value={`item-${index}`} className="border-border/50">
+            {faqs.map((faq, index) => <AccordionItem key={index} value={`item-${index}`} className="border-border/50">
                 <AccordionTrigger className="text-left hover:text-primary transition-colors">
                   {faq.question}
                 </AccordionTrigger>
                 <AccordionContent className="text-muted-foreground">
                   {faq.answer}
                 </AccordionContent>
-              </AccordionItem>
-            ))}
+              </AccordionItem>)}
           </Accordion>
         </motion.div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default FAQs;
