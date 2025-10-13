@@ -101,14 +101,25 @@ export const useAudioManager = () => {
     };
   }, [isMuted]);
 
-  // Update play/pause state for all tracks
+  // Update mute + playback state for all sounds
   useEffect(() => {
+    // Apply mute to all
+    currentTrack.current?.mute(isMuted);
+    nextTrack.current?.mute(isMuted);
+    ambientLoop.current?.mute(isMuted);
+    hoverSfx.current?.mute(isMuted);
+    clickSfx.current?.mute(isMuted);
+
     if (isMuted) {
+      // Pause long-running tracks to save CPU
       currentTrack.current?.pause();
+      nextTrack.current?.pause();
       ambientLoop.current?.pause();
     } else {
-      currentTrack.current?.play();
-      ambientLoop.current?.play();
+      // Resume playback if needed
+      if (ambientLoop.current && !ambientLoop.current.playing()) ambientLoop.current.play();
+      if (currentTrack.current && !currentTrack.current.playing()) currentTrack.current.play();
+      if (nextTrack.current && !nextTrack.current.playing()) nextTrack.current.play();
     }
   }, [isMuted]);
 
