@@ -1,9 +1,23 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
 import discordIcon from "@/assets/discord-icon.png";
 import telegramIcon from "@/assets/telegram-icon.png";
 
 const Header = () => {
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border/50">
       <div className="container mx-auto px-6 py-4">
@@ -14,6 +28,39 @@ const Header = () => {
               Money Scalper
             </span>
           </div>
+
+          {/* Navigation Menu */}
+          <NavigationMenu className="hidden md:flex">
+            <NavigationMenuList>
+              <NavigationMenuItem>
+                <NavigationMenuLink 
+                  className={navigationMenuTriggerStyle()}
+                  onClick={() => scrollToSection('about')}
+                  style={{ cursor: 'pointer' }}
+                >
+                  About Us
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuLink 
+                  className={navigationMenuTriggerStyle()}
+                  onClick={() => scrollToSection('pricing')}
+                  style={{ cursor: 'pointer' }}
+                >
+                  Pricing
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuLink 
+                  className={navigationMenuTriggerStyle()}
+                  onClick={() => scrollToSection('contact')}
+                  style={{ cursor: 'pointer' }}
+                >
+                  Contact Us
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
 
           {/* Join Now Button */}
           <Dialog>

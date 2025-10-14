@@ -14,13 +14,19 @@ const Index = () => {
     <div className="relative min-h-screen">
       <Header />
       <HeroSection />
-      <WhyMoneyScalper />
+      <div id="about">
+        <WhyMoneyScalper />
+      </div>
       <FeaturesTable />
       <LivePrices />
-      <PricingPlans />
+      <div id="pricing">
+        <PricingPlans />
+      </div>
       <Testimonials />
       <FAQs />
-      <FinalCTA />
+      <div id="contact">
+        <FinalCTA />
+      </div>
       <Toaster />
     </div>
   );
