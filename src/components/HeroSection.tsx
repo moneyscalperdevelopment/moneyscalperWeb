@@ -7,9 +7,8 @@ import { Zap } from "lucide-react";
 import heroImage from "@/assets/hero-crypto.jpg";
 import { useState, useEffect } from "react";
 import { sendEmail } from "@/utils/emailconfig";
-import { ShootingStars } from "@/components/ui/shooting-stars";
-import { StarsBackground } from "@/components/ui/stars-background";
 import { SuccessPopup } from "@/components/SuccessPopup";
+import TradingChartBackground from "@/components/TradingChartBackground";
 const HeroSection = () => {
   const [traderCount, setTraderCount] = useState(12847);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -55,10 +54,8 @@ const HeroSection = () => {
     }
   };
   return <section className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden">
-      {/* Animated Background Effects */}
-      <div className="absolute inset-0 z-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950" />
-      <ShootingStars />
-      <StarsBackground />
+      {/* Animated Trading Chart Background */}
+      <TradingChartBackground />
 
       {/* Main Content */}
       <div className="relative z-10 text-center max-w-6xl mx-auto">
