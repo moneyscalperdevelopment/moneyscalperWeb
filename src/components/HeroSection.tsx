@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import { sendEmail } from "@/utils/emailconfig";
 import { SuccessPopup } from "@/components/SuccessPopup";
 import TradingChartBackground from "@/components/TradingChartBackground";
+import Trading3DElements from "@/components/Trading3DElements";
 const HeroSection = () => {
   const [traderCount, setTraderCount] = useState(12847);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -56,6 +57,9 @@ const HeroSection = () => {
   return <section className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden">
       {/* Animated Trading Chart Background */}
       <TradingChartBackground />
+      
+      {/* 3D Trading Elements */}
+      <Trading3DElements />
 
       {/* Main Content */}
       <div className="relative z-10 text-center max-w-6xl mx-auto">
