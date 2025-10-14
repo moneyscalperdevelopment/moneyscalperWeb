@@ -10,7 +10,7 @@ import { sendEmail } from "@/utils/emailconfig";
 import { SuccessPopup } from "@/components/SuccessPopup";
 import TradingChartBackground from "@/components/TradingChartBackground";
 const HeroSection = () => {
-  const [traderCount, setTraderCount] = useState(12847);
+  const [traderCount, setTraderCount] = useState(1000);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
