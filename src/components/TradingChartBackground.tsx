@@ -19,65 +19,72 @@ const TradingChartBackground = () => {
     window.addEventListener('resize', setCanvasSize);
 
     // Generate random candlestick data
-    const numCandles = 80;
+    const numCandles = 100;
     const candleWidth = canvas.width / numCandles;
     let candleData: Array<{ x: number; open: number; close: number; high: number; low: number }> = [];
     
-    // Generate initial candles
+    // Generate initial candles with smoother price movement
     let basePrice = canvas.height * 0.6;
-    for (let i = 0; i < numCandles; i++) {
+    const generateCandle = (index: number) => {
       const volatility = 30;
+      const trend = Math.sin(index * 0.1) * 10; // Add wave pattern
       const open = basePrice + (Math.random() - 0.5) * volatility;
-      const close = open + (Math.random() - 0.5) * volatility;
+      const close = open + (Math.random() - 0.5) * volatility + trend;
       const high = Math.max(open, close) + Math.random() * volatility / 2;
       const low = Math.min(open, close) - Math.random() * volatility / 2;
       
-      candleData.push({
-        x: i * candleWidth,
-        open,
-        close,
-        high,
-        low
-      });
-      
       basePrice = close;
+      return { x: index * candleWidth, open, close, high, low };
+    };
+
+    for (let i = 0; i < numCandles; i++) {
+      candleData.push(generateCandle(i));
     }
 
     // Line chart data
-    const linePoints: Array<{ x: number; y: number }> = candleData.map((candle, i) => ({
+    let linePoints: Array<{ x: number; y: number }> = candleData.map((candle) => ({
       x: candle.x + candleWidth / 2,
       y: (candle.open + candle.close) / 2
     }));
 
     // Triangular indicators
-    const indicators: Array<{ x: number; y: number; direction: 'up' | 'down' }> = [];
-    for (let i = 10; i < candleData.length; i += 15) {
-      if (Math.random() > 0.5) {
-        indicators.push({
-          x: candleData[i].x + candleWidth / 2,
-          y: candleData[i].low - 20,
-          direction: Math.random() > 0.5 ? 'up' : 'down'
-        });
+    let indicators: Array<{ x: number; y: number; direction: 'up' | 'down'; active: boolean }> = [];
+    const generateIndicators = () => {
+      indicators = [];
+      for (let i = 10; i < candleData.length; i += 12) {
+        if (Math.random() > 0.4) {
+          indicators.push({
+            x: candleData[i].x + candleWidth / 2,
+            y: candleData[i].low - 20,
+            direction: Math.random() > 0.5 ? 'up' : 'down',
+            active: true
+          });
+        }
       }
-    }
+    };
+    generateIndicators();
 
     let animationOffset = 0;
+    let candleIndex = numCandles;
+    
     const animate = () => {
       if (!ctx || !canvas) return;
       
-      // Clear canvas
+      // Clear canvas with gradient background
       ctx.fillStyle = 'rgba(15, 23, 42, 0.3)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Shift candles to the left for animation
-      animationOffset += 0.5;
+      // Smooth continuous animation
+      animationOffset += 0.8;
       if (animationOffset >= candleWidth) {
         animationOffset = 0;
-        // Add new candle
+        
+        // Add new candle at the end
         const lastCandle = candleData[candleData.length - 1];
         const volatility = 30;
+        const trend = Math.sin(candleIndex * 0.1) * 10;
         const open = lastCandle.close;
-        const close = open + (Math.random() - 0.5) * volatility;
+        const close = open + (Math.random() - 0.5) * volatility + trend;
         const high = Math.max(open, close) + Math.random() * volatility / 2;
         const low = Math.min(open, close) - Math.random() * volatility / 2;
         
@@ -89,17 +96,26 @@ const TradingChartBackground = () => {
           low
         });
         
+        candleIndex++;
+        
         // Remove first candle
         candleData.shift();
         
-        // Update line points
-        linePoints.length = 0;
+        // Reindex candles
         candleData.forEach((candle, i) => {
-          linePoints.push({
-            x: candle.x + candleWidth / 2,
-            y: (candle.open + candle.close) / 2
-          });
+          candle.x = i * candleWidth;
         });
+        
+        // Update line points
+        linePoints = candleData.map((candle) => ({
+          x: candle.x + candleWidth / 2,
+          y: (candle.open + candle.close) / 2
+        }));
+        
+        // Regenerate indicators periodically
+        if (candleIndex % 50 === 0) {
+          generateIndicators();
+        }
       }
 
       // Draw candlesticks
