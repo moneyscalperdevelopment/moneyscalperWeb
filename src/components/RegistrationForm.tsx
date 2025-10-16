@@ -24,7 +24,7 @@ export default function RegistrationForm() {
 
     try {
       // Send to Google Sheets
-      await fetch('https://script.google.com/macros/s/AKfycbze7F-KD55mlyL7sBJgm0aWAIRm6IF2ibi7cRKF0lSnZvkeT6bhlFbwWtoBCcodial7Ng/exec', {
+      await fetch('https://script.google.com/macros/s/AKfycbxvL-IIs2fB_r5UlG3gbGhzgNsBv7_OafPC1P65BLD_9wv4aoLnYodAv2QWPJuSUN0Bhg/exec', {
         method: 'POST',
         mode: 'no-cors',
         headers: {
