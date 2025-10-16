@@ -1,121 +1,144 @@
-import React, { useRef } from "react";
+import React, { useState } from "react";
 import emailjs from "@emailjs/browser";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 
 export default function RegistrationForm() {
-  const formRef = useRef<HTMLFormElement | null>(null);
-  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!formRef.current) return;
+    setIsSubmitting(true);
+    const formData = new FormData(e.currentTarget);
+
+    const registrationData = {
+      firstName: formData.get("first_name") as string,
+      lastName: formData.get("last_name") as string,
+      email: formData.get("from_email") as string,
+      contactNumber: formData.get("contact_number") as string,
+      country: formData.get("country") as string,
+      message: formData.get("message") as string,
+    };
 
     try {
-      await emailjs.sendForm(
-        "YOUR_SERVICE_ID",
-        "YOUR_TEMPLATE_ID",
-        formRef.current,
-        "YOUR_PUBLIC_KEY"
+      // Send to Google Sheets
+      await fetch('https://script.google.com/macros/s/AKfycbze7F-KD55mlyL7sBJgm0aWAIRm6IF2ibi7cRKF0lSnZvkeT6bhlFbwWtoBCcodial7Ng/exec', {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: `${registrationData.firstName} ${registrationData.lastName}`,
+          email: registrationData.email,
+          contact: registrationData.contactNumber,
+          country: registrationData.country,
+          message: registrationData.message,
+        }),
+      });
+
+      // Send email via EmailJS
+      await emailjs.send(
+        'service_tdx4qi4',
+        'template_rak8f58',
+        {
+          first_name: registrationData.firstName,
+          last_name: registrationData.lastName,
+          from_email: registrationData.email,
+          contact_number: registrationData.contactNumber,
+          country: registrationData.country,
+          message: registrationData.message,
+          to_name: 'Money Scalper'
+        },
+        'XtWp493g7vwVe6q_-'
       );
-      toast({
-        title: "Registration Successful!",
-        description: "We'll contact you shortly.",
-      });
-      formRef.current.reset();
+
+      toast.success("Registration successful! We'll contact you shortly.");
+      (e.target as HTMLFormElement).reset();
     } catch (error) {
-      console.error("EmailJS Error:", error);
-      toast({
-        title: "Registration Failed",
-        description: "Please try again later.",
-        variant: "destructive",
-      });
+      console.error("Registration Error:", error);
+      toast.error("Registration failed. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
-      <input type="hidden" name="to_name" value="Site Admin" />
-
+    <form onSubmit={handleSubmit} className="space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="first_name" className="text-green-400">First Name</Label>
+        <Label htmlFor="first_name">First Name</Label>
         <Input
           id="first_name"
           type="text"
           name="first_name"
           placeholder="Enter your first name"
           required
-          className="bg-white text-black border-0"
         />
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="last_name" className="text-green-400">Last Name</Label>
+        <Label htmlFor="last_name">Last Name</Label>
         <Input
           id="last_name"
           type="text"
           name="last_name"
           placeholder="Enter your last name"
           required
-          className="bg-white text-black border-0"
         />
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="from_email" className="text-green-400">Email</Label>
+        <Label htmlFor="from_email">Email</Label>
         <Input
           id="from_email"
           type="email"
           name="from_email"
           placeholder="Enter your email"
           required
-          className="bg-muted text-foreground border-0"
         />
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="contact_number" className="text-green-400">Contact Number</Label>
+        <Label htmlFor="contact_number">Contact Number</Label>
         <Input
           id="contact_number"
           type="text"
           name="contact_number"
           placeholder="Enter your contact number"
           required
-          className="bg-white text-black border-0"
         />
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="country" className="text-green-400">Country</Label>
+        <Label htmlFor="country">Country</Label>
         <Input
           id="country"
           type="text"
           name="country"
           placeholder="Enter your country"
           required
-          className="bg-white text-black border-0"
         />
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="message" className="text-green-400">Message</Label>
+        <Label htmlFor="message">Message</Label>
         <Textarea
           id="message"
           name="message"
           rows={4}
           placeholder="Write your message..."
-          className="bg-white text-black border-0 resize-none"
         />
       </div>
 
       <Button 
         type="submit" 
-        className="w-full bg-muted hover:bg-muted/80 text-foreground rounded-full py-6 text-base font-semibold"
+        className="w-full py-6 text-base font-semibold"
+        disabled={isSubmitting}
       >
-        Register
+        {isSubmitting ? "Registering..." : "Register"}
       </Button>
     </form>
   );
