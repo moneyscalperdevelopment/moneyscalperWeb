@@ -16,23 +16,43 @@ const FinalCTA = () => {
     setIsSubmitting(true);
     const formData = new FormData(e.currentTarget);
     
+    const registrationData = {
+      name: formData.get("name") as string,
+      email: formData.get("email") as string,
+      contact: formData.get("contact") as string,
+      message: formData.get("message") as string,
+    };
+    
     try {
+      // Send to Google Sheets
+      await fetch('https://script.google.com/macros/s/AKfycbze7F-KD55mlyL7sBJgm0aWAIRm6IF2ibi7cRKF0lSnZvkeT6bhlFbwWtoBCcodial7Ng/exec', {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(registrationData),
+      });
+
+      // Send email via EmailJS
       await emailjs.send(
         'service_tdx4qi4',
         'template_rak8f58',
         {
-          from_name: formData.get("name") as string,
-          from_email: formData.get("email") as string,
-          contact_number: formData.get("contact") as string,
-          message: formData.get("message") as string,
+          from_name: registrationData.name,
+          from_email: registrationData.email,
+          contact_number: registrationData.contact,
+          message: registrationData.message,
           to_name: 'Money Scalper'
         },
         'XtWp493g7vwVe6q_-'
       );
+      
       toast.success("Message sent successfully! We'll get back to you soon.");
       setIsDialogOpen(false);
       (e.target as HTMLFormElement).reset();
     } catch (error) {
+      console.error("Error submitting form:", error);
       toast.error("Failed to send message. Please try again.");
     } finally {
       setIsSubmitting(false);
