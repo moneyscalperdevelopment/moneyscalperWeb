@@ -4,9 +4,10 @@ import { ArrowRight } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { toast } from "sonner";
-import { sendEmail } from "@/utils/emailconfig";
+import emailjs from "@emailjs/browser";
 const FinalCTA = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -14,20 +15,25 @@ const FinalCTA = () => {
     e.preventDefault();
     setIsSubmitting(true);
     const formData = new FormData(e.currentTarget);
-    const data = {
-      firstName: formData.get("firstName") as string,
-      lastName: formData.get("lastName") as string,
-      email: formData.get("email") as string,
-      contactNumber: formData.get("contact") as string,
-      country: formData.get("country") as string
-    };
+    
     try {
-      await sendEmail(data);
-      toast.success("Registration successful! We'll be in touch soon.");
+      await emailjs.send(
+        'service_tdx4qi4',
+        'template_rak8f58',
+        {
+          from_name: formData.get("name") as string,
+          from_email: formData.get("email") as string,
+          contact_number: formData.get("contact") as string,
+          message: formData.get("message") as string,
+          to_name: 'Money Scalper'
+        },
+        'XtWp493g7vwVe6q_-'
+      );
+      toast.success("Message sent successfully! We'll get back to you soon.");
       setIsDialogOpen(false);
       (e.target as HTMLFormElement).reset();
     } catch (error) {
-      toast.error("Failed to submit registration. Please try again.");
+      toast.error("Failed to send message. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -46,10 +52,10 @@ const FinalCTA = () => {
         duration: 0.6
       }}>
           <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent py-[35px] md:text-6xl">
-            Start Trading Today with Money Scalper
+            Contact Us
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Join thousands of traders who are already using AI to grow their crypto portfolios. Get started in minutes.
+            Have questions? Get in touch with us and we'll respond as soon as possible.
           </p>
           
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -60,7 +66,7 @@ const FinalCTA = () => {
               scale: 0.95
             }}>
                 <Button size="lg" className="text-lg px-8 py-6 group">
-                  Pre-Register
+                  Contact Us
                   <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </motion.div>
@@ -68,41 +74,35 @@ const FinalCTA = () => {
             <DialogContent className="max-w-md">
               <DialogHeader>
                 <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                  Pre-Register for Early Access
+                  Get In Touch
                 </DialogTitle>
               </DialogHeader>
               <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="firstName">First Name</Label>
-                    <Input id="firstName" name="firstName" placeholder="John" required />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="lastName">Last Name</Label>
-                    <Input id="lastName" name="lastName" placeholder="Doe" required />
-                  </div>
-                </div>
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input id="email" name="email" type="email" placeholder="john@example.com" required />
+                  <Label htmlFor="name">Name</Label>
+                  <Input id="name" name="name" placeholder="John Doe" required />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="contact">Contact Number</Label>
                   <Input id="contact" name="contact" type="tel" placeholder="+1 234 567 8900" required />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="country">Country</Label>
-                  <Input id="country" name="country" placeholder="United States" required />
+                  <Label htmlFor="email">Email</Label>
+                  <Input id="email" name="email" type="email" placeholder="john@example.com" required />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="message">Your Message</Label>
+                  <Textarea id="message" name="message" placeholder="Write your message here..." rows={4} required />
                 </div>
                 <Button type="submit" className="w-full" disabled={isSubmitting}>
-                  {isSubmitting ? "Submitting..." : "Complete Registration"}
+                  {isSubmitting ? "Sending..." : "Send Message"}
                 </Button>
               </form>
             </DialogContent>
           </Dialog>
 
           <p className="mt-6 text-sm text-muted-foreground">
-            No credit card required • Start with a free trial • Cancel anytime
+            We'll respond within 24 hours • Available 24/7 • Your privacy is protected
           </p>
         </motion.div>
       </div>
