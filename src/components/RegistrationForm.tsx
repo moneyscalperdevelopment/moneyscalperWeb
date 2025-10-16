@@ -31,7 +31,10 @@ export default function RegistrationForm() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          source: 'Plan Registration',
           name: `${registrationData.firstName} ${registrationData.lastName}`,
+          firstName: registrationData.firstName,
+          lastName: registrationData.lastName,
           email: registrationData.email,
           contact: registrationData.contactNumber,
           country: registrationData.country,
@@ -43,6 +46,7 @@ export default function RegistrationForm() {
         'service_tdx4qi4',
         'template_rak8f58',
         {
+          source: 'Plan Registration',
           first_name: registrationData.firstName,
           last_name: registrationData.lastName,
           from_email: registrationData.email,

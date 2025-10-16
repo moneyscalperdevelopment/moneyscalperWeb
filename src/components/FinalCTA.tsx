@@ -25,13 +25,16 @@ const FinalCTA = () => {
     
     try {
       // Send to Google Sheets
-      await fetch('https://script.google.com/macros/s/AKfycbze7F-KD55mlyL7sBJgm0aWAIRm6IF2ibi7cRKF0lSnZvkeT6bhlFbwWtoBCcodial7Ng/exec', {
+      await fetch('https://script.google.com/macros/s/AKfycbxvL-IIs2fB_r5UlG3gbGhzgNsBv7_OafPC1P65BLD_9wv4aoLnYodAv2QWPJuSUN0Bhg/exec', {
         method: 'POST',
         mode: 'no-cors',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(registrationData),
+        body: JSON.stringify({
+          source: 'Contact Us',
+          ...registrationData,
+        }),
       });
 
       // Send email via EmailJS
@@ -39,6 +42,7 @@ const FinalCTA = () => {
         'service_tdx4qi4',
         'template_rak8f58',
         {
+          source: 'Contact Us',
           from_name: registrationData.name,
           from_email: registrationData.email,
           contact_number: registrationData.contact,

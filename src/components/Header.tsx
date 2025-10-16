@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
-import discordIcon from "@/assets/discord-icon.png";
-import telegramIcon from "@/assets/telegram-icon.png";
+import discordIcon from "@/assets/discord-logo.jpg";
+import telegramIcon from "@/assets/telegram-logo.webp";
+import { ArrowRight } from "lucide-react";
 const Header = () => {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -50,32 +51,55 @@ const Header = () => {
           {/* Join Now Button */}
           <Dialog>
             <DialogTrigger asChild>
-              <Button className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700">
+              <Button className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all duration-300">
                 Join Now
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-md">
+            <DialogContent className="sm:max-w-lg">
               <DialogHeader>
-                <DialogTitle className="text-2xl font-bold text-center">Join Our Community</DialogTitle>
-                <DialogDescription className="text-center">
-                  Connect with us on your preferred platform
+                <DialogTitle className="text-3xl font-bold text-center bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+                  Join Our Community
+                </DialogTitle>
+                <DialogDescription className="text-center text-base pt-2">
+                  Connect with thousands of traders and get real-time signals
                 </DialogDescription>
               </DialogHeader>
-              <div className="flex flex-col gap-4 py-4">
-                <a href="https://discord.gg/VNkhzUGw" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 rounded-lg bg-[#5865F2] hover:bg-[#4752C4] transition-colors">
-                  <img src={discordIcon} alt="Discord" className="w-12 h-12" />
-                  <div className="flex-1 text-white">
-                    <h3 className="font-semibold text-lg">Discord</h3>
-                    <p className="text-sm text-white/80">Join our Discord server</p>
+              <div className="flex flex-col gap-4 py-6">
+                <a 
+                  href="https://discord.gg/VNkhzUGw" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="group flex items-center gap-4 p-6 rounded-xl bg-[#5865F2] hover:bg-[#4752C4] transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-[1.02] transform"
+                >
+                  <div className="bg-white rounded-lg p-2 shadow-md">
+                    <img src={discordIcon} alt="Discord" className="w-14 h-14 object-contain" />
                   </div>
-                </a>
-                <a href="https://t.me/+lARYvYyc_odjODY1" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 rounded-lg bg-[#0088cc] hover:bg-[#006699] transition-colors">
-                  <img src={telegramIcon} alt="Telegram" className="w-12 h-12" />
                   <div className="flex-1 text-white">
-                    <h3 className="font-semibold text-lg">Telegram</h3>
-                    <p className="text-sm text-white/80">Join our Telegram group</p>
+                    <h3 className="font-bold text-xl mb-1">Discord Community</h3>
+                    <p className="text-sm text-white/90">Join 10,000+ active traders</p>
                   </div>
+                  <ArrowRight className="w-6 h-6 text-white/80 group-hover:translate-x-1 transition-transform" />
                 </a>
+                <a 
+                  href="https://t.me/+lARYvYyc_odjODY1" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="group flex items-center gap-4 p-6 rounded-xl bg-[#0088cc] hover:bg-[#006699] transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-[1.02] transform"
+                >
+                  <div className="bg-white rounded-lg p-2 shadow-md">
+                    <img src={telegramIcon} alt="Telegram" className="w-14 h-14 object-contain" />
+                  </div>
+                  <div className="flex-1 text-white">
+                    <h3 className="font-bold text-xl mb-1">Telegram Channel</h3>
+                    <p className="text-sm text-white/90">Get instant trading signals</p>
+                  </div>
+                  <ArrowRight className="w-6 h-6 text-white/80 group-hover:translate-x-1 transition-transform" />
+                </a>
+              </div>
+              <div className="text-center pt-2 pb-2">
+                <p className="text-sm text-muted-foreground">
+                  🔒 Secure • 🚀 Active 24/7 • 💬 Expert Support
+                </p>
               </div>
             </DialogContent>
           </Dialog>
