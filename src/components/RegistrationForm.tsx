@@ -20,7 +20,6 @@ export default function RegistrationForm() {
       email: formData.get("from_email") as string,
       contactNumber: formData.get("contact_number") as string,
       country: formData.get("country") as string,
-      message: formData.get("message") as string,
     };
 
     try {
@@ -36,7 +35,6 @@ export default function RegistrationForm() {
           email: registrationData.email,
           contact: registrationData.contactNumber,
           country: registrationData.country,
-          message: registrationData.message,
         }),
       });
 
@@ -50,7 +48,6 @@ export default function RegistrationForm() {
           from_email: registrationData.email,
           contact_number: registrationData.contactNumber,
           country: registrationData.country,
-          message: registrationData.message,
           to_name: 'Money Scalper'
         },
         'XtWp493g7vwVe6q_-'
@@ -123,17 +120,7 @@ export default function RegistrationForm() {
         />
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="message">Message</Label>
-        <Textarea
-          id="message"
-          name="message"
-          rows={4}
-          placeholder="Write your message..."
-        />
-      </div>
-
-      <Button 
+      <Button
         type="submit" 
         className="w-full py-6 text-base font-semibold"
         disabled={isSubmitting}
