@@ -19,7 +19,7 @@ const features = [{
   description: "Maximize returns with intelligent portfolio management"
 }];
 const WhyMoneyScalper = () => {
-  return <section className="py-20 px-6 bg-background">
+  return <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-background">
       <div className="max-w-7xl mx-auto">
         <motion.div initial={{
         opacity: 0,
@@ -31,11 +31,11 @@ const WhyMoneyScalper = () => {
         once: true
       }} transition={{
         duration: 0.6
-      }} className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent py-[25px] md:text-6xl">
+      }} className="text-center mb-8 sm:mb-10 md:mb-12">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent py-4 sm:py-6">
             Why Money Scalper?
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+          <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto px-4">
             Experience the future of cryptocurrency trading with cutting-edge AI technology
           </p>
         </motion.div>

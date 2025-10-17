@@ -13,19 +13,19 @@ const features = [
 
 const FeaturesTable = () => {
   return (
-    <section className="py-20 px-6 bg-background">
+    <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-background">
       <div className="max-w-5xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          className="text-center mb-8 sm:mb-10 md:mb-12"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent px-4">
             Features & Benefits
           </h2>
-          <p className="text-muted-foreground text-lg">
+          <p className="text-muted-foreground text-base sm:text-lg px-4">
             Everything you need for successful crypto trading
           </p>
         </motion.div>
@@ -35,14 +35,14 @@ const FeaturesTable = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="bg-card/50 backdrop-blur-sm rounded-lg border border-border/50 overflow-hidden"
+          className="bg-card/50 backdrop-blur-sm rounded-lg border border-border/50 overflow-x-auto"
         >
           <Table>
             <TableHeader>
               <TableRow className="border-border/50 hover:bg-muted/30">
-                <TableHead className="text-lg font-semibold">Feature</TableHead>
-                <TableHead className="text-lg font-semibold">Description</TableHead>
-                <TableHead className="text-center text-lg font-semibold">Available</TableHead>
+                <TableHead className="text-sm sm:text-base md:text-lg font-semibold whitespace-nowrap">Feature</TableHead>
+                <TableHead className="text-sm sm:text-base md:text-lg font-semibold hidden sm:table-cell">Description</TableHead>
+                <TableHead className="text-center text-sm sm:text-base md:text-lg font-semibold whitespace-nowrap">Available</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -55,8 +55,8 @@ const FeaturesTable = () => {
                   transition={{ duration: 0.4, delay: index * 0.1 }}
                   className="border-border/50 hover:bg-muted/30 transition-colors"
                 >
-                  <TableCell className="font-medium">{feature.name}</TableCell>
-                  <TableCell className="text-muted-foreground">{feature.description}</TableCell>
+                  <TableCell className="font-medium text-sm sm:text-base">{feature.name}</TableCell>
+                  <TableCell className="text-muted-foreground text-sm sm:text-base hidden sm:table-cell">{feature.description}</TableCell>
                   <TableCell className="text-center">
                     <div className="flex justify-center">
                       <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">

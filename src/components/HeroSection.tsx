@@ -53,7 +53,7 @@ const HeroSection = () => {
       setIsSubmitting(false);
     }
   };
-  return <section className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden">
+  return <section className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 overflow-hidden pt-16 sm:pt-20">
       {/* Animated Trading Chart Background */}
       <TradingChartBackground />
 
@@ -63,28 +63,28 @@ const HeroSection = () => {
         
 
         {/* Main Headlines */}
-        <div className="space-y-6 mb-12">
-          <h1 className="text-6xl font-bold bg-gradient-to-r from-foreground via-primary to-accent bg-clip-text text-transparent leading-tight py-[25px] md:text-9xl">Next-Gen Trading</h1>
-          <h2 className="text-5xl font-bold bg-gradient-to-r from-accent via-primary to-foreground bg-clip-text text-transparent glow-pulse py-[25px] md:text-8xl">
+        <div className="space-y-4 sm:space-y-6 mb-8 sm:mb-12">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-9xl font-bold bg-gradient-to-r from-foreground via-primary to-accent bg-clip-text text-transparent leading-tight py-4 sm:py-6">Next-Gen Trading</h1>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-8xl font-bold bg-gradient-to-r from-accent via-primary to-foreground bg-clip-text text-transparent glow-pulse py-4 sm:py-6">
             Unlocking Soon
           </h2>
         </div>
 
         {/* Subheadline */}
-        <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto leading-relaxed">
+        <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground mb-8 sm:mb-12 max-w-3xl mx-auto leading-relaxed px-4">
           Blazing execution. Unmatched security. Tools built for future markets.
-          <span className="block mt-4 text-accent font-semibold">
+          <span className="block mt-3 sm:mt-4 text-accent font-semibold">
             Experience the future of trading with AI-powered insights.
           </span>
         </p>
 
         {/* Dynamic Counter */}
-        <div className="mt-16 flex flex-col items-center gap-8">
-          <div className="bg-card/30 backdrop-blur-sm rounded-xl p-6 border border-border/50 cyber-glow">
-            <div className="text-3xl font-bold text-primary mb-2">
+        <div className="mt-8 sm:mt-12 md:mt-16 flex flex-col items-center gap-6 sm:gap-8">
+          <div className="bg-card/30 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-border/50 cyber-glow">
+            <div className="text-2xl sm:text-3xl font-bold text-primary mb-2">
               <span className="counter">{traderCount.toLocaleString()}</span>
             </div>
-            <div className="text-sm text-muted-foreground">Traders on waitlist</div>
+            <div className="text-xs sm:text-sm text-muted-foreground">Traders on waitlist</div>
           </div>
 
           {/* Pre-register Button */}
@@ -97,11 +97,11 @@ const HeroSection = () => {
                 <span className="text">Pre-register</span>
               </button>
             </DialogTrigger>
-            <DialogContent className="shadow-input mx-auto w-full max-w-md rounded-none bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 p-4 md:rounded-2xl md:p-8 border border-blue-800/50">
-              <h2 className="text-xl font-bold text-white">
+            <DialogContent className="shadow-input mx-auto w-[95%] sm:w-full max-w-md rounded-lg sm:rounded-2xl bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 p-4 sm:p-6 md:p-8 border border-blue-800/50">
+              <h2 className="text-lg sm:text-xl font-bold text-white">
                 Welcome to MoneyScalper
               </h2>
-              <p className="mt-2 max-w-sm text-sm text-white/80">
+              <p className="mt-2 max-w-sm text-xs sm:text-sm text-white/80">
                 Join the future of trading - register early for exclusive access
               </p>
               <form className="my-8" onSubmit={handleSubmit}>
