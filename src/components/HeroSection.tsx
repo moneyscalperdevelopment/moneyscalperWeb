@@ -49,7 +49,7 @@ const HeroSection = () => {
       setIsSubmitting(false);
     }
   };
-  return <section className="relative min-h-screen flex items-center justify-center px-3 sm:px-4 md:px-6 overflow-hidden pt-12 sm:pt-24 pb-2 sm:pb-8">
+  return <section className="relative min-h-screen flex items-center justify-center px-3 sm:px-4 md:px-6 overflow-hidden pt-8 sm:pt-24 pb-2 sm:pb-8">
       {/* Animated Trading Chart Background */}
       <TradingChartBackground />
 
