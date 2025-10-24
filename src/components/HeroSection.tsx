@@ -49,7 +49,7 @@ const HeroSection = () => {
       setIsSubmitting(false);
     }
   };
-  return <section className="relative min-h-screen flex items-center justify-center px-3 sm:px-4 md:px-6 overflow-hidden pt-20 sm:pt-24 pb-8">
+  return <section className="relative min-h-screen flex items-center justify-center px-3 sm:px-4 md:px-6 overflow-hidden pt-16 sm:pt-24 pb-4 sm:pb-8">
       {/* Animated Trading Chart Background */}
       <TradingChartBackground />
 
@@ -57,10 +57,10 @@ const HeroSection = () => {
       <div className="relative z-10 text-center max-w-6xl mx-auto w-full">
         {/* Main Headlines */}
         <div className="space-y-3 sm:space-y-4 md:space-y-6 mb-6 sm:mb-8 md:mb-12">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold bg-gradient-to-r from-foreground via-primary to-accent bg-clip-text text-transparent leading-tight py-2 sm:py-3 md:py-4 px-2">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold bg-gradient-to-r from-foreground via-primary to-accent bg-clip-text text-transparent leading-tight py-2 sm:py-3 md:py-4 px-2">
             Next-Gen Trading
           </h1>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold bg-gradient-to-r from-accent via-primary to-foreground bg-clip-text text-transparent glow-pulse py-2 sm:py-3 md:py-4 px-2">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold bg-gradient-to-r from-accent via-primary to-foreground bg-clip-text text-transparent glow-pulse py-2 sm:py-3 md:py-4 px-2">
             Unlocking Soon
           </h2>
         </div>
