@@ -18,16 +18,72 @@ const TradingChartBackground = () => {
     setCanvasSize();
     window.addEventListener('resize', setCanvasSize);
 
-    // Generate random candlestick data
-    const numCandles = 100;
+    // Mobile detection
+    const isMobile = window.innerWidth < 768;
+    
+    // Trading floor grid
+    const gridOffset = { x: 0, y: 0 };
+    const drawGrid = () => {
+      ctx.strokeStyle = 'rgba(6, 182, 212, 0.05)';
+      ctx.lineWidth = 1;
+      
+      const gridSize = isMobile ? 40 : 60;
+      
+      // Vertical lines
+      for (let x = gridOffset.x % gridSize; x < canvas.width; x += gridSize) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, canvas.height);
+        ctx.stroke();
+      }
+      
+      // Horizontal lines
+      for (let y = gridOffset.y % gridSize; y < canvas.height; y += gridSize) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(canvas.width, y);
+        ctx.stroke();
+      }
+    };
+
+    // Data streams (ticker-like moving text)
+    interface DataStream {
+      y: number;
+      speed: number;
+      data: Array<{ text: string; color: string; x: number }>;
+    }
+    
+    const streams: DataStream[] = [];
+    const symbols = ['BTC', 'ETH', 'SOL', 'USDT', 'BNB', 'XRP', 'ADA', 'DOGE', 'MATIC', 'DOT'];
+    
+    // Initialize data streams
+    for (let i = 0; i < (isMobile ? 3 : 5); i++) {
+      const streamData = [];
+      for (let j = 0; j < 8; j++) {
+        const isPositive = Math.random() > 0.5;
+        const change = (Math.random() * 10).toFixed(2);
+        streamData.push({
+          text: `${symbols[Math.floor(Math.random() * symbols.length)]} ${isPositive ? '+' : '-'}${change}%`,
+          color: isPositive ? 'rgba(34, 197, 94, 0.6)' : 'rgba(239, 68, 68, 0.6)',
+          x: j * 250
+        });
+      }
+      streams.push({
+        y: (canvas.height / (isMobile ? 4 : 6)) * (i + 1),
+        speed: 0.3 + Math.random() * 0.4,
+        data: streamData
+      });
+    }
+
+    // Candlestick data
+    const numCandles = isMobile ? 50 : 100;
     const candleWidth = canvas.width / numCandles;
     let candleData: Array<{ x: number; open: number; close: number; high: number; low: number }> = [];
     
-    // Generate initial candles with smoother price movement
     let basePrice = canvas.height * 0.6;
     const generateCandle = (index: number) => {
-      const volatility = 30;
-      const trend = Math.sin(index * 0.1) * 10; // Add wave pattern
+      const volatility = isMobile ? 20 : 30;
+      const trend = Math.sin(index * 0.1) * 10;
       const open = basePrice + (Math.random() - 0.5) * volatility;
       const close = open + (Math.random() - 0.5) * volatility + trend;
       const high = Math.max(open, close) + Math.random() * volatility / 2;
@@ -41,163 +97,162 @@ const TradingChartBackground = () => {
       candleData.push(generateCandle(i));
     }
 
-    // Line chart data
-    let linePoints: Array<{ x: number; y: number }> = candleData.map((candle) => ({
-      x: candle.x + candleWidth / 2,
-      y: (candle.open + candle.close) / 2
-    }));
-
-    // Triangular indicators
-    let indicators: Array<{ x: number; y: number; direction: 'up' | 'down'; active: boolean }> = [];
-    const generateIndicators = () => {
-      indicators = [];
-      for (let i = 10; i < candleData.length; i += 12) {
-        if (Math.random() > 0.4) {
-          indicators.push({
-            x: candleData[i].x + candleWidth / 2,
-            y: candleData[i].low - 20,
-            direction: Math.random() > 0.5 ? 'up' : 'down',
-            active: true
-          });
-        }
-      }
-    };
-    generateIndicators();
+    // Glowing particles
+    interface Particle {
+      x: number;
+      y: number;
+      size: number;
+      speedX: number;
+      speedY: number;
+      opacity: number;
+      color: string;
+    }
+    
+    const particles: Particle[] = [];
+    const particleCount = isMobile ? 15 : 30;
+    
+    for (let i = 0; i < particleCount; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 3 + 1,
+        speedX: (Math.random() - 0.5) * 0.5,
+        speedY: (Math.random() - 0.5) * 0.5,
+        opacity: Math.random() * 0.5 + 0.2,
+        color: Math.random() > 0.5 ? '6, 182, 212' : '139, 92, 246'
+      });
+    }
 
     let animationOffset = 0;
     let candleIndex = numCandles;
+    let frame = 0;
     
     const animate = () => {
       if (!ctx || !canvas) return;
+      frame++;
       
       // Clear canvas with gradient background
-      ctx.fillStyle = 'rgba(15, 23, 42, 0.3)';
+      const bgGradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+      bgGradient.addColorStop(0, 'rgba(15, 23, 42, 0.95)');
+      bgGradient.addColorStop(0.5, 'rgba(30, 41, 59, 0.95)');
+      bgGradient.addColorStop(1, 'rgba(15, 23, 42, 0.95)');
+      ctx.fillStyle = bgGradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Smooth continuous animation
+      // Animate grid
+      gridOffset.x -= 0.2;
+      gridOffset.y -= 0.1;
+      drawGrid();
+
+      // Draw and animate particles
+      particles.forEach((particle) => {
+        particle.x += particle.speedX;
+        particle.y += particle.speedY;
+        
+        // Wrap around screen
+        if (particle.x < 0) particle.x = canvas.width;
+        if (particle.x > canvas.width) particle.x = 0;
+        if (particle.y < 0) particle.y = canvas.height;
+        if (particle.y > canvas.height) particle.y = 0;
+        
+        // Pulse effect
+        const pulse = Math.sin(frame * 0.02 + particle.x) * 0.3 + 0.7;
+        
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${particle.color}, ${particle.opacity * pulse})`;
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = `rgba(${particle.color}, ${particle.opacity})`;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      });
+
+      // Draw data streams
+      streams.forEach((stream) => {
+        ctx.font = isMobile ? '10px monospace' : '12px monospace';
+        ctx.textAlign = 'left';
+        
+        stream.data.forEach((item) => {
+          item.x -= stream.speed;
+          
+          // Reset position when off screen
+          if (item.x < -200) {
+            item.x = canvas.width;
+            const isPositive = Math.random() > 0.5;
+            const change = (Math.random() * 10).toFixed(2);
+            item.text = `${symbols[Math.floor(Math.random() * symbols.length)]} ${isPositive ? '+' : '-'}${change}%`;
+            item.color = isPositive ? 'rgba(34, 197, 94, 0.6)' : 'rgba(239, 68, 68, 0.6)';
+          }
+          
+          ctx.fillStyle = item.color;
+          ctx.fillText(item.text, item.x, stream.y);
+        });
+      });
+
+      // Animate candlesticks
       animationOffset += 0.8;
       if (animationOffset >= candleWidth) {
         animationOffset = 0;
         
-        // Add new candle at the end
         const lastCandle = candleData[candleData.length - 1];
-        const volatility = 30;
+        const volatility = isMobile ? 20 : 30;
         const trend = Math.sin(candleIndex * 0.1) * 10;
         const open = lastCandle.close;
         const close = open + (Math.random() - 0.5) * volatility + trend;
         const high = Math.max(open, close) + Math.random() * volatility / 2;
         const low = Math.min(open, close) - Math.random() * volatility / 2;
         
-        candleData.push({
-          x: candleData.length * candleWidth,
-          open,
-          close,
-          high,
-          low
-        });
-        
+        candleData.push({ x: candleData.length * candleWidth, open, close, high, low });
         candleIndex++;
-        
-        // Remove first candle
         candleData.shift();
         
-        // Reindex candles
         candleData.forEach((candle, i) => {
           candle.x = i * candleWidth;
         });
-        
-        // Update line points
-        linePoints = candleData.map((candle) => ({
-          x: candle.x + candleWidth / 2,
-          y: (candle.open + candle.close) / 2
-        }));
-        
-        // Regenerate indicators periodically
-        if (candleIndex % 50 === 0) {
-          generateIndicators();
-        }
       }
 
-      // Draw candlesticks
+      // Draw candlesticks with glow
       candleData.forEach((candle) => {
         const x = candle.x - animationOffset;
         const isGreen = candle.close > candle.open;
         
+        // Glow effect
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = isGreen ? 'rgba(34, 197, 94, 0.3)' : 'rgba(239, 68, 68, 0.3)';
+        
         // Draw high-low line
-        ctx.strokeStyle = isGreen ? 'rgba(34, 197, 94, 0.3)' : 'rgba(239, 68, 68, 0.3)';
-        ctx.lineWidth = 1;
+        ctx.strokeStyle = isGreen ? 'rgba(34, 197, 94, 0.4)' : 'rgba(239, 68, 68, 0.4)';
+        ctx.lineWidth = isMobile ? 0.5 : 1;
         ctx.beginPath();
         ctx.moveTo(x + candleWidth / 2, candle.high);
         ctx.lineTo(x + candleWidth / 2, candle.low);
         ctx.stroke();
         
         // Draw candle body
-        ctx.fillStyle = isGreen ? 'rgba(34, 197, 94, 0.15)' : 'rgba(239, 68, 68, 0.15)';
-        ctx.strokeStyle = isGreen ? 'rgba(34, 197, 94, 0.5)' : 'rgba(239, 68, 68, 0.5)';
-        ctx.lineWidth = 1.5;
+        ctx.fillStyle = isGreen ? 'rgba(34, 197, 94, 0.2)' : 'rgba(239, 68, 68, 0.2)';
+        ctx.strokeStyle = isGreen ? 'rgba(34, 197, 94, 0.6)' : 'rgba(239, 68, 68, 0.6)';
+        ctx.lineWidth = isMobile ? 1 : 1.5;
         
         const bodyTop = Math.min(candle.open, candle.close);
         const bodyHeight = Math.abs(candle.close - candle.open);
         
         ctx.fillRect(x + 2, bodyTop, candleWidth - 4, bodyHeight);
         ctx.strokeRect(x + 2, bodyTop, candleWidth - 4, bodyHeight);
+        
+        ctx.shadowBlur = 0;
       });
 
-      // Draw line chart
-      ctx.strokeStyle = 'rgba(6, 182, 212, 0.6)';
-      ctx.lineWidth = 2.5;
-      ctx.shadowBlur = 10;
-      ctx.shadowColor = 'rgba(6, 182, 212, 0.5)';
+      // Draw scanning lines
+      const scanY = (Math.sin(frame * 0.02) * 0.5 + 0.5) * canvas.height;
+      ctx.strokeStyle = 'rgba(6, 182, 212, 0.2)';
+      ctx.lineWidth = 2;
+      ctx.shadowBlur = 20;
+      ctx.shadowColor = 'rgba(6, 182, 212, 0.4)';
       ctx.beginPath();
-      linePoints.forEach((point, i) => {
-        const x = point.x - animationOffset;
-        if (i === 0) {
-          ctx.moveTo(x, point.y);
-        } else {
-          ctx.lineTo(x, point.y);
-        }
-      });
+      ctx.moveTo(0, scanY);
+      ctx.lineTo(canvas.width, scanY);
       ctx.stroke();
       ctx.shadowBlur = 0;
-
-      // Draw gradient fill under line
-      ctx.fillStyle = ctx.createLinearGradient(0, canvas.height * 0.3, 0, canvas.height);
-      const gradient = ctx.createLinearGradient(0, canvas.height * 0.3, 0, canvas.height);
-      gradient.addColorStop(0, 'rgba(6, 182, 212, 0.15)');
-      gradient.addColorStop(1, 'rgba(6, 182, 212, 0)');
-      ctx.fillStyle = gradient;
-      
-      ctx.beginPath();
-      ctx.moveTo(linePoints[0].x - animationOffset, canvas.height);
-      linePoints.forEach((point) => {
-        const x = point.x - animationOffset;
-        ctx.lineTo(x, point.y);
-      });
-      ctx.lineTo(linePoints[linePoints.length - 1].x - animationOffset, canvas.height);
-      ctx.closePath();
-      ctx.fill();
-
-      // Draw triangular indicators
-      indicators.forEach((indicator) => {
-        const x = indicator.x - animationOffset;
-        const y = indicator.y;
-        
-        ctx.fillStyle = indicator.direction === 'up' ? 'rgba(34, 197, 94, 0.8)' : 'rgba(239, 68, 68, 0.8)';
-        ctx.beginPath();
-        
-        if (indicator.direction === 'up') {
-          ctx.moveTo(x, y);
-          ctx.lineTo(x - 6, y + 10);
-          ctx.lineTo(x + 6, y + 10);
-        } else {
-          ctx.moveTo(x, y + 10);
-          ctx.lineTo(x - 6, y);
-          ctx.lineTo(x + 6, y);
-        }
-        
-        ctx.closePath();
-        ctx.fill();
-      });
 
       requestAnimationFrame(animate);
     };
@@ -212,8 +267,11 @@ const TradingChartBackground = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 w-full h-full opacity-40"
-      style={{ background: 'linear-gradient(to bottom right, rgb(15, 23, 42), rgb(30, 41, 59), rgb(15, 23, 42))' }}
+      className="absolute inset-0 w-full h-full"
+      style={{ 
+        background: 'linear-gradient(135deg, rgb(15, 23, 42) 0%, rgb(30, 41, 59) 50%, rgb(15, 23, 42) 100%)',
+        opacity: 0.5
+      }}
     />
   );
 };
