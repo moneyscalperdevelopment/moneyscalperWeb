@@ -10,14 +10,28 @@ import { sendEmail } from "@/utils/emailconfig";
 import { SuccessPopup } from "@/components/SuccessPopup";
 import TradingChartBackground from "@/components/TradingChartBackground";
 const HeroSection = () => {
-  const [traderCount, setTraderCount] = useState(1000);
+  const [traderCount, setTraderCount] = useState(() => {
+    // Start date (you can adjust this to your launch date)
+    const startDate = new Date('2025-01-01');
+    const today = new Date();
+    const daysPassed = Math.floor((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+    return 1235 + (daysPassed * 15);
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  
   useEffect(() => {
-    const interval = setInterval(() => {
-      setTraderCount(prev => prev + Math.floor(Math.random() * 5) + 1);
-    }, 10000);
+    // Update count once per day
+    const startDate = new Date('2025-01-01');
+    const updateCount = () => {
+      const today = new Date();
+      const daysPassed = Math.floor((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
+      setTraderCount(1235 + (daysPassed * 15));
+    };
+    
+    // Check for updates every hour
+    const interval = setInterval(updateCount, 60 * 60 * 1000);
     return () => clearInterval(interval);
   }, []);
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
