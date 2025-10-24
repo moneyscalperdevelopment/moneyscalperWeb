@@ -5,8 +5,10 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { useWaitlistCounter } from "@/hooks/useWaitlistCounter";
 
 export default function RegistrationForm() {
+  const { incrementCounter } = useWaitlistCounter();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -57,6 +59,7 @@ export default function RegistrationForm() {
         'XtWp493g7vwVe6q_-'
       );
 
+      incrementCounter(); // Increment the waitlist counter
       toast.success("Registration successful! We'll contact you shortly.");
       (e.target as HTMLFormElement).reset();
     } catch (error) {

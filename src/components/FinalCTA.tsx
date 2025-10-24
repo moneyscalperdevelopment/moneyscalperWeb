@@ -8,7 +8,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { toast } from "sonner";
 import emailjs from "@emailjs/browser";
+import { useWaitlistCounter } from "@/hooks/useWaitlistCounter";
 const FinalCTA = () => {
+  const { incrementCounter } = useWaitlistCounter();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -52,6 +54,7 @@ const FinalCTA = () => {
         'XtWp493g7vwVe6q_-'
       );
       
+      incrementCounter(); // Increment the waitlist counter
       toast.success("Message sent successfully! We'll get back to you soon.");
       setIsDialogOpen(false);
       (e.target as HTMLFormElement).reset();

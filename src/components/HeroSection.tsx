@@ -9,31 +9,12 @@ import { useState, useEffect } from "react";
 import { sendEmail } from "@/utils/emailconfig";
 import { SuccessPopup } from "@/components/SuccessPopup";
 import TradingChartBackground from "@/components/TradingChartBackground";
+import { useWaitlistCounter } from "@/hooks/useWaitlistCounter";
 const HeroSection = () => {
-  const [traderCount, setTraderCount] = useState(() => {
-    // Start date (you can adjust this to your launch date)
-    const startDate = new Date('2025-01-01');
-    const today = new Date();
-    const daysPassed = Math.floor((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
-    return 1235 + (daysPassed * 15);
-  });
+  const { count: traderCount, incrementCounter } = useWaitlistCounter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  
-  useEffect(() => {
-    // Update count once per day
-    const startDate = new Date('2025-01-01');
-    const updateCount = () => {
-      const today = new Date();
-      const daysPassed = Math.floor((today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24));
-      setTraderCount(1235 + (daysPassed * 15));
-    };
-    
-    // Check for updates every hour
-    const interval = setInterval(updateCount, 60 * 60 * 1000);
-    return () => clearInterval(interval);
-  }, []);
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -51,6 +32,7 @@ const HeroSection = () => {
       });
       if (success) {
         console.log("Registration successful, showing popup");
+        incrementCounter(); // Increment the waitlist counter
         setIsDialogOpen(false); // Close the dialog first
         setTimeout(() => {
           console.log("Setting showSuccessPopup to true");
