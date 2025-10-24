@@ -40,7 +40,8 @@ const Testimonials = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
+        {/* Desktop view */}
+        <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
           {testimonials.map((testimonial, index) => <motion.div key={testimonial.name} initial={{
           opacity: 0,
           y: 30
@@ -75,6 +76,50 @@ const Testimonials = () => {
                 </CardContent>
               </Card>
             </motion.div>)}
+        </div>
+
+        {/* Mobile view with horizontal scroll animation */}
+        <div className="sm:hidden overflow-hidden">
+          <motion.div 
+            className="flex gap-4"
+            animate={{
+              x: [0, -100 * testimonials.length]
+            }}
+            transition={{
+              x: {
+                repeat: Infinity,
+                repeatType: "loop",
+                duration: 25,
+                ease: "linear"
+              }
+            }}
+          >
+            {[...testimonials, ...testimonials].map((testimonial, index) => (
+              <div key={`${testimonial.name}-${index}`} className="min-w-[280px]">
+                <Card className="h-full bg-card/50 backdrop-blur-sm border-border/50">
+                  <CardContent className="pt-4 p-4">
+                    <div className="flex gap-1 mb-3">
+                      {[...Array(testimonial.rating)].map((_, i) => <Star key={i} className="w-4 h-4 fill-primary text-primary" />)}
+                    </div>
+                    <p className="text-muted-foreground mb-4 italic text-sm">
+                      "{testimonial.content}"
+                    </p>
+                    <div className="flex items-center gap-2">
+                      <Avatar className="w-8 h-8">
+                        <AvatarFallback className="bg-primary/10 text-primary font-semibold text-xs">
+                          {testimonial.name.split(' ').map(n => n[0]).join('')}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <p className="font-semibold text-sm">{testimonial.name}</p>
+                        <p className="text-xs text-muted-foreground">{testimonial.role}</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            ))}
+          </motion.div>
         </div>
       </div>
     </section>;

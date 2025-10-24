@@ -40,7 +40,8 @@ const WhyMoneyScalper = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
+        {/* Desktop view */}
+        <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
           {features.map((feature, index) => <motion.div key={feature.title} initial={{
           opacity: 0,
           y: 30
@@ -67,6 +68,42 @@ const WhyMoneyScalper = () => {
                 </CardContent>
               </Card>
             </motion.div>)}
+        </div>
+
+        {/* Mobile view with horizontal scroll animation */}
+        <div className="sm:hidden overflow-hidden">
+          <motion.div 
+            className="flex gap-4"
+            animate={{
+              x: [0, -100 * features.length]
+            }}
+            transition={{
+              x: {
+                repeat: Infinity,
+                repeatType: "loop",
+                duration: 20,
+                ease: "linear"
+              }
+            }}
+          >
+            {[...features, ...features].map((feature, index) => (
+              <div key={`${feature.title}-${index}`} className="min-w-[280px]">
+                <Card className="h-full bg-card/50 backdrop-blur-sm border-border/50">
+                  <CardHeader className="pb-3">
+                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-3">
+                      <feature.icon className="w-5 h-5 text-primary" />
+                    </div>
+                    <CardTitle className="text-lg">{feature.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    <CardDescription className="text-sm">
+                      {feature.description}
+                    </CardDescription>
+                  </CardContent>
+                </Card>
+              </div>
+            ))}
+          </motion.div>
         </div>
       </div>
     </section>;
