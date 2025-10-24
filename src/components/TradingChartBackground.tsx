@@ -242,18 +242,6 @@ const TradingChartBackground = () => {
         ctx.shadowBlur = 0;
       });
 
-      // Draw scanning lines
-      const scanY = (Math.sin(frame * 0.02) * 0.5 + 0.5) * canvas.height;
-      ctx.strokeStyle = 'rgba(6, 182, 212, 0.2)';
-      ctx.lineWidth = 2;
-      ctx.shadowBlur = 20;
-      ctx.shadowColor = 'rgba(6, 182, 212, 0.4)';
-      ctx.beginPath();
-      ctx.moveTo(0, scanY);
-      ctx.lineTo(canvas.width, scanY);
-      ctx.stroke();
-      ctx.shadowBlur = 0;
-
       requestAnimationFrame(animate);
     };
 
