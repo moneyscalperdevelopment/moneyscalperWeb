@@ -28,7 +28,7 @@ const LivePrices = () => {
     const interval = setInterval(fetchPrices, 10000);
     return () => clearInterval(interval);
   }, []);
-  return <section className="py-20 px-6 bg-background">
+  return <section className="py-10 sm:py-12 md:py-16 lg:py-20 px-3 sm:px-4 md:px-6 bg-background">
       <div className="max-w-6xl mx-auto">
         <motion.div initial={{
         opacity: 0,
@@ -40,14 +40,14 @@ const LivePrices = () => {
         once: true
       }} transition={{
         duration: 0.6
-      }} className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent py-[20px] md:text-6xl">
+      }} className="text-center mb-6 sm:mb-8 md:mb-10 lg:mb-12">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 sm:mb-3 md:mb-4 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent py-2 sm:py-3 md:py-4 px-2">
             Live Crypto Prices
           </h2>
-          <p className="text-muted-foreground text-lg">Real-time market data updated every 10 seconds</p>
+          <p className="text-muted-foreground text-sm sm:text-base md:text-lg px-3">Real-time market data updated every 10 seconds</p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
           <motion.div initial={{
           opacity: 0,
           x: -20
@@ -58,23 +58,23 @@ const LivePrices = () => {
           once: true
         }} transition={{
           duration: 0.6
-        }} className="p-6 rounded-2xl border border-border bg-card shadow-lg hover:shadow-xl transition-shadow">
-            <div className="flex items-center gap-4 mb-4">
-              <img src={bitcoinLogo} alt="Bitcoin" className="w-12 h-12" />
+        }} className="p-4 sm:p-5 md:p-6 rounded-xl sm:rounded-2xl border border-border bg-card shadow-lg hover:shadow-xl transition-shadow">
+            <div className="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
+              <img src={bitcoinLogo} alt="Bitcoin" className="w-10 h-10 sm:w-12 sm:h-12" />
               <div>
-                <h3 className="text-xl font-bold">Bitcoin</h3>
-                <p className="text-sm text-muted-foreground">BTC Price #1</p>
+                <h3 className="text-lg sm:text-xl font-bold">Bitcoin</h3>
+                <p className="text-xs sm:text-sm text-muted-foreground">BTC Price #1</p>
               </div>
             </div>
-            <div className="space-y-2">
-              <p className="text-4xl font-bold">
+            <div className="space-y-1.5 sm:space-y-2">
+              <p className="text-2xl sm:text-3xl md:text-4xl font-bold">
                 {loading ? "Loading..." : `$${prices.bitcoin?.toLocaleString()}`}
               </p>
               <div className="flex items-center gap-2 text-green-500">
-                <TrendingUp className="w-5 h-5" />
-                <span className="text-sm font-semibold">2.1% (24h)</span>
+                <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span className="text-xs sm:text-sm font-semibold">2.1% (24h)</span>
               </div>
-              <div className="text-sm text-muted-foreground">
+              <div className="text-xs sm:text-sm text-muted-foreground">
                 1.0000 BTC • 0.0%
               </div>
             </div>
@@ -90,23 +90,23 @@ const LivePrices = () => {
           once: true
         }} transition={{
           duration: 0.6
-        }} className="p-6 rounded-2xl border border-border bg-card shadow-lg hover:shadow-xl transition-shadow">
-            <div className="flex items-center gap-4 mb-4">
-              <img src={ethereumLogo} alt="Ethereum" className="w-12 h-12" />
+        }} className="p-4 sm:p-5 md:p-6 rounded-xl sm:rounded-2xl border border-border bg-card shadow-lg hover:shadow-xl transition-shadow">
+            <div className="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
+              <img src={ethereumLogo} alt="Ethereum" className="w-10 h-10 sm:w-12 sm:h-12" />
               <div>
-                <h3 className="text-xl font-bold">Ethereum</h3>
-                <p className="text-sm text-muted-foreground">ETH Price #2</p>
+                <h3 className="text-lg sm:text-xl font-bold">Ethereum</h3>
+                <p className="text-xs sm:text-sm text-muted-foreground">ETH Price #2</p>
               </div>
             </div>
-            <div className="space-y-2">
-              <p className="text-4xl font-bold">
+            <div className="space-y-1.5 sm:space-y-2">
+              <p className="text-2xl sm:text-3xl md:text-4xl font-bold">
                 {loading ? "Loading..." : `$${prices.ethereum?.toLocaleString()}`}
               </p>
               <div className="flex items-center gap-2 text-green-500">
-                <TrendingUp className="w-5 h-5" />
-                <span className="text-sm font-semibold">0.7% (24h)</span>
+                <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span className="text-xs sm:text-sm font-semibold">0.7% (24h)</span>
               </div>
-              <div className="text-sm text-muted-foreground">
+              <div className="text-xs sm:text-sm text-muted-foreground">
                 0.03683 BTC • 1.3%
               </div>
             </div>

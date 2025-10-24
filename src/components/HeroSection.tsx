@@ -67,35 +67,34 @@ const HeroSection = () => {
       setIsSubmitting(false);
     }
   };
-  return <section className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 overflow-hidden pt-16 sm:pt-20">
+  return <section className="relative min-h-screen flex items-center justify-center px-3 sm:px-4 md:px-6 overflow-hidden pt-20 sm:pt-24 pb-8">
       {/* Animated Trading Chart Background */}
       <TradingChartBackground />
 
       {/* Main Content */}
-      <div className="relative z-10 text-center max-w-6xl mx-auto">
-        {/* Coming Soon Badge */}
-        
-
+      <div className="relative z-10 text-center max-w-6xl mx-auto w-full">
         {/* Main Headlines */}
-        <div className="space-y-4 sm:space-y-6 mb-8 sm:mb-12">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-9xl font-bold bg-gradient-to-r from-foreground via-primary to-accent bg-clip-text text-transparent leading-tight py-4 sm:py-6">Next-Gen Trading</h1>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-8xl font-bold bg-gradient-to-r from-accent via-primary to-foreground bg-clip-text text-transparent glow-pulse py-4 sm:py-6">
+        <div className="space-y-3 sm:space-y-4 md:space-y-6 mb-6 sm:mb-8 md:mb-12">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-8xl font-bold bg-gradient-to-r from-foreground via-primary to-accent bg-clip-text text-transparent leading-tight py-2 sm:py-3 md:py-4 px-2">
+            Next-Gen Trading
+          </h1>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-7xl font-bold bg-gradient-to-r from-accent via-primary to-foreground bg-clip-text text-transparent glow-pulse py-2 sm:py-3 md:py-4 px-2">
             Unlocking Soon
           </h2>
         </div>
 
         {/* Subheadline */}
-        <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground mb-8 sm:mb-12 max-w-3xl mx-auto leading-relaxed px-4">
+        <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground mb-6 sm:mb-8 md:mb-12 max-w-3xl mx-auto leading-relaxed px-3 sm:px-4">
           Blazing execution. Unmatched security. Tools built for future markets.
-          <span className="block mt-3 sm:mt-4 text-accent font-semibold">
+          <span className="block mt-2 sm:mt-3 md:mt-4 text-accent font-semibold text-sm sm:text-base md:text-lg">
             Experience the future of trading with AI-powered insights.
           </span>
         </p>
 
         {/* Dynamic Counter */}
-        <div className="mt-8 sm:mt-12 md:mt-16 flex flex-col items-center gap-6 sm:gap-8">
-          <div className="bg-card/30 backdrop-blur-sm rounded-xl p-4 sm:p-6 border border-border/50 cyber-glow">
-            <div className="text-2xl sm:text-3xl font-bold text-primary mb-2">
+        <div className="mt-6 sm:mt-8 md:mt-12 flex flex-col items-center gap-4 sm:gap-6 md:gap-8">
+          <div className="bg-card/30 backdrop-blur-sm rounded-xl p-3 sm:p-4 md:p-6 border border-border/50 cyber-glow min-w-[200px]">
+            <div className="text-xl sm:text-2xl md:text-3xl font-bold text-primary mb-1 sm:mb-2">
               <span className="counter">{traderCount.toLocaleString()}</span>
             </div>
             <div className="text-xs sm:text-sm text-muted-foreground">Traders on waitlist</div>
@@ -104,8 +103,8 @@ const HeroSection = () => {
           {/* Pre-register Button */}
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
             <DialogTrigger asChild>
-              <button className="pre-register-btn text-xs" onClick={() => setIsDialogOpen(true)}>
-                <svg height="24" width="24" fill="#FFFFFF" viewBox="0 0 24 24" data-name="Layer 1" id="Layer_1" className="sparkle">
+              <button className="pre-register-btn text-xs sm:text-sm" onClick={() => setIsDialogOpen(true)}>
+                <svg height="20" width="20" viewBox="0 0 24 24" fill="#FFFFFF" data-name="Layer 1" id="Layer_1" className="sparkle sm:h-6 sm:w-6">
                   <path d="M10,21.236,6.755,14.745.264,11.5,6.755,8.255,10,1.764l3.245,6.491L19.736,11.5l-6.491,3.245ZM18,21l1.5,3L21,21l3-1.5L21,18l-1.5-3L18,18l-3,1.5ZM19.333,4.667,20.5,7l1.167-2.333L24,3.5,21.667,2.333,20.5,0,19.333,2.333,17,3.5Z"></path>
                 </svg>
                 <span className="text">Pre-register</span>

@@ -62,7 +62,7 @@ const FinalCTA = () => {
       setIsSubmitting(false);
     }
   };
-  return <section className="py-20 px-6 bg-gradient-to-br from-primary/10 via-background to-accent/10">
+  return <section className="py-10 sm:py-12 md:py-16 lg:py-20 px-3 sm:px-4 md:px-6 bg-gradient-to-br from-primary/10 via-background to-accent/10">
       <div className="max-w-4xl mx-auto text-center">
         <motion.div initial={{
         opacity: 0,
@@ -75,10 +75,10 @@ const FinalCTA = () => {
       }} transition={{
         duration: 0.6
       }}>
-          <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent py-[35px] md:text-6xl">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-5 md:mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent py-2 sm:py-3 md:py-4 px-2">
             Contact Us
           </h2>
-          <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground mb-6 sm:mb-7 md:mb-8 max-w-2xl mx-auto px-3">
             Have questions? Get in touch with us and we'll respond as soon as possible.
           </p>
           
@@ -89,19 +89,19 @@ const FinalCTA = () => {
             }} whileTap={{
               scale: 0.95
             }}>
-                <Button size="lg" className="text-lg px-8 py-6 group">
+                <Button size="lg" className="text-sm sm:text-base md:text-lg px-6 sm:px-7 md:px-8 py-4 sm:py-5 md:py-6 group">
                   Contact Us
-                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </motion.div>
             </DialogTrigger>
-            <DialogContent className="max-w-md">
+            <DialogContent className="max-w-md mx-auto w-[95%] sm:w-full">
               <DialogHeader>
-                <DialogTitle className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                <DialogTitle className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                   Get In Touch
                 </DialogTitle>
               </DialogHeader>
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="name">Name</Label>
                   <Input id="name" name="name" placeholder="John Doe" required />
@@ -125,7 +125,7 @@ const FinalCTA = () => {
             </DialogContent>
           </Dialog>
 
-          <p className="mt-6 text-sm text-muted-foreground">
+          <p className="mt-4 sm:mt-5 md:mt-6 text-xs sm:text-sm text-muted-foreground px-3">
             We'll respond within 24 hours • Available 24/7 • Your privacy is protected
           </p>
         </motion.div>
