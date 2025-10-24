@@ -32,10 +32,10 @@ const Testimonials = () => {
       }} transition={{
         duration: 0.6
       }} className="text-center mb-6 sm:mb-8 md:mb-10 lg:mb-12">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 sm:mb-3 md:mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent py-2 sm:py-3 px-2">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4 md:mb-5 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent py-2 sm:py-3 px-2">
             Trusted by Traders Worldwide
           </h2>
-          <p className="text-muted-foreground text-sm sm:text-base md:text-lg px-3">
+          <p className="text-muted-foreground text-base sm:text-lg md:text-xl px-3">
             See what our users have to say
           </p>
         </motion.div>
@@ -57,20 +57,20 @@ const Testimonials = () => {
               <Card className="h-full bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300">
                 <CardContent className="pt-4 sm:pt-5 md:pt-6 p-4 sm:p-5 md:p-6">
                   <div className="flex gap-1 mb-3 sm:mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => <Star key={i} className="w-4 h-4 sm:w-5 sm:h-5 fill-primary text-primary" />)}
+                    {[...Array(testimonial.rating)].map((_, i) => <Star key={i} className="w-5 h-5 sm:w-6 sm:h-6 fill-primary text-primary" />)}
                   </div>
-                  <p className="text-muted-foreground mb-4 sm:mb-5 md:mb-6 italic text-sm sm:text-base">
+                  <p className="text-muted-foreground mb-4 sm:mb-5 md:mb-6 italic text-base sm:text-lg">
                     "{testimonial.content}"
                   </p>
                   <div className="flex items-center gap-2 sm:gap-3">
-                    <Avatar className="w-8 h-8 sm:w-10 sm:h-10">
-                      <AvatarFallback className="bg-primary/10 text-primary font-semibold text-xs sm:text-sm">
+                    <Avatar className="w-10 h-10 sm:w-12 sm:h-12">
+                      <AvatarFallback className="bg-primary/10 text-primary font-semibold text-sm sm:text-base">
                         {testimonial.name.split(' ').map(n => n[0]).join('')}
                       </AvatarFallback>
                     </Avatar>
                     <div>
-                      <p className="font-semibold text-sm sm:text-base">{testimonial.name}</p>
-                      <p className="text-xs sm:text-sm text-muted-foreground">{testimonial.role}</p>
+                      <p className="font-semibold text-base sm:text-lg">{testimonial.name}</p>
+                      <p className="text-sm sm:text-base text-muted-foreground">{testimonial.role}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -95,24 +95,24 @@ const Testimonials = () => {
             }}
           >
             {[...testimonials, ...testimonials].map((testimonial, index) => (
-              <div key={`${testimonial.name}-${index}`} className="min-w-[280px]">
+              <div key={`${testimonial.name}-${index}`} className="min-w-[300px]">
                 <Card className="h-full bg-card/50 backdrop-blur-sm border-border/50">
                   <CardContent className="pt-4 p-4">
                     <div className="flex gap-1 mb-3">
-                      {[...Array(testimonial.rating)].map((_, i) => <Star key={i} className="w-4 h-4 fill-primary text-primary" />)}
+                      {[...Array(testimonial.rating)].map((_, i) => <Star key={i} className="w-5 h-5 fill-primary text-primary" />)}
                     </div>
-                    <p className="text-muted-foreground mb-4 italic text-sm">
+                    <p className="text-muted-foreground mb-4 italic text-base">
                       "{testimonial.content}"
                     </p>
                     <div className="flex items-center gap-2">
-                      <Avatar className="w-8 h-8">
-                        <AvatarFallback className="bg-primary/10 text-primary font-semibold text-xs">
+                      <Avatar className="w-10 h-10">
+                        <AvatarFallback className="bg-primary/10 text-primary font-semibold text-sm">
                           {testimonial.name.split(' ').map(n => n[0]).join('')}
                         </AvatarFallback>
                       </Avatar>
                       <div>
-                        <p className="font-semibold text-sm">{testimonial.name}</p>
-                        <p className="text-xs text-muted-foreground">{testimonial.role}</p>
+                        <p className="font-semibold text-base">{testimonial.name}</p>
+                        <p className="text-sm text-muted-foreground">{testimonial.role}</p>
                       </div>
                     </div>
                   </CardContent>

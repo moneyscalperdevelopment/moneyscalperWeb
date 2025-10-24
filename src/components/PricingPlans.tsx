@@ -43,10 +43,10 @@ const PricingPlans = () => {
       }} transition={{
         duration: 0.6
       }} className="text-center mb-6 sm:mb-8 md:mb-10 lg:mb-12">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 sm:mb-3 md:mb-4 bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent py-2 sm:py-3 md:py-4 px-3">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4 md:mb-5 bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent py-2 sm:py-3 md:py-4 px-3">
             Simple, Transparent Pricing
           </h2>
-          <p className="text-muted-foreground text-sm sm:text-base md:text-lg px-3">
+          <p className="text-muted-foreground text-base sm:text-lg md:text-xl px-3">
             Choose the plan that fits your trading needs
           </p>
         </motion.div>
@@ -69,18 +69,18 @@ const PricingPlans = () => {
                 </Badge>}
               <Card className={`h-full backdrop-blur-sm transition-all duration-300 ${plan.popular ? 'bg-gradient-to-br from-card/90 via-card/90 to-blue-500/10 border-2 border-blue-500/50 shadow-2xl shadow-blue-500/30' : 'bg-card/50 border border-border/30 hover:border-primary/40'}`}>
                 <CardHeader className="pb-3 sm:pb-4 md:pb-6 p-4 sm:p-5 md:p-6">
-                  <CardTitle className="text-lg sm:text-xl md:text-2xl font-bold text-white">{plan.name}</CardTitle>
-                  <CardDescription className="text-xs sm:text-sm md:text-base text-muted-foreground">{plan.description}</CardDescription>
+                  <CardTitle className="text-xl sm:text-2xl md:text-3xl font-bold text-white">{plan.name}</CardTitle>
+                  <CardDescription className="text-sm sm:text-base md:text-lg text-muted-foreground">{plan.description}</CardDescription>
                   <div className="mt-3 sm:mt-4 md:mt-6">
-                    <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white">₹{plan.price}</span>
-                    <span className="text-muted-foreground text-xs sm:text-sm md:text-base">/{plan.period}</span>
+                    <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white">₹{plan.price}</span>
+                    <span className="text-muted-foreground text-sm sm:text-base md:text-lg">/{plan.period}</span>
                   </div>
                 </CardHeader>
                 <CardContent className="pb-4 sm:pb-6 md:pb-8 px-4 sm:px-5 md:px-6">
                   <ul className="space-y-2 sm:space-y-3 md:space-y-4">
                     {plan.features.map(feature => <li key={feature} className="flex items-start gap-2 sm:gap-3">
-                        <Check className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                        <span className="text-xs sm:text-sm leading-relaxed">{feature}</span>
+                        <Check className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-green-500 flex-shrink-0 mt-0.5" />
+                        <span className="text-sm sm:text-base leading-relaxed">{feature}</span>
                       </li>)}
                   </ul>
                 </CardContent>

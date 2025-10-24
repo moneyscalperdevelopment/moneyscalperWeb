@@ -78,10 +78,10 @@ const FinalCTA = () => {
       }} transition={{
         duration: 0.6
       }}>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-5 md:mb-6 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent py-2 sm:py-3 md:py-4 px-2">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-5 sm:mb-6 md:mb-7 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent py-2 sm:py-3 md:py-4 px-2">
             Contact Us
           </h2>
-          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground mb-6 sm:mb-7 md:mb-8 max-w-2xl mx-auto px-3">
+          <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground mb-7 sm:mb-8 md:mb-9 max-w-2xl mx-auto px-3">
             Have questions? Get in touch with us and we'll respond as soon as possible.
           </p>
           
@@ -92,9 +92,9 @@ const FinalCTA = () => {
             }} whileTap={{
               scale: 0.95
             }}>
-                <Button size="lg" className="text-sm sm:text-base md:text-lg px-6 sm:px-7 md:px-8 py-4 sm:py-5 md:py-6 group">
+                <Button size="lg" className="text-base sm:text-lg md:text-xl px-7 sm:px-8 md:px-9 py-5 sm:py-6 md:py-7 group">
                   Contact Us
-                  <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="ml-2 w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </motion.div>
             </DialogTrigger>
@@ -128,7 +128,7 @@ const FinalCTA = () => {
             </DialogContent>
           </Dialog>
 
-          <p className="mt-4 sm:mt-5 md:mt-6 text-xs sm:text-sm text-muted-foreground px-3">
+          <p className="mt-5 sm:mt-6 md:mt-7 text-sm sm:text-base text-muted-foreground px-3">
             We'll respond within 24 hours • Available 24/7 • Your privacy is protected
           </p>
         </motion.div>

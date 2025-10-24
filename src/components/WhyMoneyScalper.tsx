@@ -32,10 +32,10 @@ const WhyMoneyScalper = () => {
       }} transition={{
         duration: 0.6
       }} className="text-center mb-6 sm:mb-8 md:mb-10 lg:mb-12">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-2 sm:mb-3 md:mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent py-2 sm:py-3 md:py-4 px-2">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4 md:mb-5 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent py-2 sm:py-3 md:py-4 px-2">
             Why Money Scalper?
           </h2>
-          <p className="text-muted-foreground text-sm sm:text-base md:text-lg max-w-2xl mx-auto px-3 sm:px-4">
+          <p className="text-muted-foreground text-base sm:text-lg md:text-xl max-w-2xl mx-auto px-3 sm:px-4">
             Experience the future of cryptocurrency trading with cutting-edge AI technology
           </p>
         </motion.div>
@@ -56,13 +56,13 @@ const WhyMoneyScalper = () => {
         }}>
               <Card className="h-full bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/10">
                 <CardHeader className="pb-3 sm:pb-4">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-3 sm:mb-4">
-                    <feature.icon className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-lg bg-primary/10 flex items-center justify-center mb-3 sm:mb-4">
+                    <feature.icon className="w-6 h-6 sm:w-7 sm:h-7 text-primary" />
                   </div>
-                  <CardTitle className="text-lg sm:text-xl">{feature.title}</CardTitle>
+                  <CardTitle className="text-xl sm:text-2xl">{feature.title}</CardTitle>
                 </CardHeader>
                 <CardContent className="pt-0">
-                  <CardDescription className="text-sm sm:text-base">
+                  <CardDescription className="text-base sm:text-lg">
                     {feature.description}
                   </CardDescription>
                 </CardContent>
@@ -87,16 +87,16 @@ const WhyMoneyScalper = () => {
             }}
           >
             {[...features, ...features].map((feature, index) => (
-              <div key={`${feature.title}-${index}`} className="min-w-[280px]">
+              <div key={`${feature.title}-${index}`} className="min-w-[300px]">
                 <Card className="h-full bg-card/50 backdrop-blur-sm border-border/50">
                   <CardHeader className="pb-3">
-                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-3">
-                      <feature.icon className="w-5 h-5 text-primary" />
+                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-3">
+                      <feature.icon className="w-6 h-6 text-primary" />
                     </div>
-                    <CardTitle className="text-lg">{feature.title}</CardTitle>
+                    <CardTitle className="text-xl">{feature.title}</CardTitle>
                   </CardHeader>
                   <CardContent className="pt-0">
-                    <CardDescription className="text-sm">
+                    <CardDescription className="text-base">
                       {feature.description}
                     </CardDescription>
                   </CardContent>
