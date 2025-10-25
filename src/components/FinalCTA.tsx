@@ -27,15 +27,17 @@ const FinalCTA = () => {
     
     try {
       // Send to Google Sheets
-      await fetch('https://script.google.com/macros/s/AKfycbxvL-IIs2fB_r5UlG3gbGhzgNsBv7_OafPC1P65BLD_9wv4aoLnYodAv2QWPJuSUN0Bhg/exec', {
+      await fetch('https://script.google.com/macros/s/AKfycbw27vL5_kC_lXcbnVq2xyC1fdbRkSbVh0mvYwPCpwv-JGYkdRwxIOMpPbsWLCFJyM8GCQ/exec', {
         method: 'POST',
         mode: 'no-cors',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          source: 'Contact Us',
-          ...registrationData,
+          name: registrationData.name,
+          email: registrationData.email,
+          contact: registrationData.contact,
+          message: registrationData.message,
         }),
       });
 
