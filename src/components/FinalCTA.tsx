@@ -27,7 +27,7 @@ const FinalCTA = () => {
     
     try {
       // Send to Google Sheets
-      await fetch('https://script.google.com/macros/s/AKfycbw27vL5_kC_lXcbnVq2xyC1fdbRkSbVh0mvYwPCpwv-JGYkdRwxIOMpPbsWLCFJyM8GCQ/exec', {
+      await fetch('https://script.google.com/macros/s/AKfycby83gRwEoheq3kcFOsIJ8RsQaTEtyONsgfz5l9RIRv12dY8WN9Rkwt6lTIPJV1D6pTtIQ/exec', {
         method: 'POST',
         mode: 'no-cors',
         headers: {
