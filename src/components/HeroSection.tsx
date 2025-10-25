@@ -20,16 +20,30 @@ const HeroSection = () => {
     setIsSubmitting(true);
     const form = e.currentTarget;
     const formData = new FormData(form);
+    
+    const userData = {
+      firstName: String(formData.get('firstname') || ''),
+      lastName: String(formData.get('lastname') || ''),
+      email: String(formData.get('email') || ''),
+      contactNumber: String(formData.get('contact') || ''),
+      country: String(formData.get('country') || '')
+    };
+    
     try {
-      const {
-        success
-      } = await sendEmail({
-        firstName: String(formData.get('firstname') || ''),
-        lastName: String(formData.get('lastname') || ''),
-        email: String(formData.get('email') || ''),
-        contactNumber: String(formData.get('contact') || ''),
-        country: String(formData.get('country') || '')
-      });
+      // Submit to Google Sheets
+      await fetch(
+        "https://script.google.com/macros/s/AKfycbw27vL5_kC_lXcbnVq2xyC1fdbRkSbVh0mvYwPCpwv-JGYkdRwxIOMpPbsWLCFJyM8GCQ/exec",
+        {
+          method: "POST",
+          mode: "no-cors",
+          body: JSON.stringify(userData),
+          headers: { "Content-Type": "application/json" }
+        }
+      );
+      
+      // Send email notification
+      const { success } = await sendEmail(userData);
+      
       if (success) {
         console.log("Registration successful, showing popup");
         incrementCounter(); // Increment the waitlist counter
@@ -43,7 +57,7 @@ const HeroSection = () => {
         throw new Error('Email send failed');
       }
     } catch (error) {
-      console.error('Error sending email:', error);
+      console.error('Error during registration:', error);
       alert("Registration failed. Please try again.");
     } finally {
       setIsSubmitting(false);
