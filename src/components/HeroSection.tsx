@@ -36,7 +36,13 @@ const HeroSection = () => {
         {
           method: "POST",
           mode: "no-cors",
-          body: JSON.stringify(userData),
+          body: JSON.stringify({
+            firstName: userData.firstName,
+            lastName: userData.lastName,
+            email: userData.email,
+            contact: userData.contactNumber,
+            country: userData.country
+          }),
           headers: { "Content-Type": "application/json" }
         }
       );
