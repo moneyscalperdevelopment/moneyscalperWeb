@@ -43,8 +43,8 @@ const FinalCTA = () => {
 
       // Send email via EmailJS
       await emailjs.send(
-        'service_tdx4qi4',
-        'template_rak8f58',
+        'service_o5z56fm',
+        'template_vuxezaw',
         {
           source: 'Contact Us',
           from_name: registrationData.name,
@@ -53,7 +53,7 @@ const FinalCTA = () => {
           message: registrationData.message,
           to_name: 'Money Scalper'
         },
-        'XtWp493g7vwVe6q_-'
+        'AnyGKIBS05v_ugsa4'
       );
       
       incrementCounter(); // Increment the waitlist counter
