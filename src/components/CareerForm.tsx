@@ -88,7 +88,7 @@ export default function CareerForm() {
     <form onSubmit={handleSubmit} className="space-y-6 max-h-[70vh] overflow-y-auto pr-2">
       {/* Personal Information */}
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold text-primary">🧑‍💼 Personal Information</h3>
+        <h3 className="text-lg font-semibold text-primary">Personal Information</h3>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
@@ -169,7 +169,7 @@ export default function CareerForm() {
 
       {/* Role Details */}
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold text-primary">💼 Role Details</h3>
+        <h3 className="text-lg font-semibold text-primary">Role Details</h3>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
@@ -227,7 +227,7 @@ export default function CareerForm() {
 
       {/* Education */}
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold text-primary">📘 Education & Qualification</h3>
+        <h3 className="text-lg font-semibold text-primary">Education & Qualification</h3>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
@@ -278,7 +278,7 @@ export default function CareerForm() {
 
       {/* Experience */}
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold text-primary">💡 Professional Experience</h3>
+        <h3 className="text-lg font-semibold text-primary">Professional Experience</h3>
         
         <div className="space-y-2">
           <Label htmlFor="has_experience">Do you have prior experience? *</Label>
@@ -336,7 +336,7 @@ export default function CareerForm() {
 
       {/* Skills */}
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold text-primary">🎨 Skills & Tools</h3>
+        <h3 className="text-lg font-semibold text-primary">Skills & Tools</h3>
         
         <div className="space-y-2">
           <Label htmlFor="skills">Key Skills *</Label>
@@ -360,7 +360,7 @@ export default function CareerForm() {
 
       {/* Motivation */}
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold text-primary">🧠 Role Understanding & Motivation</h3>
+        <h3 className="text-lg font-semibold text-primary">Role Understanding & Motivation</h3>
         
         <div className="space-y-2">
           <Label htmlFor="role_description">Describe your role or how you can contribute *</Label>
@@ -398,7 +398,7 @@ export default function CareerForm() {
 
       {/* Additional Info */}
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold text-primary">📎 Additional Information</h3>
+        <h3 className="text-lg font-semibold text-primary">Additional Information</h3>
         
         <div className="space-y-2">
           <Label htmlFor="portfolio_url">LinkedIn / Portfolio URL</Label>
