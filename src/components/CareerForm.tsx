@@ -290,7 +290,7 @@ export default function CareerForm() {
             <Input
               id="previous_company"
               name="previous_company"
-              placeholder="If applicable"
+              placeholder=""
             />
           </div>
 
@@ -299,7 +299,7 @@ export default function CareerForm() {
             <Input
               id="previous_role"
               name="previous_role"
-              placeholder="If applicable"
+              placeholder=""
             />
           </div>
         </div>
