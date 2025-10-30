@@ -14,7 +14,7 @@ const ROLE_OPTIONS = [
   'Customer Support Executive',
   'Data Analyst',
   'Front-End Developer',
-  'Graphic Design Intern',
+  'Graphic Designer',
   'Junior QA Engineer',
   'Marketing Associate',
   'Product Designer (UI/UX)',
