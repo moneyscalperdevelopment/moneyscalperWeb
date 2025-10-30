@@ -28,14 +28,7 @@ const Header = () => {
   return <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border/50">
       <div className="container mx-auto px-3 sm:px-6 py-3 sm:py-4">
         <div className="flex items-center justify-between">
-          {/* Logo */}
-          <div className="flex items-center space-x-2">
-            <span className="text-base sm:text-lg md:text-xl font-bold bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent">
-              Money Scalper
-            </span>
-          </div>
-
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Button - Left Side */}
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
               <Button 
@@ -78,6 +71,13 @@ const Header = () => {
               </nav>
             </SheetContent>
           </Sheet>
+
+          {/* Logo */}
+          <div className="flex items-center space-x-2">
+            <span className="text-base sm:text-lg md:text-xl font-bold bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent">
+              Money Scalper
+            </span>
+          </div>
 
           {/* Desktop Navigation Menu */}
           <NavigationMenu className="hidden md:flex">
