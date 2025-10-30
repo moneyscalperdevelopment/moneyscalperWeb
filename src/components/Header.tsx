@@ -4,7 +4,11 @@ import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuL
 import discordIcon from "@/assets/discord-logo.jpg";
 import telegramIcon from "@/assets/telegram-logo.webp";
 import { ArrowRight } from "lucide-react";
+import { useState } from "react";
+import CareerForm from "@/components/CareerForm";
 const Header = () => {
+  const [careerDialogOpen, setCareerDialogOpen] = useState(false);
+  
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -37,6 +41,17 @@ const Header = () => {
                 <NavigationMenuLink className={navigationMenuTriggerStyle()} onClick={() => scrollToSection('pricing')} style={{
                 cursor: 'pointer'
               }}>Plans</NavigationMenuLink>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuLink 
+                  className={navigationMenuTriggerStyle()} 
+                  onClick={() => setCareerDialogOpen(true)} 
+                  style={{
+                    cursor: 'pointer'
+                  }}
+                >
+                  Careers
+                </NavigationMenuLink>
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()} onClick={() => scrollToSection('contact')} style={{
@@ -101,6 +116,21 @@ const Header = () => {
                   🔒 Secure • 🚀 Active 24/7 • 💬 Expert Support
                 </p>
               </div>
+            </DialogContent>
+          </Dialog>
+
+          {/* Career Dialog */}
+          <Dialog open={careerDialogOpen} onOpenChange={setCareerDialogOpen}>
+            <DialogContent className="sm:max-w-4xl">
+              <DialogHeader>
+                <DialogTitle className="text-3xl font-bold text-center bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+                  Career at Money Scalper
+                </DialogTitle>
+                <DialogDescription className="text-center text-base pt-2">
+                  Join our team and help shape the future of crypto trading
+                </DialogDescription>
+              </DialogHeader>
+              <CareerForm />
             </DialogContent>
           </Dialog>
         </div>
