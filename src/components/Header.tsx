@@ -1,13 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import discordIcon from "@/assets/discord-logo.jpg";
 import telegramIcon from "@/assets/telegram-logo.webp";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Menu } from "lucide-react";
 import { useState } from "react";
 import CareerForm from "@/components/CareerForm";
 const Header = () => {
   const [careerDialogOpen, setCareerDialogOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -16,6 +18,12 @@ const Header = () => {
         behavior: 'smooth'
       });
     }
+    setMobileMenuOpen(false); // Close mobile menu after navigation
+  };
+
+  const openCareerDialog = () => {
+    setCareerDialogOpen(true);
+    setMobileMenuOpen(false); // Close mobile menu when opening career dialog
   };
   return <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border/50">
       <div className="container mx-auto px-3 sm:px-6 py-3 sm:py-4">
@@ -27,7 +35,51 @@ const Header = () => {
             </span>
           </div>
 
-          {/* Navigation Menu */}
+          {/* Mobile Menu Button */}
+          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+            <SheetTrigger asChild>
+              <Button 
+                variant="ghost" 
+                size="icon"
+                className="md:hidden"
+              >
+                <Menu className="h-6 w-6" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-[280px]">
+              <SheetHeader>
+                <SheetTitle className="text-left">Menu</SheetTitle>
+              </SheetHeader>
+              <nav className="flex flex-col gap-4 mt-8">
+                <button
+                  onClick={() => scrollToSection('about')}
+                  className="text-left py-3 px-4 rounded-lg hover:bg-accent transition-colors text-lg font-medium"
+                >
+                  About Us
+                </button>
+                <button
+                  onClick={() => scrollToSection('pricing')}
+                  className="text-left py-3 px-4 rounded-lg hover:bg-accent transition-colors text-lg font-medium"
+                >
+                  Plans
+                </button>
+                <button
+                  onClick={openCareerDialog}
+                  className="text-left py-3 px-4 rounded-lg hover:bg-accent transition-colors text-lg font-medium"
+                >
+                  Careers
+                </button>
+                <button
+                  onClick={() => scrollToSection('contact')}
+                  className="text-left py-3 px-4 rounded-lg hover:bg-accent transition-colors text-lg font-medium"
+                >
+                  Contact Us
+                </button>
+              </nav>
+            </SheetContent>
+          </Sheet>
+
+          {/* Desktop Navigation Menu */}
           <NavigationMenu className="hidden md:flex">
             <NavigationMenuList>
               <NavigationMenuItem>
