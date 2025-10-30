@@ -44,7 +44,6 @@ export default function CareerForm() {
       position_applying_for: formData.get("position_applying_for") as string,
       work_type: formData.get("work_type") as string,
       expected_salary: formData.get("expected_salary") as string,
-      preferred_location: formData.get("preferred_location") as string,
       qualification: formData.get("qualification") as string,
       college: formData.get("college") as string,
       graduation_year: formData.get("graduation_year") as string,
@@ -211,15 +210,6 @@ export default function CareerForm() {
               id="expected_salary"
               name="expected_salary"
               placeholder="₹ / month"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="preferred_location">Preferred Work Location</Label>
-            <Input
-              id="preferred_location"
-              name="preferred_location"
-              placeholder="If multiple offices"
             />
           </div>
         </div>
