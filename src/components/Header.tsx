@@ -72,8 +72,8 @@ const Header = () => {
             </SheetContent>
           </Sheet>
 
-          {/* Logo */}
-          <div className="flex items-center space-x-2">
+          {/* Logo - Centered on mobile */}
+          <div className="flex-1 flex items-center justify-center md:justify-start md:flex-initial space-x-2">
             <span className="text-base sm:text-lg md:text-xl font-bold bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent">
               Money Scalper
             </span>
