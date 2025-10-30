@@ -2,12 +2,12 @@
 import emailjs from '@emailjs/browser';
 
 // Initialize EmailJS with your public key
-emailjs.init('_JfgJP5HCei5ujy0l');
+emailjs.init('AnyGKIBS05v_ugsa4');
 
 export const emailConfig = {
-  serviceId: 'service_tdx4qi4',
+  serviceId: 'service_o5z56fm',
   templateId: 'template_rak8f58',
-  publicKey: 'XtWp493g7vwVe6q_-'
+  publicKey: 'AnyGKIBS05v_ugsa4'
 };
 
 export const sendEmail = async (formData: { firstName: string; lastName: string; email: string; contactNumber: string; country: string }) => {

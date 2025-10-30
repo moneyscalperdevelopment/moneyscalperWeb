@@ -43,7 +43,7 @@ export default function RegistrationForm() {
 
       // Send email via EmailJS
       await emailjs.send(
-        'service_tdx4qi4',
+        'service_o5z56fm',
         'template_rak8f58',
         {
           source: 'Plan Registration',
@@ -54,7 +54,7 @@ export default function RegistrationForm() {
           country: registrationData.country,
           to_name: 'Money Scalper'
         },
-        'XtWp493g7vwVe6q_-'
+        'AnyGKIBS05v_ugsa4'
       );
 
       incrementCounter(); // Increment the waitlist counter
