@@ -1,72 +1,10 @@
 import { motion } from "motion/react";
-import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
-import { toast } from "sonner";
-import emailjs from "@emailjs/browser";
-import { useWaitlistCounter } from "@/hooks/useWaitlistCounter";
-const FinalCTA = () => {
-  const { incrementCounter } = useWaitlistCounter();
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    const formData = new FormData(e.currentTarget);
-    
-    const registrationData = {
-      name: formData.get("name") as string,
-      email: formData.get("email") as string,
-      contact: formData.get("contact") as string,
-      message: formData.get("message") as string,
-    };
-    
-    try {
-      // Send to Google Sheets
-      await fetch('https://script.google.com/macros/s/AKfycby83gRwEoheq3kcFOsIJ8RsQaTEtyONsgfz5l9RIRv12dY8WN9Rkwt6lTIPJV1D6pTtIQ/exec', {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: registrationData.name,
-          email: registrationData.email,
-          contact: registrationData.contact,
-          message: registrationData.message,
-        }),
-      });
+import gmailIcon from "@/assets/gmail-icon.png";
+import telegramIcon from "@/assets/telegram-icon-circle.png";
+import instagramIcon from "@/assets/instagram-icon.png";
+import discordIcon from "@/assets/discord-icon.png";
 
-      // Send email via EmailJS
-      await emailjs.send(
-        'service_o5z56fm',
-        'template_vuxezaw',
-        {
-          source: 'Contact Us',
-          from_name: registrationData.name,
-          from_email: registrationData.email,
-          contact_number: registrationData.contact,
-          message: registrationData.message,
-          to_name: 'Money Scalper'
-        },
-        'AnyGKIBS05v_ugsa4'
-      );
-      
-      incrementCounter(); // Increment the waitlist counter
-      toast.success("Message sent successfully! We'll get back to you soon.");
-      setIsDialogOpen(false);
-      (e.target as HTMLFormElement).reset();
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      toast.error("Failed to send message. Please try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+const FinalCTA = () => {
   return <section className="py-10 sm:py-12 md:py-16 lg:py-20 px-3 sm:px-4 md:px-6 bg-gradient-to-br from-primary/10 via-background to-accent/10">
       <div className="max-w-4xl mx-auto text-center">
         <motion.div initial={{
@@ -84,53 +22,74 @@ const FinalCTA = () => {
             Contact Us
           </h2>
           <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground mb-7 sm:mb-8 md:mb-9 max-w-2xl mx-auto px-3">
-            Have questions? Get in touch with us and we'll respond as soon as possible.
+            Connect with us through your preferred platform
           </p>
           
-          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <DialogTrigger asChild>
-              <motion.div whileHover={{
-              scale: 1.05
-            }} whileTap={{
-              scale: 0.95
-            }}>
-                <Button size="lg" className="text-base sm:text-lg md:text-xl px-7 sm:px-8 md:px-9 py-5 sm:py-6 md:py-7 group">
-                  Contact Us
-                  <ArrowRight className="ml-2 w-5 h-5 sm:w-6 sm:h-6 group-hover:translate-x-1 transition-transform" />
-                </Button>
-              </motion.div>
-            </DialogTrigger>
-            <DialogContent className="max-w-md mx-auto w-[95%] sm:w-full">
-              <DialogHeader>
-                <DialogTitle className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                  Get In Touch
-                </DialogTitle>
-              </DialogHeader>
-              <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="name">Name</Label>
-                  <Input id="name" name="name" placeholder="John Doe" required />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="contact">Contact Number</Label>
-                  <Input id="contact" name="contact" type="tel" placeholder="+1 234 567 8900" required />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input id="email" name="email" type="email" placeholder="john@example.com" required />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="message">Your Message</Label>
-                  <Textarea id="message" name="message" placeholder="Write your message here..." rows={4} required />
-                </div>
-                <Button type="submit" className="w-full" disabled={isSubmitting}>
-                  {isSubmitting ? "Sending..." : "Send Message"}
-                </Button>
-              </form>
-            </DialogContent>
-          </Dialog>
+          <div className="flex flex-wrap justify-center gap-6 sm:gap-8 md:gap-10 mt-8 sm:mt-10 md:mt-12">
+            <motion.a
+              href="mailto:contact@moneyscalper.com"
+              className="flex flex-col items-center gap-3 group"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300">
+                <img src={gmailIcon} alt="Email" className="w-full h-full object-cover" />
+              </div>
+              <span className="text-sm sm:text-base font-medium text-muted-foreground group-hover:text-foreground transition-colors">
+                Email
+              </span>
+            </motion.a>
 
-          <p className="mt-5 sm:mt-6 md:mt-7 text-sm sm:text-base text-muted-foreground px-3">
+            <motion.a
+              href="https://t.me/moneyscalper"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col items-center gap-3 group"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300">
+                <img src={telegramIcon} alt="Telegram" className="w-full h-full object-cover" />
+              </div>
+              <span className="text-sm sm:text-base font-medium text-muted-foreground group-hover:text-foreground transition-colors">
+                Telegram
+              </span>
+            </motion.a>
+
+            <motion.a
+              href="https://www.instagram.com/money_scalper?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col items-center gap-3 group"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300">
+                <img src={instagramIcon} alt="Instagram" className="w-full h-full object-cover" />
+              </div>
+              <span className="text-sm sm:text-base font-medium text-muted-foreground group-hover:text-foreground transition-colors">
+                Instagram
+              </span>
+            </motion.a>
+
+            <motion.a
+              href="https://discord.gg/VNkhzUGw"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col items-center gap-3 group"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300">
+                <img src={discordIcon} alt="Discord" className="w-full h-full object-cover" />
+              </div>
+              <span className="text-sm sm:text-base font-medium text-muted-foreground group-hover:text-foreground transition-colors">
+                Discord
+              </span>
+            </motion.a>
+          </div>
+
+          <p className="mt-8 sm:mt-10 md:mt-12 text-sm sm:text-base text-muted-foreground px-3">
             We'll respond within 24 hours • Available 24/7 • Your privacy is protected
           </p>
         </motion.div>
