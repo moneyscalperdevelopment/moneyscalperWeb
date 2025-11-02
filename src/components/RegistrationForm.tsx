@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import emailjs from "@emailjs/browser";
+import { sendEmail } from "@/utils/emailconfig";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -42,20 +42,14 @@ export default function RegistrationForm() {
       });
 
       // Send email via EmailJS
-      await emailjs.send(
-        'service_o5z56fm',
-        'template_rak8f58',
-        {
-          source: 'Plan Registration',
-          first_name: registrationData.firstName,
-          last_name: registrationData.lastName,
-          from_email: registrationData.email,
-          contact_number: registrationData.contactNumber,
-          country: registrationData.country,
-          to_name: 'Money Scalper'
-        },
-        'AnyGKIBS05v_ugsa4'
-      );
+      const emailResult = await sendEmail({
+        ...registrationData,
+        source: 'Plan Registration'
+      });
+      
+      if (!emailResult.success) {
+        throw emailResult.error;
+      }
 
       incrementCounter(); // Increment the waitlist counter
       toast.success("Registration successful! We'll contact you shortly.");

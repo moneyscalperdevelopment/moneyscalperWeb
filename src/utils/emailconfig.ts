@@ -10,12 +10,20 @@ export const emailConfig = {
   publicKey: 'AnyGKIBS05v_ugsa4'
 };
 
-export const sendEmail = async (formData: { firstName: string; lastName: string; email: string; contactNumber: string; country: string }) => {
+export const sendEmail = async (formData: { 
+  firstName: string; 
+  lastName: string; 
+  email: string; 
+  contactNumber: string; 
+  country: string;
+  source?: string;
+}) => {
   try {
     const result = await emailjs.send(
       emailConfig.serviceId,
       emailConfig.templateId,
       {
+        source: formData.source || 'Registration',
         first_name: formData.firstName,
         last_name: formData.lastName,
         from_email: formData.email,

@@ -11,7 +11,6 @@ import { SuccessPopup } from "@/components/SuccessPopup";
 import TradingChartBackground from "@/components/TradingChartBackground";
 import { useWaitlistCounter } from "@/hooks/useWaitlistCounter";
 import { toast } from "sonner";
-import emailjs from "@emailjs/browser";
 const HeroSection = () => {
   const { count: traderCount, incrementCounter } = useWaitlistCounter();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -70,22 +69,16 @@ const HeroSection = () => {
       
       // Send email notification via EmailJS
       console.log("Sending email via EmailJS...");
-      const emailResult = await emailjs.send(
-        'service_o5z56fm',
-        'template_rak8f58',
-        {
-          source: 'Pre-Registration',
-          first_name: userData.firstName,
-          last_name: userData.lastName,
-          from_email: userData.email,
-          contact_number: userData.contactNumber,
-          country: userData.country,
-          to_name: 'Money Scalper'
-        },
-        'AnyGKIBS05v_ugsa4'
-      );
+      const emailResult = await sendEmail({
+        ...userData,
+        source: 'Pre-Registration'
+      });
       
-      console.log("Email sent successfully:", emailResult);
+      if (!emailResult.success) {
+        throw emailResult.error;
+      }
+      
+      console.log("Email sent successfully:", emailResult.result);
       console.log("Registration successful, showing popup");
       
       incrementCounter(); // Increment the waitlist counter
