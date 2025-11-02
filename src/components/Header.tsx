@@ -2,8 +2,9 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import discordIcon from "@/assets/discord-logo.jpg";
-import telegramIcon from "@/assets/telegram-logo.webp";
+import discordIcon from "@/assets/discord-icon-new.png";
+import telegramIcon from "@/assets/telegram-icon-new.png";
+import instagramIcon from "@/assets/instagram-icon-new.png";
 import { ArrowRight, Menu } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -137,10 +138,10 @@ const Header = () => {
             <DialogContent className="sm:max-w-lg">
               <DialogHeader>
                 <DialogTitle className="text-3xl font-bold text-center bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
-                  Join Our Community
+                  Join Us Now
                 </DialogTitle>
                 <DialogDescription className="text-center text-base pt-2">
-                  Connect with thousands of traders and get real-time signals
+                  Master The Market With real-time Expert Support
                 </DialogDescription>
               </DialogHeader>
               <div className="flex flex-col gap-4 py-6">
@@ -171,6 +172,21 @@ const Header = () => {
                   <div className="flex-1 text-white">
                     <h3 className="font-bold text-xl mb-1">Telegram Channel</h3>
                     <p className="text-sm text-white/90">Get instant trading signals</p>
+                  </div>
+                  <ArrowRight className="w-6 h-6 text-white/80 group-hover:translate-x-1 transition-transform" />
+                </a>
+                <a 
+                  href="https://www.instagram.com/money_scalper?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="group flex items-center gap-4 p-6 rounded-xl bg-gradient-to-tr from-purple-600 via-pink-600 to-orange-500 hover:from-purple-700 hover:via-pink-700 hover:to-orange-600 transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-[1.02] transform"
+                >
+                  <div className="bg-white rounded-lg p-2 shadow-md">
+                    <img src={instagramIcon} alt="Instagram" className="w-14 h-14 object-contain" />
+                  </div>
+                  <div className="flex-1 text-white">
+                    <h3 className="font-bold text-xl mb-1">Instagram</h3>
+                    <p className="text-sm text-white/90">Follow us for updates</p>
                   </div>
                   <ArrowRight className="w-6 h-6 text-white/80 group-hover:translate-x-1 transition-transform" />
                 </a>
