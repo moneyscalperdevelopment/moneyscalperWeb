@@ -14,7 +14,8 @@ const ParticleBackground = () => {
   useEffect(() => {
     const generateParticles = () => {
       const newParticles: Particle[] = [];
-      for (let i = 0; i < 20; i++) {
+      // Reduced from 20 to 10 for better performance
+      for (let i = 0; i < 10; i++) {
         newParticles.push({
           id: i,
           x: Math.random() * 100,
@@ -41,6 +42,7 @@ const ParticleBackground = () => {
             height: `${particle.size}px`,
             animationDelay: `${particle.delay}s`,
             animationDuration: `${particle.duration}s`,
+            willChange: 'transform, opacity', // GPU acceleration hint
           }}
         />
       ))}

@@ -21,6 +21,13 @@ const TradingChartBackground = () => {
     // Mobile detection
     const isMobile = window.innerWidth < 768;
     
+    // Pause animation when tab is hidden to save resources
+    let isAnimating = true;
+    const handleVisibilityChange = () => {
+      isAnimating = !document.hidden;
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
     // Trading floor grid
     const gridOffset = { x: 0, y: 0 };
     const drawGrid = () => {
@@ -97,7 +104,7 @@ const TradingChartBackground = () => {
       candleData.push(generateCandle(i));
     }
 
-    // Glowing particles
+    // Glowing particles - reduced count for performance
     interface Particle {
       x: number;
       y: number;
@@ -109,7 +116,7 @@ const TradingChartBackground = () => {
     }
     
     const particles: Particle[] = [];
-    const particleCount = isMobile ? 15 : 30;
+    const particleCount = isMobile ? 8 : 15; // Reduced from 15/30
     
     for (let i = 0; i < particleCount; i++) {
       particles.push({
@@ -126,9 +133,13 @@ const TradingChartBackground = () => {
     let animationOffset = 0;
     let candleIndex = numCandles;
     let frame = 0;
+    let animationId: number;
     
     const animate = () => {
-      if (!ctx || !canvas) return;
+      if (!ctx || !canvas || !isAnimating) {
+        animationId = requestAnimationFrame(animate);
+        return;
+      }
       frame++;
       
       // Clear canvas with gradient background
@@ -139,9 +150,9 @@ const TradingChartBackground = () => {
       ctx.fillStyle = bgGradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Animate grid
-      gridOffset.x -= 0.2;
-      gridOffset.y -= 0.1;
+      // Animate grid - reduced speed for performance
+      gridOffset.x -= 0.1; // Reduced from 0.2
+      gridOffset.y -= 0.05; // Reduced from 0.1
       drawGrid();
 
       // Draw and animate particles
@@ -189,8 +200,8 @@ const TradingChartBackground = () => {
         });
       });
 
-      // Animate candlesticks
-      animationOffset += 0.8;
+      // Animate candlesticks - reduced speed for performance
+      animationOffset += 0.4; // Reduced from 0.8
       if (animationOffset >= candleWidth) {
         animationOffset = 0;
         
@@ -242,13 +253,15 @@ const TradingChartBackground = () => {
         ctx.shadowBlur = 0;
       });
 
-      requestAnimationFrame(animate);
+      animationId = requestAnimationFrame(animate);
     };
 
     animate();
 
     return () => {
       window.removeEventListener('resize', setCanvasSize);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      cancelAnimationFrame(animationId);
     };
   }, []);
 

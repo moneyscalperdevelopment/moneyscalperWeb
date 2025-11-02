@@ -110,13 +110,14 @@ All colors MUST be HSL.
     min-height: 100vh;
   }
 
-  /* Futuristic Animations */
+  /* Futuristic Animations - Optimized for performance */
   .floating-element {
-    animation: float 6s ease-in-out infinite;
+    animation: float 8s ease-in-out infinite; /* Slower for performance */
+    will-change: transform; /* GPU acceleration */
   }
 
   .glow-pulse {
-    animation: glow-pulse 2s ease-in-out infinite alternate;
+    animation: glow-pulse 3s ease-in-out infinite alternate; /* Slower for performance */
   }
 
   .cyber-glow {
@@ -142,7 +143,8 @@ All colors MUST be HSL.
     background: hsl(var(--primary));
     border-radius: 50%;
     opacity: 0.3;
-    animation: particle-float 8s linear infinite;
+    animation: particle-float 10s linear infinite; /* Slower for performance */
+    will-change: transform, opacity; /* GPU acceleration */
   }
 
   @keyframes float {
