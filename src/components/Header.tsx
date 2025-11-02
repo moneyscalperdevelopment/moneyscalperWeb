@@ -16,6 +16,14 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
   
+  const handleHomeClick = () => {
+    navigate('/');
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
+    setMobileMenuOpen(false);
+  };
+
   const scrollToSection = (sectionId: string) => {
     // If not on home page, navigate to home first
     if (location.pathname !== '/') {
@@ -63,13 +71,12 @@ const Header = () => {
                 <SheetTitle className="text-left">Menu</SheetTitle>
               </SheetHeader>
               <nav className="flex flex-col gap-4 mt-8">
-                <Link
-                  to="/"
-                  onClick={() => setMobileMenuOpen(false)}
+                <button
+                  onClick={handleHomeClick}
                   className="text-left py-3 px-4 rounded-lg hover:bg-accent transition-colors text-lg font-medium"
                 >
                   Home
-                </Link>
+                </button>
                 <Link
                   to="/about"
                   onClick={() => setMobileMenuOpen(false)}
@@ -110,8 +117,12 @@ const Header = () => {
           <NavigationMenu className="hidden md:flex">
             <NavigationMenuList>
               <NavigationMenuItem>
-                <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                  <Link to="/">Home</Link>
+                <NavigationMenuLink 
+                  className={navigationMenuTriggerStyle()} 
+                  onClick={handleHomeClick}
+                  style={{ cursor: 'pointer' }}
+                >
+                  Home
                 </NavigationMenuLink>
               </NavigationMenuItem>
               <NavigationMenuItem>
