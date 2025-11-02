@@ -2,7 +2,7 @@ import { CheckCircle, X } from "lucide-react";
 import { motion } from "motion/react";
 import { Meteors } from "@/components/ui/meteors";
 import discordIcon from "@/assets/discord-icon.png";
-import telegramIcon from "@/assets/telegram-icon.png";
+import telegramIcon from "@/assets/telegram-icon-circle.png";
 
 interface SuccessPopupProps {
   isVisible: boolean;
