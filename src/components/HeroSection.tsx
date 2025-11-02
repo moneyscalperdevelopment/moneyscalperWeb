@@ -81,7 +81,7 @@ const HeroSection = () => {
           country: userData.country,
           to_name: 'Money Scalper'
         },
-        '-XtWp493g7vwVe6q_-'
+        'XtWp493g7vwVe6q_-'
       );
       
       console.log("Email sent successfully:", emailResult);
