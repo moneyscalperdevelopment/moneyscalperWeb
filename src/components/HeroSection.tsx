@@ -11,9 +11,6 @@ import { SuccessPopup } from "@/components/SuccessPopup";
 import TradingChartBackground from "@/components/TradingChartBackground";
 import { useWaitlistCounter } from "@/hooks/useWaitlistCounter";
 import { toast } from "sonner";
-
-// Initialize EmailJS for Pre-registration
-emailjs.init('-XtWp493g7vwVe6q_-');
 const HeroSection = () => {
   const { count: traderCount, incrementCounter } = useWaitlistCounter();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -100,9 +97,10 @@ const HeroSection = () => {
       }, 100); // Small delay to ensure dialog closes first
       
       form.reset();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error during registration:', error);
-      toast.error("Registration failed. Please check your details and try again.");
+      const msg = error?.text || error?.message || 'Please check your details and try again.';
+      toast.error(`Registration failed: ${msg}`);
     } finally {
       setIsSubmitting(false);
     }
