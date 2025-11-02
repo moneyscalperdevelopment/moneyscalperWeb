@@ -4,6 +4,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import { Lightbulb, Shield, Zap, Heart, Bot, TrendingUp, Wallet, BookOpen, Signal, BarChart } from "lucide-react";
 import Header from "@/components/Header";
+import gmailIcon from "@/assets/gmail-icon.png";
+import telegramIcon from "@/assets/telegram-icon-circle.png";
 
 const About = () => {
   const values = [
@@ -240,10 +242,23 @@ const About = () => {
               <Button asChild size="lg" className="text-base">
                 <Link to="/#get-started">Get Started Now</Link>
               </Button>
-              <div className="pt-8 space-y-2 text-muted-foreground">
-                <p>www.moneyscalper.com</p>
-                <p>support@moneyscalper.com</p>
-                <p>Telegram Support</p>
+              <div className="pt-8 flex gap-6 justify-center items-center">
+                <a 
+                  href="mailto:contact@moneyscalper.com" 
+                  className="transition-transform hover:scale-110"
+                  aria-label="Email us at contact@moneyscalper.com"
+                >
+                  <img src={gmailIcon} alt="Email" className="w-12 h-12" />
+                </a>
+                <a 
+                  href="https://t.me/moneyscalper" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="transition-transform hover:scale-110"
+                  aria-label="Join us on Telegram"
+                >
+                  <img src={telegramIcon} alt="Telegram" className="w-12 h-12" />
+                </a>
               </div>
             </div>
           </div>

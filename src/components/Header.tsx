@@ -57,7 +57,7 @@ const Header = () => {
                   onClick={() => setMobileMenuOpen(false)}
                   className="text-left py-3 px-4 rounded-lg hover:bg-accent transition-colors text-lg font-medium"
                 >
-                  About
+                  About Us
                 </Link>
                 <button
                   onClick={() => scrollToSection('pricing')}
@@ -98,7 +98,7 @@ const Header = () => {
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                  <Link to="/about">About</Link>
+                  <Link to="/about">About Us</Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
               <NavigationMenuItem>
