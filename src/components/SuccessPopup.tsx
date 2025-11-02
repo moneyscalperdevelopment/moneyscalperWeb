@@ -139,14 +139,14 @@ export const SuccessPopup = ({
                 Registration Successful!
               </motion.h2>
               
-              <motion.p className="text-blue-200/90 text-lg md:text-xl font-medium flex items-center justify-center gap-2" initial={{
+              <motion.p className="text-blue-200/90 text-lg md:text-xl font-medium" initial={{
               opacity: 0
             }} animate={{
               opacity: 1
             }} transition={{
               delay: 0.7
             }}>
-                <span>🚀</span> Welcome to the future of trading!
+                Welcome to the future of trading!
               </motion.p>
               <motion.p className="text-blue-300/80 text-sm md:text-base px-4" initial={{
               opacity: 0
