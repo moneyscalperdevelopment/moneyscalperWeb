@@ -148,7 +148,7 @@ const HeroSection = () => {
                 <span className="text">Pre-register</span>
               </button>
             </DialogTrigger>
-            <DialogContent className="shadow-input mx-auto w-[95%] sm:w-full max-w-md rounded-lg sm:rounded-2xl bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 p-4 sm:p-6 md:p-8 border border-blue-800/50">
+            <DialogContent className="w-[90vw] max-w-[450px] max-h-[85vh] overflow-y-auto bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800 border border-blue-800/50">
               <h2 className="text-xl sm:text-2xl font-bold text-white">
                 Welcome to MoneyScalper
               </h2>

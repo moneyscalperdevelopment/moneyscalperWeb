@@ -91,7 +91,7 @@ const PricingPlans = () => {
                         Get Started
                       </Button>
                     </DialogTrigger>
-                    <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto mx-auto w-[95%] sm:w-full">
+                    <DialogContent className="w-[90vw] max-w-[450px] max-h-[85vh] overflow-y-auto">
                       <DialogHeader>
                         <DialogTitle>Register for {plan.name} Plan</DialogTitle>
                       </DialogHeader>

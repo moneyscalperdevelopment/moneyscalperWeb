@@ -84,7 +84,7 @@ export default function CareerForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 max-h-[70vh] overflow-y-auto pr-2">
+    <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6 pr-2">
       {/* Personal Information */}
       <div className="space-y-4">
         <h3 className="text-lg font-semibold text-primary">Personal Information</h3>

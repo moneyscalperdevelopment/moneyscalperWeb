@@ -41,7 +41,7 @@ const FinalCTA = () => {
                 </Button>
               </motion.div>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-lg">
+            <DialogContent className="w-[90vw] max-w-[500px] max-h-[85vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle className="text-3xl font-bold text-center bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
                   Get In Touch

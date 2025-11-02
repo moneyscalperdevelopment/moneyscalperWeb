@@ -163,7 +163,7 @@ const Header = () => {
                 Join Now
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-lg">
+            <DialogContent className="w-[90vw] max-w-[500px] max-h-[85vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle className="text-3xl font-bold text-center bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
                   Join Us Now
@@ -229,7 +229,7 @@ const Header = () => {
 
           {/* Career Dialog */}
           <Dialog open={careerDialogOpen} onOpenChange={setCareerDialogOpen}>
-            <DialogContent className="sm:max-w-4xl">
+            <DialogContent className="w-[90vw] max-w-[900px] max-h-[90vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle className="text-3xl font-bold text-center bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
                   Career at Money Scalper
