@@ -141,7 +141,7 @@ const Header = () => {
                   Join Us Now
                 </DialogTitle>
                 <DialogDescription className="text-center text-base pt-2">
-                  Master The Market With real-time Expert Support
+                  Master The Market With Real-time Expert Support
                 </DialogDescription>
               </DialogHeader>
               <div className="flex flex-col gap-4 py-6">
