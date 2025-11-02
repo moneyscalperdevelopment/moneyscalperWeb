@@ -6,6 +6,7 @@ import { Lightbulb, Shield, Zap, Heart, Bot, TrendingUp, Wallet, BookOpen, Signa
 import Header from "@/components/Header";
 import gmailIcon from "@/assets/gmail-icon.png";
 import telegramIcon from "@/assets/telegram-icon-circle.png";
+import instagramIcon from "@/assets/instagram-icon.png";
 
 const About = () => {
   const values = [
@@ -258,6 +259,15 @@ const About = () => {
                   aria-label="Join us on Telegram"
                 >
                   <img src={telegramIcon} alt="Telegram" className="w-12 h-12" />
+                </a>
+                <a 
+                  href="https://www.instagram.com/money_scalper?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="transition-transform hover:scale-110"
+                  aria-label="Follow us on Instagram"
+                >
+                  <img src={instagramIcon} alt="Instagram" className="w-12 h-12" />
                 </a>
               </div>
             </div>
