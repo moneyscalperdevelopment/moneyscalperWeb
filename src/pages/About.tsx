@@ -121,7 +121,7 @@ const About = () => {
                       className="group flex items-center gap-4 p-6 rounded-xl bg-[#5865F2] hover:bg-[#4752C4] transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-[1.02] transform"
                     >
                       <div className="bg-white rounded-lg p-2 shadow-md">
-                        <img src={discordIcon} alt="Discord" className="w-14 h-14 object-contain" />
+                        <img src={discordIcon} alt="Discord" className="w-14 h-14 object-contain" loading="eager" fetchPriority="high" decoding="async" />
                       </div>
                       <div className="flex-1 text-white">
                         <h3 className="font-bold text-xl mb-1">Discord Community</h3>
@@ -136,7 +136,7 @@ const About = () => {
                       className="group flex items-center gap-4 p-6 rounded-xl bg-[#0088cc] hover:bg-[#006699] transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-[1.02] transform"
                     >
                       <div className="bg-white rounded-lg p-2 shadow-md">
-                        <img src={telegramIconNew} alt="Telegram" className="w-14 h-14 object-contain" />
+                        <img src={telegramIconNew} alt="Telegram" className="w-14 h-14 object-contain" loading="eager" fetchPriority="high" decoding="async" />
                       </div>
                       <div className="flex-1 text-white">
                         <h3 className="font-bold text-xl mb-1">Telegram Channel</h3>
@@ -151,7 +151,7 @@ const About = () => {
                       className="group flex items-center gap-4 p-6 rounded-xl bg-gradient-to-tr from-purple-600 via-pink-600 to-orange-500 hover:from-purple-700 hover:via-pink-700 hover:to-orange-600 transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-[1.02] transform"
                     >
                       <div className="bg-white rounded-lg p-2 shadow-md">
-                        <img src={instagramIconNew} alt="Instagram" className="w-14 h-14 object-contain" />
+                        <img src={instagramIconNew} alt="Instagram" className="w-14 h-14 object-contain" loading="eager" fetchPriority="high" decoding="async" />
                       </div>
                       <div className="flex-1 text-white">
                         <h3 className="font-bold text-xl mb-1">Instagram</h3>
