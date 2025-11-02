@@ -36,7 +36,7 @@ const Header = () => {
               <Button 
                 variant="ghost" 
                 size="icon"
-                className="md:hidden"
+                className="md:hidden w-10"
               >
                 <Menu className="h-6 w-6" />
               </Button>
@@ -83,8 +83,8 @@ const Header = () => {
           </Sheet>
 
           {/* Logo - Centered on mobile */}
-          <div className="flex-1 flex items-center justify-center md:justify-start md:flex-initial space-x-2">
-            <span className="text-base sm:text-lg md:text-xl font-bold bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent">
+          <div className="absolute left-1/2 -translate-x-1/2 md:relative md:left-auto md:translate-x-0 md:flex-1">
+            <span className="text-base sm:text-lg md:text-xl font-bold bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent whitespace-nowrap">
               Money Scalper
             </span>
           </div>
