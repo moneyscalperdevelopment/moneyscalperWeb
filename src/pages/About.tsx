@@ -1,12 +1,16 @@
 import { Helmet } from "react-helmet";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Link } from "react-router-dom";
-import { Lightbulb, Shield, Zap, Heart, Bot, TrendingUp, Wallet, BookOpen, Signal, BarChart } from "lucide-react";
+import { Lightbulb, Shield, Zap, Heart, Bot, TrendingUp, Wallet, BookOpen, Signal, BarChart, ArrowRight } from "lucide-react";
 import Header from "@/components/Header";
 import gmailIcon from "@/assets/gmail-icon.png";
 import telegramIcon from "@/assets/telegram-icon-circle.png";
 import instagramIcon from "@/assets/instagram-icon.png";
+import discordIcon from "@/assets/discord-icon-new.png";
+import telegramIconNew from "@/assets/telegram-icon-new.png";
+import instagramIconNew from "@/assets/instagram-icon-new.png";
 
 const About = () => {
   const values = [
@@ -94,9 +98,75 @@ const About = () => {
               <Button asChild size="lg" className="text-base">
                 <Link to="/#get-started">Start Trading Smarter</Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="text-base">
-                <Link to="/#community">Join Community</Link>
-              </Button>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button size="lg" variant="outline" className="text-base">
+                    Join Us
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="w-[90vw] max-w-[500px] max-h-[85vh] overflow-y-auto">
+                  <DialogHeader>
+                    <DialogTitle className="text-3xl font-bold text-center bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+                      Join Us Now
+                    </DialogTitle>
+                    <DialogDescription className="text-center text-base pt-2">
+                      Master The Market With Real-time Expert Support
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="flex flex-col gap-4 py-6">
+                    <a 
+                      href="https://discord.gg/VNkhzUGw" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="group flex items-center gap-4 p-6 rounded-xl bg-[#5865F2] hover:bg-[#4752C4] transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-[1.02] transform"
+                    >
+                      <div className="bg-white rounded-lg p-2 shadow-md">
+                        <img src={discordIcon} alt="Discord" className="w-14 h-14 object-contain" />
+                      </div>
+                      <div className="flex-1 text-white">
+                        <h3 className="font-bold text-xl mb-1">Discord Community</h3>
+                        <p className="text-sm text-white/90">Join 10,000+ active traders</p>
+                      </div>
+                      <ArrowRight className="w-6 h-6 text-white/80 group-hover:translate-x-1 transition-transform" />
+                    </a>
+                    <a 
+                      href="https://t.me/+lARYvYyc_odjODY1" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="group flex items-center gap-4 p-6 rounded-xl bg-[#0088cc] hover:bg-[#006699] transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-[1.02] transform"
+                    >
+                      <div className="bg-white rounded-lg p-2 shadow-md">
+                        <img src={telegramIconNew} alt="Telegram" className="w-14 h-14 object-contain" />
+                      </div>
+                      <div className="flex-1 text-white">
+                        <h3 className="font-bold text-xl mb-1">Telegram Channel</h3>
+                        <p className="text-sm text-white/90">Get instant trading signals</p>
+                      </div>
+                      <ArrowRight className="w-6 h-6 text-white/80 group-hover:translate-x-1 transition-transform" />
+                    </a>
+                    <a 
+                      href="https://www.instagram.com/money_scalper?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="group flex items-center gap-4 p-6 rounded-xl bg-gradient-to-tr from-purple-600 via-pink-600 to-orange-500 hover:from-purple-700 hover:via-pink-700 hover:to-orange-600 transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-[1.02] transform"
+                    >
+                      <div className="bg-white rounded-lg p-2 shadow-md">
+                        <img src={instagramIconNew} alt="Instagram" className="w-14 h-14 object-contain" />
+                      </div>
+                      <div className="flex-1 text-white">
+                        <h3 className="font-bold text-xl mb-1">Instagram</h3>
+                        <p className="text-sm text-white/90">Follow us for updates</p>
+                      </div>
+                      <ArrowRight className="w-6 h-6 text-white/80 group-hover:translate-x-1 transition-transform" />
+                    </a>
+                  </div>
+                  <div className="text-center pt-2 pb-2">
+                    <p className="text-sm text-muted-foreground">
+                      🔒 Secure • 🚀 Active 24/7 • 💬 Expert Support
+                    </p>
+                  </div>
+                </DialogContent>
+              </Dialog>
             </div>
           </div>
         </section>
