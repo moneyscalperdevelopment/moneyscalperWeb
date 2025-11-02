@@ -10,6 +10,8 @@ import { sendEmail } from "@/utils/emailconfig";
 import { SuccessPopup } from "@/components/SuccessPopup";
 import TradingChartBackground from "@/components/TradingChartBackground";
 import { useWaitlistCounter } from "@/hooks/useWaitlistCounter";
+import { toast } from "sonner";
+import emailjs from "@emailjs/browser";
 const HeroSection = () => {
   const { count: traderCount, incrementCounter } = useWaitlistCounter();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -22,16 +24,34 @@ const HeroSection = () => {
     const formData = new FormData(form);
     
     const userData = {
-      firstName: String(formData.get('firstname') || ''),
-      lastName: String(formData.get('lastname') || ''),
-      email: String(formData.get('email') || ''),
-      contactNumber: String(formData.get('contact') || ''),
-      country: String(formData.get('country') || '')
+      firstName: String(formData.get('firstname') || '').trim(),
+      lastName: String(formData.get('lastname') || '').trim(),
+      email: String(formData.get('email') || '').trim(),
+      contactNumber: String(formData.get('contact') || '').trim(),
+      country: String(formData.get('country') || '').trim()
     };
+
+    // Validate inputs
+    if (!userData.firstName || !userData.lastName || !userData.email || !userData.contactNumber || !userData.country) {
+      toast.error("Please fill in all fields");
+      setIsSubmitting(false);
+      return;
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(userData.email)) {
+      toast.error("Please enter a valid email address");
+      setIsSubmitting(false);
+      return;
+    }
+    
+    console.log("Starting registration for:", userData.email);
     
     try {
       // Submit to Google Sheets
-      await fetch(
+      console.log("Submitting to Google Sheets...");
+      const sheetsResponse = await fetch(
         "https://script.google.com/macros/s/AKfycbw27vL5_kC_lXcbnVq2xyC1fdbRkSbVh0mvYwPCpwv-JGYkdRwxIOMpPbsWLCFJyM8GCQ/exec",
         {
           method: "POST",
@@ -46,25 +66,41 @@ const HeroSection = () => {
           headers: { "Content-Type": "application/json" }
         }
       );
+      console.log("Google Sheets submission completed (no-cors mode)");
       
-      // Send email notification
-      const { success } = await sendEmail(userData);
+      // Send email notification via EmailJS
+      console.log("Sending email via EmailJS...");
+      const emailResult = await emailjs.send(
+        'service_o5z56fm',
+        'template_rak8f58',
+        {
+          source: 'Pre-Registration',
+          first_name: userData.firstName,
+          last_name: userData.lastName,
+          from_email: userData.email,
+          contact_number: userData.contactNumber,
+          country: userData.country,
+          to_name: 'Money Scalper'
+        },
+        'AnyGKIBS05v_ugsa4'
+      );
       
-      if (success) {
-        console.log("Registration successful, showing popup");
-        incrementCounter(); // Increment the waitlist counter
-        setIsDialogOpen(false); // Close the dialog first
-        setTimeout(() => {
-          console.log("Setting showSuccessPopup to true");
-          setShowSuccessPopup(true);
-        }, 100); // Small delay to ensure dialog closes first
-        form.reset();
-      } else {
-        throw new Error('Email send failed');
-      }
+      console.log("Email sent successfully:", emailResult);
+      console.log("Registration successful, showing popup");
+      
+      incrementCounter(); // Increment the waitlist counter
+      toast.success("Registration successful! Check your email.");
+      setIsDialogOpen(false); // Close the dialog first
+      
+      setTimeout(() => {
+        console.log("Setting showSuccessPopup to true");
+        setShowSuccessPopup(true);
+      }, 100); // Small delay to ensure dialog closes first
+      
+      form.reset();
     } catch (error) {
       console.error('Error during registration:', error);
-      alert("Registration failed. Please try again.");
+      toast.error("Registration failed. Please check your details and try again.");
     } finally {
       setIsSubmitting(false);
     }
