@@ -1,4 +1,4 @@
-import { CheckCircle, X, Sparkles } from "lucide-react";
+import { X } from "lucide-react";
 import { motion } from "motion/react";
 import { Meteors } from "@/components/ui/meteors";
 import discordIcon from "@/assets/discord-icon-new.png";
@@ -79,42 +79,6 @@ export const SuccessPopup = ({
           <div aria-hidden className="absolute bottom-0 right-0 w-full h-1 bg-gradient-to-r from-transparent via-purple-400 to-transparent animate-pulse pointer-events-none z-0" style={{
           animationDelay: '1s'
         }} />
-          
-          {/* Success icon */}
-          <motion.div className="flex justify-center mb-6" initial={{
-          scale: 0,
-          rotate: -180
-        }} animate={{
-          scale: 1,
-          rotate: 0
-        }} transition={{
-          delay: 0.3,
-          type: "spring",
-          damping: 15
-        }}>
-            <div className="relative">
-              <div className="absolute inset-0 bg-green-500/30 rounded-full blur-3xl animate-pulse scale-150" />
-              <motion.div animate={{
-              scale: [1, 1.1, 1],
-              rotate: [0, 5, -5, 0]
-            }} transition={{
-              duration: 2,
-              repeat: Infinity,
-              repeatType: "reverse"
-            }}>
-                <CheckCircle className="w-20 h-20 text-green-400 relative z-10 filter drop-shadow-[0_0_25px_rgba(34,197,94,0.9)]" />
-              </motion.div>
-              <motion.div className="absolute -top-2 -right-2" animate={{
-              scale: [1, 1.3, 1],
-              rotate: [0, 180, 360]
-            }} transition={{
-              duration: 3,
-              repeat: Infinity
-            }}>
-                <Sparkles className="w-8 h-8 text-yellow-400 filter drop-shadow-[0_0_10px_rgba(250,204,21,0.8)]" />
-              </motion.div>
-            </div>
-          </motion.div>
           
           {/* Success message */}
           <motion.div className="text-center space-y-6" initial={{
