@@ -6,6 +6,7 @@ import discordIcon from "@/assets/discord-logo.jpg";
 import telegramIcon from "@/assets/telegram-logo.webp";
 import { ArrowRight, Menu } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import CareerForm from "@/components/CareerForm";
 const Header = () => {
   const [careerDialogOpen, setCareerDialogOpen] = useState(false);
@@ -44,12 +45,20 @@ const Header = () => {
                 <SheetTitle className="text-left">Menu</SheetTitle>
               </SheetHeader>
               <nav className="flex flex-col gap-4 mt-8">
-                <button
-                  onClick={() => scrollToSection('about')}
+                <Link
+                  to="/"
+                  onClick={() => setMobileMenuOpen(false)}
                   className="text-left py-3 px-4 rounded-lg hover:bg-accent transition-colors text-lg font-medium"
                 >
-                  About Us
-                </button>
+                  Home
+                </Link>
+                <Link
+                  to="/about"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-left py-3 px-4 rounded-lg hover:bg-accent transition-colors text-lg font-medium"
+                >
+                  About
+                </Link>
                 <button
                   onClick={() => scrollToSection('pricing')}
                   className="text-left py-3 px-4 rounded-lg hover:bg-accent transition-colors text-lg font-medium"
@@ -83,10 +92,13 @@ const Header = () => {
           <NavigationMenu className="hidden md:flex">
             <NavigationMenuList>
               <NavigationMenuItem>
-                <NavigationMenuLink className={navigationMenuTriggerStyle()} onClick={() => scrollToSection('about')} style={{
-                cursor: 'pointer'
-              }}>
-                  About Us
+                <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+                  <Link to="/">Home</Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+                  <Link to="/about">About</Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
               <NavigationMenuItem>
