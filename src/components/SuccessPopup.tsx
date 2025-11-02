@@ -16,7 +16,7 @@ export const SuccessPopup = ({
   if (!isVisible) return null;
   const handleDiscordRedirect = () => {
     console.log("Discord button clicked");
-    window.open("https://discord.gg/VNkhzUGw", "_blank");
+    window.open("https://discord.gg/QjQqxheB", "_blank");
   };
   const handleTelegramRedirect = () => {
     console.log("Telegram button clicked");
@@ -24,7 +24,7 @@ export const SuccessPopup = ({
   };
   const handleInstagramRedirect = () => {
     console.log("Instagram button clicked");
-    window.open("https://www.instagram.com/moneyscalper", "_blank");
+    window.open("https://www.instagram.com/money_scalper?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==", "_blank");
   };
   return <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
       <motion.div className="absolute inset-0 bg-black/40 backdrop-blur-sm pointer-events-auto" onClick={onClose} initial={{
