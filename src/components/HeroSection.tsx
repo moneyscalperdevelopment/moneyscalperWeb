@@ -6,11 +6,14 @@ import { cn } from "@/lib/utils";
 import { Zap } from "lucide-react";
 import heroImage from "@/assets/hero-crypto.jpg";
 import { useState, useEffect } from "react";
-import { sendEmail } from "@/utils/emailconfig";
+import emailjs from "@emailjs/browser";
 import { SuccessPopup } from "@/components/SuccessPopup";
 import TradingChartBackground from "@/components/TradingChartBackground";
 import { useWaitlistCounter } from "@/hooks/useWaitlistCounter";
 import { toast } from "sonner";
+
+// Initialize EmailJS for Pre-registration
+emailjs.init('-XtWp493g7vwVe6q_-');
 const HeroSection = () => {
   const { count: traderCount, incrementCounter } = useWaitlistCounter();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -69,16 +72,22 @@ const HeroSection = () => {
       
       // Send email notification via EmailJS
       console.log("Sending email via EmailJS...");
-      const emailResult = await sendEmail({
-        ...userData,
-        source: 'Pre-Registration'
-      });
+      const emailResult = await emailjs.send(
+        'service_tdx4qi4',
+        'template_rak8f58',
+        {
+          source: 'Pre-Registration',
+          first_name: userData.firstName,
+          last_name: userData.lastName,
+          from_email: userData.email,
+          contact_number: userData.contactNumber,
+          country: userData.country,
+          to_name: 'Money Scalper'
+        },
+        '-XtWp493g7vwVe6q_-'
+      );
       
-      if (!emailResult.success) {
-        throw emailResult.error;
-      }
-      
-      console.log("Email sent successfully:", emailResult.result);
+      console.log("Email sent successfully:", emailResult);
       console.log("Registration successful, showing popup");
       
       incrementCounter(); // Increment the waitlist counter
