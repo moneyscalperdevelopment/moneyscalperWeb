@@ -225,7 +225,7 @@ const TradingChartBackground = () => {
       // Draw candlesticks with glow
       candleData.forEach((candle) => {
         const x = candle.x - animationOffset;
-        const isGreen = candle.close > candle.open;
+        const isGreen = candle.close < candle.open;
         
         // Glow effect
         ctx.shadowBlur = 8;
