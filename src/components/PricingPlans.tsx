@@ -8,21 +8,21 @@ import RegistrationForm from "@/components/RegistrationForm";
 import { useState } from "react";
 const plans = [{
   name: "Starter",
-  price: "99",
+  price: "1,999",
   period: "week",
   description: "Perfect for beginners",
   features: ["Basic AI trading bot", "Up to ₹5,000 portfolio", "2 cryptocurrency pairs", "Email support", "Basic analytics"],
   popular: false
 }, {
   name: "Standard",
-  price: "499",
+  price: "2,499",
   period: "month",
   description: "Most popular choice",
   features: ["Advanced AI trading bot", "Up to ₹50,000 portfolio", "10 cryptocurrency pairs", "Priority support 24/7", "Advanced analytics", "Risk management tools"],
   popular: true
 }, {
   name: "Pro",
-  price: "1,499",
+  price: "4,999",
   period: "month",
   description: "For serious traders",
   features: ["Premium AI trading bot", "Unlimited portfolio size", "50+ cryptocurrency pairs", "Dedicated account manager", "Real-time analytics", "Advanced risk management", "API access", "Custom strategies"],
