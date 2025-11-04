@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Link } from "react-router-dom";
 import { Lightbulb, Shield, Zap, Heart, Bot, TrendingUp, Wallet, BookOpen, Signal, BarChart, ArrowRight } from "lucide-react";
 import Header from "@/components/Header";
+import { motion } from "motion/react";
 import gmailIcon from "@/assets/gmail-icon.png";
 import telegramIcon from "@/assets/telegram-icon-circle.png";
 import instagramIcon from "@/assets/instagram-icon.png";
@@ -221,7 +222,9 @@ const About = () => {
         <section className="py-20 px-4 bg-muted/30">
           <div className="container mx-auto max-w-6xl">
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">Core Values</h2>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            {/* Desktop Grid View */}
+            <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {values.map((value, index) => (
                 <Card key={index} className="shadow-md hover:shadow-lg transition-shadow">
                   <CardContent className="p-6 text-center space-y-4">
@@ -233,6 +236,36 @@ const About = () => {
                   </CardContent>
                 </Card>
               ))}
+            </div>
+
+            {/* Mobile Horizontal Scrolling Animation */}
+            <div className="sm:hidden overflow-hidden relative">
+              <motion.div
+                className="flex gap-4"
+                animate={{
+                  x: [0, -1000],
+                }}
+                transition={{
+                  x: {
+                    repeat: Infinity,
+                    repeatType: "loop",
+                    duration: 20,
+                    ease: "linear",
+                  },
+                }}
+              >
+                {[...values, ...values, ...values].map((value, index) => (
+                  <Card key={index} className="shadow-md flex-shrink-0 w-[280px]">
+                    <CardContent className="p-6 text-center space-y-4">
+                      <div className="w-12 h-12 mx-auto bg-primary/10 rounded-full flex items-center justify-center">
+                        <value.icon className="w-6 h-6 text-primary" />
+                      </div>
+                      <h3 className="text-xl font-bold">{value.title}</h3>
+                      <p className="text-muted-foreground text-sm leading-relaxed">{value.description}</p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </motion.div>
             </div>
           </div>
         </section>
