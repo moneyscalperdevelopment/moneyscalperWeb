@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { createChart, ColorType, CandlestickSeries, LineSeries, AreaSeries } from "lightweight-charts";
+import { createChart, ColorType, CandlestickSeries, LineSeries, AreaSeries, BarSeries, HistogramSeries } from "lightweight-charts";
 import { Button } from "@/components/ui/button";
 import { Download, Moon, Sun } from "lucide-react";
 import Header from "@/components/Header";
@@ -15,10 +15,12 @@ const Market = () => {
   const [loading, setLoading] = useState(true);
   const [currentPrice, setCurrentPrice] = useState<number>(0);
   const [priceChange, setPriceChange] = useState<number>(0);
-  const [chartType, setChartType] = useState<"candlestick" | "line" | "area">("candlestick");
+  const [chartType, setChartType] = useState<"candlestick" | "line" | "area" | "bars" | "hlc">("candlestick");
   const [isDarkTheme, setIsDarkTheme] = useState(true);
   const [chartData, setChartData] = useState<any[]>([]);
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
+  const [showVolume, setShowVolume] = useState(false);
+  const [scaleType, setScaleType] = useState<"normal" | "logarithmic" | "percentage">("normal");
 
   const coinMap: Record<string, string> = {
     btc: "bitcoin",
@@ -63,7 +65,7 @@ const Market = () => {
     }
   };
 
-  const updateChartType = (newType: "candlestick" | "line" | "area") => {
+  const updateChartType = (newType: "candlestick" | "line" | "area" | "bars" | "hlc") => {
     if (!chartRef.current || !chartData.length) return;
     
     // Remove old series
@@ -81,6 +83,14 @@ const Market = () => {
         borderDownColor: "#ef5350",
         wickUpColor: "#26a69a",
         wickDownColor: "#ef5350",
+      });
+      newSeries.setData(chartData);
+    } else if (newType === "bars") {
+      newSeries = chartRef.current.addSeries(BarSeries, {
+        upColor: "#26a69a",
+        downColor: "#ef5350",
+        openVisible: true,
+        thinBars: false,
       });
       newSeries.setData(chartData);
     } else if (newType === "line") {
@@ -105,6 +115,15 @@ const Market = () => {
         value: d.close,
       }));
       newSeries.setData(areaData);
+    } else if (newType === "hlc") {
+      // HLC using bar series
+      newSeries = chartRef.current.addSeries(BarSeries, {
+        upColor: "#26a69a",
+        downColor: "#ef5350",
+        openVisible: false,
+        thinBars: true,
+      });
+      newSeries.setData(chartData);
     }
 
     seriesRef.current = newSeries;
@@ -127,7 +146,8 @@ const Market = () => {
       },
       rightPriceScale: { 
         borderVisible: false,
-        scaleMargins: { top: 0.1, bottom: 0.2 }
+        scaleMargins: { top: 0.1, bottom: 0.2 },
+        mode: scaleType === "logarithmic" ? 1 : scaleType === "percentage" ? 2 : 0,
       },
       timeScale: { 
         borderVisible: false, 
@@ -239,10 +259,14 @@ const Market = () => {
   }, [coinId, days, chartType]);
 
   useEffect(() => {
-    if (chartData.length > 0) {
-      updateChartType(chartType);
+    if (chartRef.current) {
+      chartRef.current.applyOptions({
+        rightPriceScale: {
+          mode: scaleType === "logarithmic" ? 1 : scaleType === "percentage" ? 2 : 0,
+        },
+      });
     }
-  }, [chartType]);
+  }, [scaleType]);
 
   const bgColor = isDarkTheme ? "#0D0D2B" : "#f5f5f5";
   const cardBg = isDarkTheme ? "#1a1a2e" : "#ffffff";
@@ -310,7 +334,7 @@ const Market = () => {
           {/* Chart Type & Timeframe Controls */}
           <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
             {/* Chart Type Selector */}
-            <div className="flex gap-2">
+            <div className="flex gap-2 flex-wrap">
               <Button
                 variant={chartType === "candlestick" ? "default" : "outline"}
                 size="sm"
@@ -318,6 +342,22 @@ const Market = () => {
                 className={chartType !== "candlestick" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}
               >
                 Candlestick
+              </Button>
+              <Button
+                variant={chartType === "bars" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setChartType("bars")}
+                className={chartType !== "bars" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}
+              >
+                Bars
+              </Button>
+              <Button
+                variant={chartType === "hlc" ? "default" : "outline"}
+                size="sm"
+                onClick={() => setChartType("hlc")}
+                className={chartType !== "hlc" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}
+              >
+                HLC
               </Button>
               <Button
                 variant={chartType === "line" ? "default" : "outline"}
@@ -338,7 +378,7 @@ const Market = () => {
             </div>
 
             {/* Timeframe Buttons */}
-            <div className="flex gap-2 flex-wrap">
+            <div className="flex gap-2 flex-wrap items-center">
               {timeframes.map((tf) => (
                 <Button
                   key={tf.value}
@@ -350,6 +390,37 @@ const Market = () => {
                   {tf.label}
                 </Button>
               ))}
+              
+              {/* Price Scale Options */}
+              <div className="flex gap-1 ml-2 border-l pl-2">
+                <Button
+                  variant={scaleType === "normal" ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setScaleType("normal")}
+                  className={scaleType !== "normal" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}
+                  title="Normal Scale"
+                >
+                  Normal
+                </Button>
+                <Button
+                  variant={scaleType === "logarithmic" ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setScaleType("logarithmic")}
+                  className={scaleType !== "logarithmic" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}
+                  title="Logarithmic Scale"
+                >
+                  Log
+                </Button>
+                <Button
+                  variant={scaleType === "percentage" ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setScaleType("percentage")}
+                  className={scaleType !== "percentage" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}
+                  title="Percentage Scale"
+                >
+                  %
+                </Button>
+              </div>
             </div>
           </div>
         </div>
@@ -374,7 +445,7 @@ const Market = () => {
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
               <span className={`text-sm ${isDarkTheme ? 'text-gray-400' : 'text-gray-600'}`}>
-                Live • Updated {lastUpdate.toLocaleTimeString()}
+                Live
               </span>
             </div>
           </div>
