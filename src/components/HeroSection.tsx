@@ -183,34 +183,18 @@ const HeroSection = () => {
                   </div>
                 </div>
 
-                {/* Footer with CTAs */}
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
+                {/* Footer with CTA */}
+                <div className="flex flex-col items-stretch gap-3 pt-2">
                   {/* Primary CTA - Pill Button */}
                   <button
                     onClick={() => navigate('/market/bitcoin')}
-                    className="group/btn relative flex-1 px-6 py-4 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 rounded-full font-bold text-base sm:text-lg text-white shadow-[0_0_30px_rgba(34,197,94,0.4)] hover:shadow-[0_0_50px_rgba(34,197,94,0.6)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+                    className="group/btn relative w-full px-6 py-4 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 rounded-full font-bold text-base sm:text-lg text-white shadow-[0_0_30px_rgba(34,197,94,0.4)] hover:shadow-[0_0_50px_rgba(34,197,94,0.6)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
                   >
                     <span className="flex items-center justify-center gap-2">
                       <TrendingUp className="w-5 h-5" />
                       <span>View Live Markets</span>
                     </span>
                     <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-shimmer" />
-                  </button>
-
-                  {/* Secondary CTA - Round Arrow Button */}
-                  <button
-                    onClick={() => navigate('/market/ethereum')}
-                    className="w-full sm:w-14 h-14 rounded-full bg-card/50 border border-primary/30 hover:border-primary hover:bg-primary/10 flex items-center justify-center transition-all duration-300 hover:scale-110 hover:rotate-12 group/arrow"
-                    aria-label="Quick access to Ethereum market"
-                  >
-                    <svg 
-                      className="w-6 h-6 text-primary group-hover/arrow:translate-x-0.5 transition-transform" 
-                      fill="none" 
-                      viewBox="0 0 24 24" 
-                      stroke="currentColor"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                    </svg>
                   </button>
                 </div>
               </div>
