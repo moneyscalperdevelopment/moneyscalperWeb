@@ -219,9 +219,11 @@ const Market = () => {
         setLastUpdate(new Date());
 
         if (seriesRef.current && formattedData.length > 0) {
-          if (chartType === "candlestick") {
+          // Update data based on current chart type
+          if (chartType === "candlestick" || chartType === "bars" || chartType === "hlc") {
             seriesRef.current.setData(formattedData);
           } else {
+            // For line and area charts, convert to simple value format
             const convertedData = formattedData.map((d: any) => ({
               time: d.time,
               value: d.close,
