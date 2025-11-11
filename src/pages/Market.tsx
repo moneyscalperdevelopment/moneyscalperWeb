@@ -299,21 +299,31 @@ const Market = () => {
                 Back
               </Button>
               
-              <select
-                value={coinId}
-                onChange={(e) => handleCoinChange(e.target.value)}
-                className={`border rounded-lg px-4 py-2 text-lg font-bold focus:outline-none focus:ring-2 focus:ring-primary min-w-[180px] ${
-                  isDarkTheme 
-                    ? 'border-gray-700 bg-[#1a1a2e] text-white' 
-                    : 'border-gray-300 bg-white text-gray-900'
-                }`}
-              >
-                {availableCoins.map((coin) => (
-                  <option key={coin.id} value={coin.id}>
-                    {coin.name} ({coin.symbol})
-                  </option>
-                ))}
-              </select>
+              {/* Bitcoin/Ethereum Toggle Switcher */}
+              <div className={`inline-flex rounded-lg border p-1 ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700' : 'bg-white border-gray-300'}`}>
+                <Button
+                  variant={coinId === "bitcoin" ? "default" : "ghost"}
+                  size="sm"
+                  onClick={() => handleCoinChange("bitcoin")}
+                  className={`px-6 py-2 ${coinId === "bitcoin" ? '' : isDarkTheme ? 'text-white hover:bg-white/10' : 'text-gray-900'}`}
+                >
+                  <span className="flex items-center gap-2">
+                    <span className="text-lg">₿</span>
+                    <span className="font-bold">Bitcoin</span>
+                  </span>
+                </Button>
+                <Button
+                  variant={coinId === "ethereum" ? "default" : "ghost"}
+                  size="sm"
+                  onClick={() => handleCoinChange("ethereum")}
+                  className={`px-6 py-2 ${coinId === "ethereum" ? '' : isDarkTheme ? 'text-white hover:bg-white/10' : 'text-gray-900'}`}
+                >
+                  <span className="flex items-center gap-2">
+                    <span className="text-lg">Ξ</span>
+                    <span className="font-bold">Ethereum</span>
+                  </span>
+                </Button>
+              </div>
               
               <span className={`text-lg ${isDarkTheme ? 'text-gray-400' : 'text-gray-600'}`}>/ USD</span>
             </div>
