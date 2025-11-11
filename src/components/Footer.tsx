@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import ContactDialog from "@/components/ContactDialog";
 import telegramIcon from "@/assets/telegram-icon-new.png";
 import discordIcon from "@/assets/discord-icon-new.png";
 import instagramIcon from "@/assets/instagram-icon-new.png";
@@ -113,9 +114,11 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <a href="#contact" className="text-muted-foreground hover:text-primary transition-colors">
-                  Contact Us
-                </a>
+                <ContactDialog>
+                  <button className="text-muted-foreground hover:text-primary transition-colors">
+                    Contact Us
+                  </button>
+                </ContactDialog>
               </li>
             </ul>
           </div>

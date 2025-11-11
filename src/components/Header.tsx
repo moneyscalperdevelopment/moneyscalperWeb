@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import ContactDialog from "@/components/ContactDialog";
 import discordIcon from "@/assets/discord-icon-new.png";
 import telegramIcon from "@/assets/telegram-icon-new.png";
 import instagramIcon from "@/assets/instagram-icon-new.png";
@@ -90,12 +91,14 @@ const Header = () => {
                 >
                   Plans
                 </button>
-                <button
-                  onClick={() => scrollToSection('contact')}
-                  className="text-left py-3 px-4 rounded-lg hover:bg-accent transition-colors text-lg font-medium"
-                >
-                  Contact Us
-                </button>
+                <ContactDialog>
+                  <button
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="w-full text-left py-3 px-4 rounded-lg hover:bg-accent transition-colors text-lg font-medium"
+                  >
+                    Contact Us
+                  </button>
+                </ContactDialog>
               </nav>
             </SheetContent>
           </Sheet>
@@ -135,11 +138,11 @@ const Header = () => {
               }}>Plans</NavigationMenuLink>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <NavigationMenuLink className={navigationMenuTriggerStyle()} onClick={() => scrollToSection('contact')} style={{
-                cursor: 'pointer'
-              }}>
-                  Contact Us
-                </NavigationMenuLink>
+                <ContactDialog>
+                  <NavigationMenuLink className={navigationMenuTriggerStyle()} style={{ cursor: 'pointer' }}>
+                    Contact Us
+                  </NavigationMenuLink>
+                </ContactDialog>
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>

@@ -6,7 +6,6 @@ import LivePrices from "@/components/LivePrices";
 import Testimonials from "@/components/Testimonials";
 import PricingPlans from "@/components/PricingPlans";
 import FAQs from "@/components/FAQs";
-import FinalCTA from "@/components/FinalCTA";
 import Footer from "@/components/Footer";
 import { Toaster } from "@/components/ui/toaster";
 
@@ -25,9 +24,6 @@ const Index = () => {
       </div>
       <Testimonials />
       <FAQs />
-      <div id="contact">
-        <FinalCTA />
-      </div>
       <Footer />
       <Toaster />
     </div>
