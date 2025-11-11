@@ -3,11 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { 
   Briefcase, 
@@ -23,24 +19,10 @@ import {
   BarChart3,
   Headphones
 } from "lucide-react";
-import { toast } from "sonner";
-import { z } from "zod";
-
-const applicationSchema = z.object({
-  fullName: z.string().trim().min(2, "Name must be at least 2 characters").max(100),
-  email: z.string().trim().email("Invalid email address").max(255),
-  phone: z.string().trim().min(10, "Phone number must be at least 10 digits").max(20),
-  position: z.string().trim().min(1, "Please select a position"),
-  linkedIn: z.string().trim().url("Invalid LinkedIn URL").optional().or(z.literal("")),
-  coverLetter: z.string().trim().min(50, "Cover letter must be at least 50 characters").max(2000),
-  resumeFile: z.string().optional()
-});
-
-type ApplicationData = z.infer<typeof applicationSchema>;
 
 const jobListings = [
   {
-    id: 1,
+    id: "1",
     title: "Senior Blockchain Developer",
     department: "Engineering",
     location: "Remote",
@@ -55,7 +37,7 @@ const jobListings = [
     ]
   },
   {
-    id: 2,
+    id: "2",
     title: "Quantitative Trading Analyst",
     department: "Trading",
     location: "New York, NY / Remote",
@@ -70,7 +52,7 @@ const jobListings = [
     ]
   },
   {
-    id: 3,
+    id: "3",
     title: "Product Designer (UI/UX)",
     department: "Design",
     location: "Remote",
@@ -85,7 +67,7 @@ const jobListings = [
     ]
   },
   {
-    id: 4,
+    id: "4",
     title: "Customer Success Manager",
     department: "Support",
     location: "London, UK / Remote",
@@ -100,7 +82,7 @@ const jobListings = [
     ]
   },
   {
-    id: 5,
+    id: "5",
     title: "Security Engineer",
     department: "Security",
     location: "Remote",
@@ -115,7 +97,7 @@ const jobListings = [
     ]
   },
   {
-    id: 6,
+    id: "6",
     title: "Marketing Manager",
     department: "Marketing",
     location: "Remote",
@@ -166,44 +148,6 @@ const benefits = [
 
 const Careers = () => {
   const navigate = useNavigate();
-  const [selectedJob, setSelectedJob] = useState<typeof jobListings[0] | null>(null);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleApply = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    const formData = new FormData(e.currentTarget);
-    const data: Partial<ApplicationData> = {
-      fullName: formData.get("fullName") as string,
-      email: formData.get("email") as string,
-      phone: formData.get("phone") as string,
-      position: selectedJob?.title || "",
-      linkedIn: formData.get("linkedIn") as string,
-      coverLetter: formData.get("coverLetter") as string
-    };
-
-    try {
-      const validated = applicationSchema.parse(data);
-      
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      toast.success("Application submitted successfully! We'll be in touch soon.");
-      setIsDialogOpen(false);
-      e.currentTarget.reset();
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        const firstError = error.errors[0];
-        toast.error(firstError.message);
-      } else {
-        toast.error("Failed to submit application. Please try again.");
-      }
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -328,104 +272,12 @@ const Careers = () => {
                     </ul>
                   </div>
                   
-                  <Dialog open={isDialogOpen && selectedJob?.id === job.id} onOpenChange={(open) => {
-                    setIsDialogOpen(open);
-                    if (!open) setSelectedJob(null);
-                  }}>
-                    <DialogTrigger asChild>
-                      <Button 
-                        className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-all"
-                        onClick={() => setSelectedJob(job)}
-                      >
-                        Apply Now
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-                      <DialogHeader>
-                        <DialogTitle className="text-2xl">Apply for {job.title}</DialogTitle>
-                      </DialogHeader>
-                      
-                      <form onSubmit={handleApply} className="space-y-6 mt-4">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                          <div className="space-y-2">
-                            <Label htmlFor="fullName">Full Name *</Label>
-                            <Input 
-                              id="fullName" 
-                              name="fullName" 
-                              placeholder="John Doe" 
-                              required 
-                            />
-                          </div>
-                          
-                          <div className="space-y-2">
-                            <Label htmlFor="email">Email *</Label>
-                            <Input 
-                              id="email" 
-                              name="email" 
-                              type="email" 
-                              placeholder="john@example.com" 
-                              required 
-                            />
-                          </div>
-                        </div>
-                        
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                          <div className="space-y-2">
-                            <Label htmlFor="phone">Phone Number *</Label>
-                            <Input 
-                              id="phone" 
-                              name="phone" 
-                              type="tel" 
-                              placeholder="+1 (555) 000-0000" 
-                              required 
-                            />
-                          </div>
-                          
-                          <div className="space-y-2">
-                            <Label htmlFor="linkedIn">LinkedIn Profile</Label>
-                            <Input 
-                              id="linkedIn" 
-                              name="linkedIn" 
-                              type="url" 
-                              placeholder="https://linkedin.com/in/yourprofile" 
-                            />
-                          </div>
-                        </div>
-                        
-                        <div className="space-y-2">
-                          <Label htmlFor="coverLetter">Cover Letter *</Label>
-                          <Textarea 
-                            id="coverLetter" 
-                            name="coverLetter" 
-                            placeholder="Tell us why you're a great fit for this role..."
-                            className="min-h-[150px]"
-                            required 
-                          />
-                          <p className="text-xs text-muted-foreground">Minimum 50 characters</p>
-                        </div>
-                        
-                        <div className="space-y-2">
-                          <Label htmlFor="resume">Resume / CV</Label>
-                          <Input 
-                            id="resume" 
-                            name="resume" 
-                            type="file" 
-                            accept=".pdf,.doc,.docx"
-                            className="cursor-pointer"
-                          />
-                          <p className="text-xs text-muted-foreground">PDF, DOC, or DOCX (Max 5MB)</p>
-                        </div>
-                        
-                        <Button 
-                          type="submit" 
-                          className="w-full" 
-                          disabled={isSubmitting}
-                        >
-                          {isSubmitting ? "Submitting..." : "Submit Application"}
-                        </Button>
-                      </form>
-                    </DialogContent>
-                  </Dialog>
+                  <Button 
+                    className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-all"
+                    onClick={() => navigate(`/careers/apply/${job.id}`)}
+                  >
+                    Apply Now
+                  </Button>
                 </CardContent>
               </Card>
             ))}
