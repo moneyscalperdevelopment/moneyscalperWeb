@@ -125,17 +125,17 @@ const Footer = () => {
         <div className="border-t border-border/40 pt-8">
           <div className="flex flex-col items-center gap-6">
             <div className="flex gap-4 justify-center">
-              <a href="https://t.me/moneyscalper" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
-                <img src={telegramIcon} alt="Telegram" className="w-8 h-8" />
+              <a href="https://t.me/moneyscalper" target="_blank" rel="noopener noreferrer" className="hover:scale-110 transition-transform duration-300">
+                <img src={telegramIcon} alt="Telegram" className="w-12 h-12 animate-scale-in" />
               </a>
-              <a href="https://discord.gg/moneyscalper" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
-                <img src={discordIcon} alt="Discord" className="w-8 h-8" />
+              <a href="https://discord.gg/moneyscalper" target="_blank" rel="noopener noreferrer" className="hover:scale-110 transition-transform duration-300">
+                <img src={discordIcon} alt="Discord" className="w-12 h-12 animate-scale-in" style={{ animationDelay: '0.1s' }} />
               </a>
-              <a href="https://instagram.com/moneyscalper" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
-                <img src={instagramIcon} alt="Instagram" className="w-8 h-8" />
+              <a href="https://instagram.com/moneyscalper" target="_blank" rel="noopener noreferrer" className="hover:scale-110 transition-transform duration-300">
+                <img src={instagramIcon} alt="Instagram" className="w-12 h-12 animate-scale-in" style={{ animationDelay: '0.2s' }} />
               </a>
-              <a href="mailto:contact@moneyscalper.com" className="hover:opacity-80 transition-opacity">
-                <img src={gmailIcon} alt="Email" className="w-8 h-8" />
+              <a href="mailto:contact@moneyscalper.com" className="hover:scale-110 transition-transform duration-300">
+                <img src={gmailIcon} alt="Email" className="w-12 h-12 animate-scale-in" style={{ animationDelay: '0.3s' }} />
               </a>
             </div>
             <p className="text-muted-foreground text-sm">© 2025 MoneyScalper. All rights reserved.</p>
