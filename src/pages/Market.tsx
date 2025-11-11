@@ -208,17 +208,15 @@ const Market = () => {
       },
     });
 
-    let series;
-    if (chartType === "candlestick") {
-      series = chart.addSeries(CandlestickSeries, {
-        upColor: "#26a69a",
-        downColor: "#ef5350",
-        borderUpColor: "#26a69a",
-        borderDownColor: "#ef5350",
-        wickUpColor: "#26a69a",
-        wickDownColor: "#ef5350",
-      });
-    }
+    // Always initialize with candlestick series, updateChartType will handle conversion
+    const series = chart.addSeries(CandlestickSeries, {
+      upColor: "#26a69a",
+      downColor: "#ef5350",
+      borderUpColor: "#26a69a",
+      borderDownColor: "#ef5350",
+      wickUpColor: "#26a69a",
+      wickDownColor: "#ef5350",
+    });
 
     chartRef.current = chart;
     seriesRef.current = series;
