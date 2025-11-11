@@ -204,17 +204,28 @@ const Market = () => {
   }, [isDarkTheme]);
 
   useEffect(() => {
+    let isMounted = true;
+    let refreshInterval: NodeJS.Timeout | null = null;
+    
     const loadOHLC = async () => {
-      if (!coinId) return;
+      if (!coinId || !isMounted) return;
       
       setLoading(true);
       try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
+        
         const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/crypto-ohlc?coin=${coinId}&days=${days}&vs=usd`;
-        const res = await fetch(url);
+        const res = await fetch(url, { signal: controller.signal });
+        
+        clearTimeout(timeoutId);
         
         if (!res.ok) throw new Error("Failed to fetch OHLC data");
         
         const formattedData = await res.json();
+        
+        if (!isMounted) return;
+        
         setChartData(formattedData);
         setLastUpdate(new Date());
 
@@ -238,25 +249,39 @@ const Market = () => {
           setCurrentPrice(latestClose);
           setPriceChange(change);
 
-          chartRef.current?.timeScale().fitContent();
+          // Use requestAnimationFrame for smooth rendering
+          requestAnimationFrame(() => {
+            if (chartRef.current && isMounted) {
+              chartRef.current.timeScale().fitContent();
+            }
+          });
         }
       } catch (err) {
-        console.error("Error loading OHLC:", err);
+        if (err.name !== 'AbortError' && isMounted) {
+          console.error("Error loading OHLC:", err);
+        }
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
 
     loadOHLC();
 
-    // Set up auto-refresh every 30 seconds
-    const refreshInterval = setInterval(() => {
-      loadOHLC();
-    }, 30000);
+    // Increased refresh interval to 60 seconds to reduce load
+    refreshInterval = setInterval(() => {
+      if (isMounted) {
+        loadOHLC();
+      }
+    }, 60000);
 
-    // Cleanup interval on unmount or when dependencies change
+    // Cleanup
     return () => {
-      clearInterval(refreshInterval);
+      isMounted = false;
+      if (refreshInterval) {
+        clearInterval(refreshInterval);
+      }
     };
   }, [coinId, days, chartType]);
 
@@ -271,8 +296,12 @@ const Market = () => {
   }, [scaleType]);
 
   useEffect(() => {
-    if (chartData.length > 0) {
-      updateChartType(chartType);
+    if (chartData.length > 0 && chartRef.current) {
+      // Debounce chart type updates
+      const timeoutId = setTimeout(() => {
+        updateChartType(chartType);
+      }, 100);
+      return () => clearTimeout(timeoutId);
     }
   }, [chartType]);
 

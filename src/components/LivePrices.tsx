@@ -1,10 +1,10 @@
 import { motion, useMotionTemplate, useMotionValue } from "motion/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import { TrendingUp, TrendingDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import bitcoinLogo from "@/assets/bitcoin-logo.webp";
 import ethereumLogo from "@/assets/ethereum-logo.png";
-const LivePrices = () => {
+const LivePrices = memo(() => {
   const navigate = useNavigate();
   const [prices, setPrices] = useState<{
     bitcoin?: number;
@@ -36,7 +36,17 @@ const LivePrices = () => {
   useEffect(() => {
     const fetchPrices = async () => {
       try {
-        const res = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd");
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 5000); // 5s timeout
+        
+        const res = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd", {
+          signal: controller.signal
+        });
+        
+        clearTimeout(timeoutId);
+        
+        if (!res.ok) throw new Error('API request failed');
+        
         const data = await res.json();
         setPrices({
           bitcoin: data.bitcoin.usd,
@@ -44,12 +54,16 @@ const LivePrices = () => {
         });
         setLoading(false);
       } catch (err) {
-        console.error("Error fetching prices", err);
+        if (err.name !== 'AbortError') {
+          console.error("Error fetching prices", err);
+        }
         setLoading(false);
       }
     };
+    
     fetchPrices();
-    const interval = setInterval(fetchPrices, 10000);
+    // Increased interval to 30 seconds to reduce API calls
+    const interval = setInterval(fetchPrices, 30000);
     return () => clearInterval(interval);
   }, []);
   return <section className="py-10 sm:py-12 md:py-16 lg:py-20 px-3 sm:px-4 md:px-6 bg-background">
@@ -68,7 +82,7 @@ const LivePrices = () => {
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4 md:mb-5 bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent py-2 sm:py-3 md:py-4 px-2">
             Live Crypto Prices
           </h2>
-          <p className="text-muted-foreground text-base sm:text-lg md:text-xl px-3">Real-time market data updated every 10 seconds</p>
+          <p className="text-muted-foreground text-base sm:text-lg md:text-xl px-3">Real-time market data updated every 30 seconds</p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
@@ -158,5 +172,6 @@ const LivePrices = () => {
         </div>
       </div>
     </section>;
-};
+});
+LivePrices.displayName = 'LivePrices';
 export default LivePrices;
