@@ -404,6 +404,19 @@ const Market = () => {
     }
   }, [chartType]);
 
+  // Ensure chart resizes when it becomes visible after loading
+  useEffect(() => {
+    if (!loading && chartRef.current && chartContainerRef.current) {
+      const width = chartContainerRef.current.clientWidth || 600;
+      chartRef.current.applyOptions({ width });
+      requestAnimationFrame(() => {
+        try {
+          chartRef.current.timeScale().fitContent();
+        } catch (_) {}
+      });
+    }
+  }, [loading]);
+
   const bgColor = isDarkTheme ? "#0D0D2B" : "#f5f5f5";
   const cardBg = isDarkTheme ? "#1a1a2e" : "#ffffff";
   const borderColor = isDarkTheme ? "gray-800" : "gray-200";
