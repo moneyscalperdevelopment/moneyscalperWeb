@@ -107,20 +107,12 @@ const Market = () => {
       
       setLoading(true);
       try {
-        const url = `https://api.coingecko.com/api/v3/coins/${coinId}/ohlc?vs_currency=usd&days=${days}`;
+        const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/crypto-ohlc?coin=${coinId}&days=${days}&vs=usd`;
         const res = await fetch(url);
         
         if (!res.ok) throw new Error("Failed to fetch OHLC data");
         
-        const data = await res.json();
-        
-        const formattedData = data.map((row: number[]) => ({
-          time: Math.round(row[0] / 1000) as any,
-          open: row[1],
-          high: row[2],
-          low: row[3],
-          close: row[4],
-        }));
+        const formattedData = await res.json();
 
         if (candleSeriesRef.current && formattedData.length > 0) {
           candleSeriesRef.current.setData(formattedData);
