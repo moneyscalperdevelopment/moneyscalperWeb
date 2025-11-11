@@ -117,7 +117,7 @@ const HeroSection = () => {
             Next-Gen Trading
           </h1>
           <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold bg-gradient-to-r from-accent via-primary to-foreground bg-clip-text text-transparent glow-pulse py-2 sm:py-3 md:py-4 px-2">
-            Unlocking Soon
+            Built for the Future
           </h2>
         </div>
 
