@@ -31,6 +31,18 @@ const Market = () => {
   const [showVolume, setShowVolume] = useState(false);
   const [scaleType, setScaleType] = useState<"normal" | "logarithmic" | "percentage">("normal");
   const isMobile = useIsMobile();
+  
+  // Check for tablet/iPad view (under 1024px)
+  const [isTabletOrMobile, setIsTabletOrMobile] = useState(false);
+  
+  useEffect(() => {
+    const checkSize = () => {
+      setIsTabletOrMobile(window.innerWidth < 1024);
+    };
+    checkSize();
+    window.addEventListener('resize', checkSize);
+    return () => window.removeEventListener('resize', checkSize);
+  }, []);
 
   const coinMap: Record<string, string> = {
     btc: "bitcoin",
@@ -473,8 +485,8 @@ const Market = () => {
 
           {/* Chart Type & Timeframe Controls */}
           <div className="flex flex-col gap-3">
-            {/* Mobile Dropdowns */}
-            {isMobile ? (
+            {/* Mobile & Tablet Dropdowns */}
+            {isTabletOrMobile ? (
               <div className="flex gap-2">
                 {/* Chart Type Dropdown */}
                 <Select value={chartType} onValueChange={(value: any) => setChartType(value)}>
@@ -615,8 +627,8 @@ const Market = () => {
 
         {/* Price Summary */}
         <div className={`mb-6 rounded-xl p-4 border ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-800' : 'bg-white border-gray-200'}`}>
-          {/* Mobile: Toggle on top */}
-          {isMobile && (
+          {/* Mobile & Tablet: Toggle on top */}
+          {isTabletOrMobile && (
             <div className="flex justify-center mb-4">
               <div className={`inline-flex rounded-lg border p-1 ${isDarkTheme ? 'bg-[#0D0D2B] border-gray-700' : 'bg-gray-50 border-gray-300'}`}>
                 <Button
@@ -645,7 +657,7 @@ const Market = () => {
             </div>
           )}
           
-          <div className={`grid ${isMobile ? 'grid-cols-1' : 'grid-cols-3'} items-center gap-4`}>
+          <div className={`grid ${isTabletOrMobile ? 'grid-cols-1' : 'grid-cols-3'} items-center gap-4`}>
             {/* Left: Price Info */}
             <div className="flex items-center gap-6">
               <div>
@@ -663,7 +675,7 @@ const Market = () => {
             </div>
             
             {/* Center: Bitcoin/Ethereum Toggle Switcher - Desktop only */}
-            {!isMobile && (
+            {!isTabletOrMobile && (
               <div className="flex justify-center">
                 <div className={`inline-flex rounded-lg border p-1 ${isDarkTheme ? 'bg-[#0D0D2B] border-gray-700' : 'bg-gray-50 border-gray-300'}`}>
                   <Button
@@ -693,7 +705,7 @@ const Market = () => {
             )}
             
             {/* Right: Live Indicator */}
-            <div className={`flex items-center gap-2 ${isMobile ? 'justify-start' : 'justify-end'}`}>
+            <div className={`flex items-center gap-2 ${isTabletOrMobile ? 'justify-start' : 'justify-end'}`}>
               {refreshing && !loading && (
                 <>
                   <div className="w-2 h-2 rounded-full bg-blue-500 animate-spin border-2 border-transparent border-t-blue-500" />
