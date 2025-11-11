@@ -615,7 +615,37 @@ const Market = () => {
 
         {/* Price Summary */}
         <div className={`mb-6 rounded-xl p-4 border ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-800' : 'bg-white border-gray-200'}`}>
-          <div className="grid grid-cols-3 items-center gap-4">
+          {/* Mobile: Toggle on top */}
+          {isMobile && (
+            <div className="flex justify-center mb-4">
+              <div className={`inline-flex rounded-lg border p-1 ${isDarkTheme ? 'bg-[#0D0D2B] border-gray-700' : 'bg-gray-50 border-gray-300'}`}>
+                <Button
+                  variant={coinId === "bitcoin" ? "default" : "ghost"}
+                  size="sm"
+                  onClick={() => handleCoinChange("bitcoin")}
+                  className={`px-4 py-2 ${coinId === "bitcoin" ? '' : isDarkTheme ? 'text-white hover:bg-white/10' : 'text-gray-900'}`}
+                >
+                  <span className="flex items-center gap-2">
+                    <span className="text-lg">₿</span>
+                    <span className="font-bold">Bitcoin</span>
+                  </span>
+                </Button>
+                <Button
+                  variant={coinId === "ethereum" ? "default" : "ghost"}
+                  size="sm"
+                  onClick={() => handleCoinChange("ethereum")}
+                  className={`px-4 py-2 ${coinId === "ethereum" ? '' : isDarkTheme ? 'text-white hover:bg-white/10' : 'text-gray-900'}`}
+                >
+                  <span className="flex items-center gap-2">
+                    <span className="text-lg">Ξ</span>
+                    <span className="font-bold">Ethereum</span>
+                  </span>
+                </Button>
+              </div>
+            </div>
+          )}
+          
+          <div className={`grid ${isMobile ? 'grid-cols-1' : 'grid-cols-3'} items-center gap-4`}>
             {/* Left: Price Info */}
             <div className="flex items-center gap-6">
               <div>
@@ -632,36 +662,38 @@ const Market = () => {
               </div>
             </div>
             
-            {/* Center: Bitcoin/Ethereum Toggle Switcher */}
-            <div className="flex justify-center">
-              <div className={`inline-flex rounded-lg border p-1 ${isDarkTheme ? 'bg-[#0D0D2B] border-gray-700' : 'bg-gray-50 border-gray-300'}`}>
-                <Button
-                  variant={coinId === "bitcoin" ? "default" : "ghost"}
-                  size="sm"
-                  onClick={() => handleCoinChange("bitcoin")}
-                  className={`px-6 py-2 ${coinId === "bitcoin" ? '' : isDarkTheme ? 'text-white hover:bg-white/10' : 'text-gray-900'}`}
-                >
-                  <span className="flex items-center gap-2">
-                    <span className="text-lg">₿</span>
-                    <span className="font-bold">Bitcoin</span>
-                  </span>
-                </Button>
-                <Button
-                  variant={coinId === "ethereum" ? "default" : "ghost"}
-                  size="sm"
-                  onClick={() => handleCoinChange("ethereum")}
-                  className={`px-6 py-2 ${coinId === "ethereum" ? '' : isDarkTheme ? 'text-white hover:bg-white/10' : 'text-gray-900'}`}
-                >
-                  <span className="flex items-center gap-2">
-                    <span className="text-lg">Ξ</span>
-                    <span className="font-bold">Ethereum</span>
-                  </span>
-                </Button>
+            {/* Center: Bitcoin/Ethereum Toggle Switcher - Desktop only */}
+            {!isMobile && (
+              <div className="flex justify-center">
+                <div className={`inline-flex rounded-lg border p-1 ${isDarkTheme ? 'bg-[#0D0D2B] border-gray-700' : 'bg-gray-50 border-gray-300'}`}>
+                  <Button
+                    variant={coinId === "bitcoin" ? "default" : "ghost"}
+                    size="sm"
+                    onClick={() => handleCoinChange("bitcoin")}
+                    className={`px-6 py-2 ${coinId === "bitcoin" ? '' : isDarkTheme ? 'text-white hover:bg-white/10' : 'text-gray-900'}`}
+                  >
+                    <span className="flex items-center gap-2">
+                      <span className="text-lg">₿</span>
+                      <span className="font-bold">Bitcoin</span>
+                    </span>
+                  </Button>
+                  <Button
+                    variant={coinId === "ethereum" ? "default" : "ghost"}
+                    size="sm"
+                    onClick={() => handleCoinChange("ethereum")}
+                    className={`px-6 py-2 ${coinId === "ethereum" ? '' : isDarkTheme ? 'text-white hover:bg-white/10' : 'text-gray-900'}`}
+                  >
+                    <span className="flex items-center gap-2">
+                      <span className="text-lg">Ξ</span>
+                      <span className="font-bold">Ethereum</span>
+                    </span>
+                  </Button>
+                </div>
               </div>
-            </div>
+            )}
             
             {/* Right: Live Indicator */}
-            <div className="flex items-center gap-2 justify-end">
+            <div className={`flex items-center gap-2 ${isMobile ? 'justify-start' : 'justify-end'}`}>
               {refreshing && !loading && (
                 <>
                   <div className="w-2 h-2 rounded-full bg-blue-500 animate-spin border-2 border-transparent border-t-blue-500" />
