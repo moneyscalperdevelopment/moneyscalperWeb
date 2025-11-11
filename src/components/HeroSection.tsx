@@ -141,7 +141,6 @@ const HeroSection = () => {
               <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6" />
               <span>View Live Markets</span>
             </span>
-            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-shimmer" />
           </button>
 
           {/* Pre-register Button */}
