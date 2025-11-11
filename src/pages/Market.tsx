@@ -18,6 +18,7 @@ const Market = () => {
   const [chartType, setChartType] = useState<"candlestick" | "line" | "area">("candlestick");
   const [isDarkTheme, setIsDarkTheme] = useState(true);
   const [chartData, setChartData] = useState<any[]>([]);
+  const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
 
   const coinMap: Record<string, string> = {
     btc: "bitcoin",
@@ -195,6 +196,7 @@ const Market = () => {
         
         const formattedData = await res.json();
         setChartData(formattedData);
+        setLastUpdate(new Date());
 
         if (seriesRef.current && formattedData.length > 0) {
           if (chartType === "candlestick") {
@@ -224,7 +226,17 @@ const Market = () => {
     };
 
     loadOHLC();
-  }, [coinId, days]);
+
+    // Set up auto-refresh every 30 seconds
+    const refreshInterval = setInterval(() => {
+      loadOHLC();
+    }, 30000);
+
+    // Cleanup interval on unmount or when dependencies change
+    return () => {
+      clearInterval(refreshInterval);
+    };
+  }, [coinId, days, chartType]);
 
   useEffect(() => {
     if (chartData.length > 0) {
@@ -344,18 +356,26 @@ const Market = () => {
 
         {/* Price Summary */}
         <div className={`mb-6 rounded-xl p-4 border ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-800' : 'bg-white border-gray-200'}`}>
-          <div className="flex items-center gap-6">
-            <div>
-              <div className={`text-sm mb-1 ${isDarkTheme ? 'text-gray-400' : 'text-gray-600'}`}>Current Price</div>
-              <div className={`text-3xl font-bold ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>
-                ${currentPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          <div className="flex items-center justify-between flex-wrap gap-4">
+            <div className="flex items-center gap-6">
+              <div>
+                <div className={`text-sm mb-1 ${isDarkTheme ? 'text-gray-400' : 'text-gray-600'}`}>Current Price</div>
+                <div className={`text-3xl font-bold ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>
+                  ${currentPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className={`${priceChange >= 0 ? "text-[#26a69a]" : "text-[#ef5350]"} font-semibold text-lg`}>
+                  {priceChange >= 0 ? "+" : ""}{priceChange.toFixed(2)}%
+                </span>
+                <span className={`text-sm ml-2 ${isDarkTheme ? 'text-gray-400' : 'text-gray-600'}`}>({days}D)</span>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <span className={`${priceChange >= 0 ? "text-[#26a69a]" : "text-[#ef5350]"} font-semibold text-lg`}>
-                {priceChange >= 0 ? "+" : ""}{priceChange.toFixed(2)}%
+              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+              <span className={`text-sm ${isDarkTheme ? 'text-gray-400' : 'text-gray-600'}`}>
+                Live • Updated {lastUpdate.toLocaleTimeString()}
               </span>
-              <span className={`text-sm ml-2 ${isDarkTheme ? 'text-gray-400' : 'text-gray-600'}`}>({days}D)</span>
             </div>
           </div>
         </div>
