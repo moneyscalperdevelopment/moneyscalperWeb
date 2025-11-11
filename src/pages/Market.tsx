@@ -475,10 +475,10 @@ const Market = () => {
           <div className="flex flex-col gap-3">
             {/* Mobile Dropdowns */}
             {isMobile ? (
-              <div className="flex flex-col gap-2">
+              <div className="flex gap-2">
                 {/* Chart Type Dropdown */}
                 <Select value={chartType} onValueChange={(value: any) => setChartType(value)}>
-                  <SelectTrigger className={`w-full ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700 text-white' : 'bg-white border-gray-300'}`}>
+                  <SelectTrigger className={`flex-1 ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700 text-white' : 'bg-white border-gray-300'}`}>
                     <SelectValue placeholder="Chart Type" />
                   </SelectTrigger>
                   <SelectContent className={`${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700 text-white' : 'bg-white'} z-50`}>
@@ -492,7 +492,7 @@ const Market = () => {
 
                 {/* Timeframe Dropdown */}
                 <Select value={days} onValueChange={setDays}>
-                  <SelectTrigger className={`w-full ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700 text-white' : 'bg-white border-gray-300'}`}>
+                  <SelectTrigger className={`flex-1 ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700 text-white' : 'bg-white border-gray-300'}`}>
                     <SelectValue placeholder="Timeframe" />
                   </SelectTrigger>
                   <SelectContent className={`${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700 text-white' : 'bg-white'} z-50`}>
@@ -504,7 +504,7 @@ const Market = () => {
 
                 {/* Scale Type Dropdown */}
                 <Select value={scaleType} onValueChange={(value: any) => setScaleType(value)}>
-                  <SelectTrigger className={`w-full ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700 text-white' : 'bg-white border-gray-300'}`}>
+                  <SelectTrigger className={`flex-1 ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700 text-white' : 'bg-white border-gray-300'}`}>
                     <SelectValue placeholder="Scale" />
                   </SelectTrigger>
                   <SelectContent className={`${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700 text-white' : 'bg-white'} z-50`}>
