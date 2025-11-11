@@ -3,6 +3,14 @@ import { useParams, useNavigate } from "react-router-dom";
 import { createChart, ColorType, CandlestickSeries, LineSeries, AreaSeries, BarSeries, HistogramSeries } from "lightweight-charts";
 import { Button } from "@/components/ui/button";
 import { Download, Moon, Sun } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useIsMobile } from "@/hooks/use-mobile";
 import Header from "@/components/Header";
 
 const Market = () => {
@@ -22,6 +30,7 @@ const Market = () => {
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
   const [showVolume, setShowVolume] = useState(false);
   const [scaleType, setScaleType] = useState<"normal" | "logarithmic" | "percentage">("normal");
+  const isMobile = useIsMobile();
 
   const coinMap: Record<string, string> = {
     btc: "bitcoin",
@@ -464,98 +473,143 @@ const Market = () => {
 
           {/* Chart Type & Timeframe Controls */}
           <div className="flex flex-col gap-3">
-            {/* Chart Type Selector */}
-            <div className="flex gap-1.5 flex-wrap">
-              <Button
-                variant={chartType === "candlestick" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setChartType("candlestick")}
-                className={`text-xs sm:text-sm px-2.5 sm:px-3 ${chartType !== "candlestick" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}`}
-              >
-                Candlestick
-              </Button>
-              <Button
-                variant={chartType === "bars" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setChartType("bars")}
-                className={`text-xs sm:text-sm px-2.5 sm:px-3 ${chartType !== "bars" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}`}
-              >
-                Bars
-              </Button>
-              <Button
-                variant={chartType === "hlc" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setChartType("hlc")}
-                className={`text-xs sm:text-sm px-2.5 sm:px-3 ${chartType !== "hlc" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}`}
-              >
-                HLC
-              </Button>
-              <Button
-                variant={chartType === "line" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setChartType("line")}
-                className={`text-xs sm:text-sm px-2.5 sm:px-3 ${chartType !== "line" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}`}
-              >
-                Line
-              </Button>
-              <Button
-                variant={chartType === "area" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setChartType("area")}
-                className={`text-xs sm:text-sm px-2.5 sm:px-3 ${chartType !== "area" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}`}
-              >
-                Area
-              </Button>
-            </div>
+            {/* Mobile Dropdowns */}
+            {isMobile ? (
+              <div className="flex flex-col gap-2">
+                {/* Chart Type Dropdown */}
+                <Select value={chartType} onValueChange={(value: any) => setChartType(value)}>
+                  <SelectTrigger className={`w-full ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700 text-white' : 'bg-white border-gray-300'}`}>
+                    <SelectValue placeholder="Chart Type" />
+                  </SelectTrigger>
+                  <SelectContent className={`${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700 text-white' : 'bg-white'} z-50`}>
+                    <SelectItem value="candlestick">Candlestick</SelectItem>
+                    <SelectItem value="bars">Bars</SelectItem>
+                    <SelectItem value="hlc">HLC</SelectItem>
+                    <SelectItem value="line">Line</SelectItem>
+                    <SelectItem value="area">Area</SelectItem>
+                  </SelectContent>
+                </Select>
 
-            {/* Timeframe and Scale Buttons */}
-            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-              {/* Timeframe Buttons */}
-              <div className="flex gap-1.5 flex-wrap">
-                {timeframes.map((tf) => (
+                {/* Timeframe Dropdown */}
+                <Select value={days} onValueChange={setDays}>
+                  <SelectTrigger className={`w-full ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700 text-white' : 'bg-white border-gray-300'}`}>
+                    <SelectValue placeholder="Timeframe" />
+                  </SelectTrigger>
+                  <SelectContent className={`${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700 text-white' : 'bg-white'} z-50`}>
+                    {timeframes.map((tf) => (
+                      <SelectItem key={tf.value} value={tf.value}>{tf.label}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+
+                {/* Scale Type Dropdown */}
+                <Select value={scaleType} onValueChange={(value: any) => setScaleType(value)}>
+                  <SelectTrigger className={`w-full ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700 text-white' : 'bg-white border-gray-300'}`}>
+                    <SelectValue placeholder="Scale" />
+                  </SelectTrigger>
+                  <SelectContent className={`${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700 text-white' : 'bg-white'} z-50`}>
+                    <SelectItem value="normal">Normal</SelectItem>
+                    <SelectItem value="logarithmic">Log</SelectItem>
+                    <SelectItem value="percentage">%</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            ) : (
+              <>
+                {/* Desktop Buttons - Chart Type Selector */}
+                <div className="flex gap-1.5 flex-wrap">
                   <Button
-                    key={tf.value}
-                    variant={days === tf.value ? "default" : "outline"}
+                    variant={chartType === "candlestick" ? "default" : "outline"}
                     size="sm"
-                    onClick={() => setDays(tf.value)}
-                    className={`text-xs sm:text-sm px-2.5 sm:px-3 ${days !== tf.value && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}`}
+                    onClick={() => setChartType("candlestick")}
+                    className={`text-xs sm:text-sm px-2.5 sm:px-3 ${chartType !== "candlestick" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}`}
                   >
-                    {tf.label}
+                    Candlestick
                   </Button>
-                ))}
-              </div>
-              
-              {/* Price Scale Options */}
-              <div className="flex gap-1.5 flex-wrap sm:border-l sm:pl-3">
-                <Button
-                  variant={scaleType === "normal" ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setScaleType("normal")}
-                  className={`text-xs sm:text-sm px-2.5 sm:px-3 ${scaleType !== "normal" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}`}
-                  title="Normal Scale"
-                >
-                  Normal
-                </Button>
-                <Button
-                  variant={scaleType === "logarithmic" ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setScaleType("logarithmic")}
-                  className={`text-xs sm:text-sm px-2.5 sm:px-3 ${scaleType !== "logarithmic" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}`}
-                  title="Logarithmic Scale"
-                >
-                  Log
-                </Button>
-                <Button
-                  variant={scaleType === "percentage" ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setScaleType("percentage")}
-                  className={`text-xs sm:text-sm px-2.5 sm:px-3 ${scaleType !== "percentage" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}`}
-                  title="Percentage Scale"
-                >
-                  %
-                </Button>
-              </div>
-            </div>
+                  <Button
+                    variant={chartType === "bars" ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setChartType("bars")}
+                    className={`text-xs sm:text-sm px-2.5 sm:px-3 ${chartType !== "bars" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}`}
+                  >
+                    Bars
+                  </Button>
+                  <Button
+                    variant={chartType === "hlc" ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setChartType("hlc")}
+                    className={`text-xs sm:text-sm px-2.5 sm:px-3 ${chartType !== "hlc" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}`}
+                  >
+                    HLC
+                  </Button>
+                  <Button
+                    variant={chartType === "line" ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setChartType("line")}
+                    className={`text-xs sm:text-sm px-2.5 sm:px-3 ${chartType !== "line" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}`}
+                  >
+                    Line
+                  </Button>
+                  <Button
+                    variant={chartType === "area" ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setChartType("area")}
+                    className={`text-xs sm:text-sm px-2.5 sm:px-3 ${chartType !== "area" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}`}
+                  >
+                    Area
+                  </Button>
+                </div>
+
+                {/* Timeframe and Scale Buttons */}
+                <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+                  {/* Timeframe Buttons */}
+                  <div className="flex gap-1.5 flex-wrap">
+                    {timeframes.map((tf) => (
+                      <Button
+                        key={tf.value}
+                        variant={days === tf.value ? "default" : "outline"}
+                        size="sm"
+                        onClick={() => setDays(tf.value)}
+                        className={`text-xs sm:text-sm px-2.5 sm:px-3 ${days !== tf.value && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}`}
+                      >
+                        {tf.label}
+                      </Button>
+                    ))}
+                  </div>
+                  
+                  {/* Price Scale Options */}
+                  <div className="flex gap-1.5 flex-wrap sm:border-l sm:pl-3">
+                    <Button
+                      variant={scaleType === "normal" ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => setScaleType("normal")}
+                      className={`text-xs sm:text-sm px-2.5 sm:px-3 ${scaleType !== "normal" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}`}
+                      title="Normal Scale"
+                    >
+                      Normal
+                    </Button>
+                    <Button
+                      variant={scaleType === "logarithmic" ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => setScaleType("logarithmic")}
+                      className={`text-xs sm:text-sm px-2.5 sm:px-3 ${scaleType !== "logarithmic" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}`}
+                      title="Logarithmic Scale"
+                    >
+                      Log
+                    </Button>
+                    <Button
+                      variant={scaleType === "percentage" ? "default" : "outline"}
+                      size="sm"
+                      onClick={() => setScaleType("percentage")}
+                      className={`text-xs sm:text-sm px-2.5 sm:px-3 ${scaleType !== "percentage" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}`}
+                      title="Percentage Scale"
+                    >
+                      %
+                    </Button>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
 
