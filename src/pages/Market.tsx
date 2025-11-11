@@ -678,14 +678,6 @@ const Market = () => {
 
         {/* Chart Container */}
         <div className={`relative rounded-2xl border overflow-hidden shadow-2xl ${loading ? 'hidden' : ''} ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-800' : 'bg-white border-gray-200'}`}>
-          <style>{`
-            .tv-lightweight-charts {
-              position: relative !important;
-            }
-            [style*="position: absolute"][style*="pointer-events: none"] {
-              display: none !important;
-            }
-          `}</style>
           <div
             ref={chartContainerRef}
             className="w-full"
