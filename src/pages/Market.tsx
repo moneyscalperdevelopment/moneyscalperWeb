@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { createChart, ColorType, CandlestickSeries } from "lightweight-charts";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, TrendingUp, TrendingDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
+import msLogo from "@/assets/ms-logo.jpg";
 
 const Market = () => {
   const { coin } = useParams<{ coin: string }>();
@@ -13,6 +14,8 @@ const Market = () => {
   const candleSeriesRef = useRef<any>(null);
   const [days, setDays] = useState("30");
   const [loading, setLoading] = useState(true);
+  const [currentPrice, setCurrentPrice] = useState<number>(0);
+  const [priceChange, setPriceChange] = useState<number>(0);
 
   const coinMap: Record<string, string> = {
     btc: "bitcoin",
@@ -30,14 +33,33 @@ const Market = () => {
       width: chartContainerRef.current.clientWidth,
       height: 560,
       layout: {
-        background: { type: ColorType.Solid, color: "hsl(var(--background))" },
-        textColor: "hsl(var(--foreground))",
+        background: { type: ColorType.Solid, color: "#0D0D2B" },
+        textColor: "#d1d4dc",
       },
-      rightPriceScale: { borderVisible: false },
-      timeScale: { borderVisible: false, timeVisible: true, secondsVisible: false },
+      rightPriceScale: { 
+        borderVisible: false,
+        scaleMargins: { top: 0.1, bottom: 0.2 }
+      },
+      timeScale: { 
+        borderVisible: false, 
+        timeVisible: true, 
+        secondsVisible: false,
+        fixLeftEdge: true,
+        fixRightEdge: true,
+      },
       grid: {
-        vertLines: { color: "hsl(var(--border))" },
-        horzLines: { color: "hsl(var(--border))" },
+        vertLines: { color: "rgba(42, 46, 57, 0.3)" },
+        horzLines: { color: "rgba(42, 46, 57, 0.3)" },
+      },
+      crosshair: {
+        vertLine: {
+          color: "rgba(155, 155, 155, 0.5)",
+          labelBackgroundColor: "#26a69a",
+        },
+        horzLine: {
+          color: "rgba(155, 155, 155, 0.5)",
+          labelBackgroundColor: "#26a69a",
+        },
       },
     });
 
@@ -90,8 +112,16 @@ const Market = () => {
           close: row[4],
         }));
 
-        if (candleSeriesRef.current) {
+        if (candleSeriesRef.current && formattedData.length > 0) {
           candleSeriesRef.current.setData(formattedData);
+          
+          // Set current price and calculate change
+          const latestClose = formattedData[formattedData.length - 1].close;
+          const firstClose = formattedData[0].close;
+          const change = ((latestClose - firstClose) / firstClose) * 100;
+          
+          setCurrentPrice(latestClose);
+          setPriceChange(change);
         }
       } catch (err) {
         console.error("Error loading OHLC:", err);
@@ -104,27 +134,32 @@ const Market = () => {
   }, [coinId, days]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#0D0D2B]">
       <Header />
-      <div className="container mx-auto px-4 py-6 max-w-7xl">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+      <div className="container mx-auto px-4 py-6 max-w-[1600px]">
+        {/* Top Bar */}
+        <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-4">
             <Button
               variant="ghost"
               size="icon"
               onClick={() => navigate("/")}
+              className="text-foreground hover:bg-white/10"
             >
               <ArrowLeft className="w-5 h-5" />
             </Button>
-            <h1 className="text-2xl sm:text-3xl font-bold">
-              {coinId?.charAt(0).toUpperCase() + coinId?.slice(1)} / USD
-            </h1>
+            <div className="flex items-center gap-3">
+              <h1 className="text-2xl sm:text-3xl font-bold text-white">
+                {coinId?.charAt(0).toUpperCase() + coinId?.slice(1)}
+              </h1>
+              <span className="text-gray-400 text-lg">USD</span>
+            </div>
           </div>
           
           <select
             value={days}
             onChange={(e) => setDays(e.target.value)}
-            className="border border-border rounded-lg px-3 py-2 bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+            className="border border-gray-700 rounded-lg px-3 py-2 bg-[#1a1a2e] text-white focus:outline-none focus:ring-2 focus:ring-primary"
           >
             <option value="1">1D</option>
             <option value="7">7D</option>
@@ -137,17 +172,77 @@ const Market = () => {
           </select>
         </div>
 
+        {/* Price Summary */}
+        <div className="mb-6 bg-[#1a1a2e] rounded-xl p-4 border border-gray-800">
+          <div className="flex items-center gap-6">
+            <div>
+              <div className="text-sm text-gray-400 mb-1">Current Price</div>
+              <div className="text-3xl font-bold text-white">
+                ${currentPrice.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              {priceChange >= 0 ? (
+                <>
+                  <TrendingUp className="w-5 h-5 text-[#26a69a]" />
+                  <span className="text-[#26a69a] font-semibold text-lg">
+                    +{priceChange.toFixed(2)}%
+                  </span>
+                </>
+              ) : (
+                <>
+                  <TrendingDown className="w-5 h-5 text-[#ef5350]" />
+                  <span className="text-[#ef5350] font-semibold text-lg">
+                    {priceChange.toFixed(2)}%
+                  </span>
+                </>
+              )}
+              <span className="text-gray-400 text-sm ml-2">({days}D)</span>
+            </div>
+          </div>
+        </div>
+
         {loading && (
           <div className="text-center py-8">
-            <p className="text-muted-foreground">Loading chart data...</p>
+            <p className="text-gray-400">Loading chart data...</p>
           </div>
         )}
 
-        <div
-          ref={chartContainerRef}
-          className="rounded-2xl border border-border overflow-hidden shadow-lg"
-          style={{ height: "560px" }}
-        />
+        {/* Chart Container */}
+        <div className="relative rounded-2xl border border-gray-800 overflow-hidden shadow-2xl bg-[#1a1a2e]">
+          {/* Money Scalper Logo Watermark */}
+          <div className="absolute bottom-4 left-4 z-10 opacity-40 hover:opacity-60 transition-opacity">
+            <img 
+              src={msLogo} 
+              alt="Money Scalper" 
+              className="w-20 h-20 object-contain"
+            />
+          </div>
+          
+          <div
+            ref={chartContainerRef}
+            className="w-full"
+            style={{ height: "560px" }}
+          />
+        </div>
+
+        {/* Market Summary Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+          <div className="bg-[#1a1a2e] rounded-xl p-4 border border-gray-800">
+            <div className="text-sm text-gray-400 mb-2">24h Volume</div>
+            <div className="text-xl font-bold text-white">High Liquidity</div>
+          </div>
+          <div className="bg-[#1a1a2e] rounded-xl p-4 border border-gray-800">
+            <div className="text-sm text-gray-400 mb-2">Market Cap Rank</div>
+            <div className="text-xl font-bold text-white">
+              #{coinId === "bitcoin" ? "1" : "2"}
+            </div>
+          </div>
+          <div className="bg-[#1a1a2e] rounded-xl p-4 border border-gray-800">
+            <div className="text-sm text-gray-400 mb-2">Trading Status</div>
+            <div className="text-xl font-bold text-[#26a69a]">Active</div>
+          </div>
+        </div>
       </div>
     </div>
   );
