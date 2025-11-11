@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { createChart, ColorType } from "lightweight-charts";
+import { createChart, ColorType, CandlestickSeries } from "lightweight-charts";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
@@ -41,8 +41,7 @@ const Market = () => {
       },
     });
 
-    // @ts-ignore
-    const candleSeries = chart.addCandlestickSeries({
+    const candleSeries = chart.addSeries(CandlestickSeries, {
       upColor: "#26a69a",
       downColor: "#ef5350",
       borderUpColor: "#26a69a",
