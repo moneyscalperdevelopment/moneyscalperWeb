@@ -502,13 +502,71 @@ const Market = () => {
         </div>
 
         {loading && (
-          <div className="text-center py-8">
-            <p className={isDarkTheme ? 'text-gray-400' : 'text-gray-600'}>Loading chart data...</p>
+          <div className={`relative rounded-2xl border overflow-hidden shadow-2xl mb-6 ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-800' : 'bg-white border-gray-200'}`}
+            style={{ height: "560px" }}>
+            {/* Skeleton Loader */}
+            <div className="absolute inset-0 p-4">
+              {/* Chart Header Skeleton */}
+              <div className="flex items-center justify-between mb-4">
+                <div className={`h-6 w-32 rounded animate-pulse ${isDarkTheme ? 'bg-gray-700' : 'bg-gray-200'}`} />
+                <div className={`h-6 w-24 rounded animate-pulse ${isDarkTheme ? 'bg-gray-700' : 'bg-gray-200'}`} />
+              </div>
+              
+              {/* Chart Area with Animated Bars */}
+              <div className="relative h-[440px] flex items-end justify-around gap-1 px-4">
+                {/* Shimmer overlay */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 to-transparent animate-shimmer" />
+                
+                {/* Animated skeleton bars */}
+                {[65, 45, 75, 55, 85, 60, 70, 50, 80, 65, 55, 75, 60, 70, 80, 55, 65, 75, 60, 70].map((height, i) => (
+                  <div
+                    key={i}
+                    className={`flex-1 rounded-t transition-all duration-1000 ${isDarkTheme ? 'bg-gray-700/50' : 'bg-gray-300/50'}`}
+                    style={{ 
+                      height: `${height}%`,
+                      animation: `pulse 2s ease-in-out ${i * 0.1}s infinite`
+                    }}
+                  />
+                ))}
+                
+                {/* Horizontal grid lines */}
+                <div className="absolute inset-0 pointer-events-none">
+                  {[0, 25, 50, 75, 100].map((pos) => (
+                    <div
+                      key={pos}
+                      className={`absolute left-0 right-0 h-px ${isDarkTheme ? 'bg-gray-800' : 'bg-gray-200'}`}
+                      style={{ top: `${pos}%` }}
+                    />
+                  ))}
+                </div>
+              </div>
+              
+              {/* X-axis Time Labels Skeleton */}
+              <div className="flex justify-between px-4 mt-2">
+                {[...Array(6)].map((_, i) => (
+                  <div key={i} className={`h-4 w-16 rounded animate-pulse ${isDarkTheme ? 'bg-gray-700' : 'bg-gray-200'}`} />
+                ))}
+              </div>
+              
+              {/* Loading Text */}
+              <div className="absolute inset-0 flex items-center justify-center bg-background/50 backdrop-blur-sm">
+                <div className="text-center">
+                  <div className="flex items-center gap-2 justify-center mb-2">
+                    <div className="w-2 h-2 rounded-full bg-primary animate-bounce" style={{ animationDelay: '0ms' }} />
+                    <div className="w-2 h-2 rounded-full bg-primary animate-bounce" style={{ animationDelay: '150ms' }} />
+                    <div className="w-2 h-2 rounded-full bg-primary animate-bounce" style={{ animationDelay: '300ms' }} />
+                  </div>
+                  <p className={`text-sm font-medium ${isDarkTheme ? 'text-gray-300' : 'text-gray-700'}`}>
+                    Loading chart data...
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         )}
 
         {/* Chart Container */}
-        <div className={`relative rounded-2xl border overflow-hidden shadow-2xl ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-800' : 'bg-white border-gray-200'}`}>
+        <div className={`relative rounded-2xl border overflow-hidden shadow-2xl ${loading ? 'hidden' : ''} ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-800' : 'bg-white border-gray-200'}`}>
           <style>{`
             .tv-lightweight-charts {
               position: relative !important;
