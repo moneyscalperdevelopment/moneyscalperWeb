@@ -131,19 +131,97 @@ const HeroSection = () => {
           </span>
         </p>
 
-        {/* Live Market Button */}
+        {/* Live Market Card - Modern Glass Design */}
         <div className="mt-6 sm:mt-8 md:mt-12 flex flex-col items-center gap-4 sm:gap-6 md:gap-8">
-          <button 
-            onClick={() => navigate('/market/bitcoin')}
-            className="group relative px-8 sm:px-12 py-4 sm:py-6 bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] hover:bg-[position:100%_0] text-white font-bold text-lg sm:text-xl rounded-xl shadow-[0_0_30px_rgba(59,130,246,0.5)] hover:shadow-[0_0_50px_rgba(59,130,246,0.8)] transition-all duration-500 border border-primary/50 hover:scale-105"
-          >
-            <span className="flex items-center gap-3">
-              <TrendingUp className="w-6 h-6 sm:w-7 sm:h-7 animate-pulse" />
-              <span className="text-xl sm:text-2xl">Live Market</span>
-              <TrendingUp className="w-6 h-6 sm:w-7 sm:h-7 animate-pulse" />
-            </span>
-            <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-[shimmer_1.5s_ease-in-out_infinite] pointer-events-none" />
-          </button>
+          <div className="relative w-full max-w-2xl">
+            {/* Grid Background Pattern */}
+            <div className="absolute inset-0 opacity-20 pointer-events-none" 
+              style={{
+                backgroundImage: `linear-gradient(hsl(var(--border)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--border)) 1px, transparent 1px)`,
+                backgroundSize: '20px 20px'
+              }}
+            />
+            
+            {/* Main Glass Card */}
+            <div className="relative backdrop-blur-xl bg-gradient-to-br from-card/40 via-card/30 to-card/20 rounded-3xl border border-primary/20 shadow-[0_0_60px_rgba(16,185,129,0.15)] overflow-hidden group hover:shadow-[0_0_80px_rgba(16,185,129,0.25)] transition-all duration-500">
+              {/* Top Bar with Status */}
+              <div className="flex items-center justify-between px-4 sm:px-6 py-3 border-b border-border/30">
+                <div className="flex items-center gap-2">
+                  <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
+                  <span className="text-xs sm:text-sm font-semibold text-foreground">Market Status</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_10px_rgba(34,197,94,0.6)]" />
+                    <span className="text-xs text-green-500 font-medium">Live</span>
+                  </div>
+                  <div className="w-2 h-2 rounded-full bg-primary/40" />
+                  <div className="w-2 h-2 rounded-full bg-accent/40" />
+                </div>
+              </div>
+
+              {/* Content */}
+              <div className="p-6 sm:p-8 space-y-4 sm:space-y-6">
+                {/* Headline */}
+                <div className="space-y-2">
+                  <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-foreground via-primary to-accent bg-clip-text text-transparent">
+                    Live Crypto Markets
+                  </h3>
+                  <p className="text-base sm:text-lg text-muted-foreground">
+                    Real-time charts, advanced analytics, and instant execution
+                  </p>
+                </div>
+
+                {/* Body Copy with Accent Line */}
+                <div className="relative pl-4 sm:pl-6 border-l-4 border-green-500 space-y-2">
+                  <p className="text-sm sm:text-base text-foreground/80">
+                    Access professional-grade trading charts with multiple timeframes, technical indicators, and live price updates every 30 seconds.
+                  </p>
+                  <div className="flex items-center gap-2 text-xs sm:text-sm text-green-500">
+                    <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                    <span className="font-medium">Market data streaming</span>
+                  </div>
+                </div>
+
+                {/* Footer with CTAs */}
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
+                  {/* Primary CTA - Pill Button */}
+                  <button
+                    onClick={() => navigate('/market/bitcoin')}
+                    className="group/btn relative flex-1 px-6 py-4 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 rounded-full font-bold text-base sm:text-lg text-white shadow-[0_0_30px_rgba(34,197,94,0.4)] hover:shadow-[0_0_50px_rgba(34,197,94,0.6)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]"
+                  >
+                    <span className="flex items-center justify-center gap-2">
+                      <TrendingUp className="w-5 h-5" />
+                      <span>View Live Markets</span>
+                    </span>
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-shimmer" />
+                  </button>
+
+                  {/* Secondary CTA - Round Arrow Button */}
+                  <button
+                    onClick={() => navigate('/market/ethereum')}
+                    className="w-full sm:w-14 h-14 rounded-full bg-card/50 border border-primary/30 hover:border-primary hover:bg-primary/10 flex items-center justify-center transition-all duration-300 hover:scale-110 hover:rotate-12 group/arrow"
+                    aria-label="Quick access to Ethereum market"
+                  >
+                    <svg 
+                      className="w-6 h-6 text-primary group-hover/arrow:translate-x-0.5 transition-transform" 
+                      fill="none" 
+                      viewBox="0 0 24 24" 
+                      stroke="currentColor"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              {/* Glow Effect on Hover */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                <div className="absolute top-0 left-1/4 w-1/2 h-1/2 bg-green-500/10 blur-3xl rounded-full" />
+                <div className="absolute bottom-0 right-1/4 w-1/2 h-1/2 bg-primary/10 blur-3xl rounded-full" />
+              </div>
+            </div>
+          </div>
 
           {/* Pre-register Button */}
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
