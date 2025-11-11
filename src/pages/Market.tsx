@@ -463,14 +463,14 @@ const Market = () => {
           </div>
 
           {/* Chart Type & Timeframe Controls */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
+          <div className="flex flex-col gap-3">
             {/* Chart Type Selector */}
-            <div className="flex gap-2 flex-wrap">
+            <div className="flex gap-1.5 flex-wrap">
               <Button
                 variant={chartType === "candlestick" ? "default" : "outline"}
                 size="sm"
                 onClick={() => setChartType("candlestick")}
-                className={chartType !== "candlestick" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}
+                className={`text-xs sm:text-sm px-2.5 sm:px-3 ${chartType !== "candlestick" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}`}
               >
                 Candlestick
               </Button>
@@ -478,7 +478,7 @@ const Market = () => {
                 variant={chartType === "bars" ? "default" : "outline"}
                 size="sm"
                 onClick={() => setChartType("bars")}
-                className={chartType !== "bars" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}
+                className={`text-xs sm:text-sm px-2.5 sm:px-3 ${chartType !== "bars" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}`}
               >
                 Bars
               </Button>
@@ -486,7 +486,7 @@ const Market = () => {
                 variant={chartType === "hlc" ? "default" : "outline"}
                 size="sm"
                 onClick={() => setChartType("hlc")}
-                className={chartType !== "hlc" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}
+                className={`text-xs sm:text-sm px-2.5 sm:px-3 ${chartType !== "hlc" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}`}
               >
                 HLC
               </Button>
@@ -494,7 +494,7 @@ const Market = () => {
                 variant={chartType === "line" ? "default" : "outline"}
                 size="sm"
                 onClick={() => setChartType("line")}
-                className={chartType !== "line" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}
+                className={`text-xs sm:text-sm px-2.5 sm:px-3 ${chartType !== "line" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}`}
               >
                 Line
               </Button>
@@ -502,33 +502,36 @@ const Market = () => {
                 variant={chartType === "area" ? "default" : "outline"}
                 size="sm"
                 onClick={() => setChartType("area")}
-                className={chartType !== "area" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}
+                className={`text-xs sm:text-sm px-2.5 sm:px-3 ${chartType !== "area" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}`}
               >
                 Area
               </Button>
             </div>
 
-            {/* Timeframe Buttons */}
-            <div className="flex gap-2 flex-wrap items-center">
-              {timeframes.map((tf) => (
-                <Button
-                  key={tf.value}
-                  variant={days === tf.value ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setDays(tf.value)}
-                  className={days !== tf.value && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}
-                >
-                  {tf.label}
-                </Button>
-              ))}
+            {/* Timeframe and Scale Buttons */}
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+              {/* Timeframe Buttons */}
+              <div className="flex gap-1.5 flex-wrap">
+                {timeframes.map((tf) => (
+                  <Button
+                    key={tf.value}
+                    variant={days === tf.value ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setDays(tf.value)}
+                    className={`text-xs sm:text-sm px-2.5 sm:px-3 ${days !== tf.value && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}`}
+                  >
+                    {tf.label}
+                  </Button>
+                ))}
+              </div>
               
               {/* Price Scale Options */}
-              <div className="flex gap-1 ml-2 border-l pl-2">
+              <div className="flex gap-1.5 flex-wrap sm:border-l sm:pl-3">
                 <Button
                   variant={scaleType === "normal" ? "default" : "outline"}
                   size="sm"
                   onClick={() => setScaleType("normal")}
-                  className={scaleType !== "normal" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}
+                  className={`text-xs sm:text-sm px-2.5 sm:px-3 ${scaleType !== "normal" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}`}
                   title="Normal Scale"
                 >
                   Normal
@@ -537,7 +540,7 @@ const Market = () => {
                   variant={scaleType === "logarithmic" ? "default" : "outline"}
                   size="sm"
                   onClick={() => setScaleType("logarithmic")}
-                  className={scaleType !== "logarithmic" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}
+                  className={`text-xs sm:text-sm px-2.5 sm:px-3 ${scaleType !== "logarithmic" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}`}
                   title="Logarithmic Scale"
                 >
                   Log
@@ -546,7 +549,7 @@ const Market = () => {
                   variant={scaleType === "percentage" ? "default" : "outline"}
                   size="sm"
                   onClick={() => setScaleType("percentage")}
-                  className={scaleType !== "percentage" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}
+                  className={`text-xs sm:text-sm px-2.5 sm:px-3 ${scaleType !== "percentage" && isDarkTheme ? 'border-gray-700 hover:bg-white/10' : ''}`}
                   title="Percentage Scale"
                 >
                   %
