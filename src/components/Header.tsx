@@ -8,10 +8,8 @@ import instagramIcon from "@/assets/instagram-icon-new.png";
 import { ArrowRight, Menu } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import CareerForm from "@/components/CareerForm";
 
 const Header = () => {
-  const [careerDialogOpen, setCareerDialogOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -45,11 +43,6 @@ const Header = () => {
         });
       }
     }
-    setMobileMenuOpen(false);
-  };
-
-  const openCareerDialog = () => {
-    setCareerDialogOpen(true);
     setMobileMenuOpen(false);
   };
   return <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border/50">
@@ -91,12 +84,6 @@ const Header = () => {
                   Plans
                 </button>
                 <button
-                  onClick={openCareerDialog}
-                  className="text-left py-3 px-4 rounded-lg hover:bg-accent transition-colors text-lg font-medium"
-                >
-                  Careers
-                </button>
-                <button
                   onClick={() => scrollToSection('contact')}
                   className="text-left py-3 px-4 rounded-lg hover:bg-accent transition-colors text-lg font-medium"
                 >
@@ -134,17 +121,6 @@ const Header = () => {
                 <NavigationMenuLink className={navigationMenuTriggerStyle()} onClick={() => scrollToSection('pricing')} style={{
                 cursor: 'pointer'
               }}>Plans</NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink 
-                  className={navigationMenuTriggerStyle()} 
-                  onClick={() => setCareerDialogOpen(true)} 
-                  style={{
-                    cursor: 'pointer'
-                  }}
-                >
-                  Careers
-                </NavigationMenuLink>
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()} onClick={() => scrollToSection('contact')} style={{
@@ -224,21 +200,6 @@ const Header = () => {
                   🔒 Secure • 🚀 Active 24/7 • 💬 Expert Support
                 </p>
               </div>
-            </DialogContent>
-          </Dialog>
-
-          {/* Career Dialog */}
-          <Dialog open={careerDialogOpen} onOpenChange={setCareerDialogOpen}>
-            <DialogContent className="w-[90vw] max-w-[900px] max-h-[90vh] overflow-y-auto">
-              <DialogHeader>
-                <DialogTitle className="text-3xl font-bold text-center bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
-                  Career at Money Scalper
-                </DialogTitle>
-                <DialogDescription className="text-center text-base pt-2">
-                  Join our team and help shape the future of crypto trading
-                </DialogDescription>
-              </DialogHeader>
-              <CareerForm />
             </DialogContent>
           </Dialog>
         </div>
