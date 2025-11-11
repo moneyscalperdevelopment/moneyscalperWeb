@@ -7,6 +7,7 @@ import Testimonials from "@/components/Testimonials";
 import PricingPlans from "@/components/PricingPlans";
 import FAQs from "@/components/FAQs";
 import FinalCTA from "@/components/FinalCTA";
+import Footer from "@/components/Footer";
 import { Toaster } from "@/components/ui/toaster";
 
 const Index = () => {
@@ -27,6 +28,7 @@ const Index = () => {
       <div id="contact">
         <FinalCTA />
       </div>
+      <Footer />
       <Toaster />
     </div>
   );
