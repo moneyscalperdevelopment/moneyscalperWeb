@@ -462,25 +462,27 @@ const Market = () => {
               </Button>
             </div>
 
-            {/* Theme & Export */}
-            <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() => setIsDarkTheme(!isDarkTheme)}
-                className={isDarkTheme ? 'border-gray-700 hover:bg-white/10' : 'border-gray-300'}
-              >
-                {isDarkTheme ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-              </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={handleExportChart}
-                className={isDarkTheme ? 'border-gray-700 hover:bg-white/10' : 'border-gray-300'}
-              >
-                <Download className="w-4 h-4" />
-              </Button>
-            </div>
+            {/* Theme & Export - Desktop Only */}
+            {!isTabletOrMobile && (
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={() => setIsDarkTheme(!isDarkTheme)}
+                  className={isDarkTheme ? 'border-gray-700 hover:bg-white/10' : 'border-gray-300'}
+                >
+                  {isDarkTheme ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                </Button>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={handleExportChart}
+                  className={isDarkTheme ? 'border-gray-700 hover:bg-white/10' : 'border-gray-300'}
+                >
+                  <Download className="w-4 h-4" />
+                </Button>
+              </div>
+            )}
           </div>
 
           {/* Chart Type & Timeframe Controls */}
