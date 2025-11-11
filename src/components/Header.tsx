@@ -107,10 +107,10 @@ const Header = () => {
           {/* Logo - Centered on mobile */}
           <Link to="/" className="absolute left-1/2 -translate-x-1/2 md:relative md:left-auto md:translate-x-0 md:flex-1">
             <div className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">
+              <img src={msLogo} alt="MS Logo" className="h-6 sm:h-8 md:h-10 w-auto object-contain" />
               <span className="text-base sm:text-lg md:text-xl font-bold bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent whitespace-nowrap">
                 Money Scalper
               </span>
-              <img src={msLogo} alt="MS Logo" className="h-6 sm:h-8 md:h-10 w-auto object-contain" />
             </div>
           </Link>
 
