@@ -24,6 +24,18 @@ const Market = () => {
 
   const coinId = coinMap[coin?.toLowerCase() || ""] || coin;
 
+  const availableCoins = [
+    { id: "bitcoin", name: "Bitcoin", symbol: "BTC" },
+    { id: "ethereum", name: "Ethereum", symbol: "ETH" },
+    { id: "solana", name: "Solana", symbol: "SOL" },
+    { id: "cardano", name: "Cardano", symbol: "ADA" },
+    { id: "dogecoin", name: "Dogecoin", symbol: "DOGE" },
+  ];
+
+  const handleCoinChange = (newCoinId: string) => {
+    navigate(`/market/${newCoinId}`);
+  };
+
   useEffect(() => {
     if (!chartContainerRef.current) return;
 
@@ -136,7 +148,7 @@ const Market = () => {
       <Header />
       <div className="container mx-auto px-4 py-6 max-w-[1600px]">
         {/* Top Bar */}
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
           <div className="flex items-center gap-4">
             <Button
               variant="ghost"
@@ -145,14 +157,24 @@ const Market = () => {
             >
               Back
             </Button>
-            <div className="flex items-center gap-3">
-              <h1 className="text-2xl sm:text-3xl font-bold text-white">
-                {coinId?.charAt(0).toUpperCase() + coinId?.slice(1)}
-              </h1>
-              <span className="text-gray-400 text-lg">USD</span>
-            </div>
+            
+            {/* Crypto Switcher */}
+            <select
+              value={coinId}
+              onChange={(e) => handleCoinChange(e.target.value)}
+              className="border border-gray-700 rounded-lg px-4 py-2 bg-[#1a1a2e] text-white text-lg font-bold focus:outline-none focus:ring-2 focus:ring-primary min-w-[180px]"
+            >
+              {availableCoins.map((coin) => (
+                <option key={coin.id} value={coin.id}>
+                  {coin.name} ({coin.symbol})
+                </option>
+              ))}
+            </select>
+            
+            <span className="text-gray-400 text-lg">/ USD</span>
           </div>
           
+          {/* Timeframe Selector */}
           <select
             value={days}
             onChange={(e) => setDays(e.target.value)}
