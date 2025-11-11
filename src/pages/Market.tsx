@@ -220,6 +220,8 @@ const Market = () => {
 
     chartRef.current = chart;
     seriesRef.current = series;
+    
+    console.log('Chart initialized - chartRef:', !!chartRef.current, 'seriesRef:', !!seriesRef.current);
 
     const handleResize = () => {
       if (chartContainerRef.current && chartRef.current) {
@@ -241,37 +243,52 @@ const Market = () => {
     let isMounted = true;
     let refreshInterval: NodeJS.Timeout | null = null;
     
+    console.log('Data loading effect - chartRef:', !!chartRef.current, 'seriesRef:', !!seriesRef.current);
+    
     // Load cached data immediately for instant UI
     const cachedData = loadCachedData(coinId, days);
     if (cachedData && cachedData.length > 0) {
+      console.log('Loaded cached data:', cachedData.length, 'points');
       setChartData(cachedData);
       setLoading(false);
       
-      // Update chart with cached data
-      if (seriesRef.current) {
-        if (chartType === "candlestick" || chartType === "bars" || chartType === "hlc") {
-          seriesRef.current.setData(cachedData);
-        } else {
-          const convertedData = cachedData.map((d: any) => ({
-            time: d.time,
-            value: d.close,
-          }));
-          seriesRef.current.setData(convertedData);
-        }
-        
-        const latestClose = cachedData[cachedData.length - 1].close;
-        const firstClose = cachedData[0].close;
-        const change = ((latestClose - firstClose) / firstClose) * 100;
-        
-        setCurrentPrice(latestClose);
-        setPriceChange(change);
-        
-        requestAnimationFrame(() => {
-          if (chartRef.current && isMounted) {
-            chartRef.current.timeScale().fitContent();
+      // Update chart with cached data - wait for series to be ready
+      const updateCachedData = () => {
+        if (seriesRef.current && chartRef.current) {
+          console.log('Setting cached data to chart');
+          try {
+            if (chartType === "candlestick" || chartType === "bars" || chartType === "hlc") {
+              seriesRef.current.setData(cachedData);
+            } else {
+              const convertedData = cachedData.map((d: any) => ({
+                time: d.time,
+                value: d.close,
+              }));
+              seriesRef.current.setData(convertedData);
+            }
+            
+            const latestClose = cachedData[cachedData.length - 1].close;
+            const firstClose = cachedData[0].close;
+            const change = ((latestClose - firstClose) / firstClose) * 100;
+            
+            setCurrentPrice(latestClose);
+            setPriceChange(change);
+            
+            requestAnimationFrame(() => {
+              if (chartRef.current && isMounted) {
+                chartRef.current.timeScale().fitContent();
+              }
+            });
+          } catch (err) {
+            console.error('Error setting cached data:', err);
           }
-        });
-      }
+        } else {
+          console.log('Chart not ready yet, retrying...');
+          setTimeout(updateCachedData, 50);
+        }
+      };
+      
+      updateCachedData();
       
       // Set refreshing state to show we're fetching fresh data
       setRefreshing(true);
@@ -306,28 +323,35 @@ const Market = () => {
         setLastUpdate(new Date());
 
         if (seriesRef.current && formattedData.length > 0) {
-          if (chartType === "candlestick" || chartType === "bars" || chartType === "hlc") {
-            seriesRef.current.setData(formattedData);
-          } else {
-            const convertedData = formattedData.map((d: any) => ({
-              time: d.time,
-              value: d.close,
-            }));
-            seriesRef.current.setData(convertedData);
-          }
-          
-          const latestClose = formattedData[formattedData.length - 1].close;
-          const firstClose = formattedData[0].close;
-          const change = ((latestClose - firstClose) / firstClose) * 100;
-          
-          setCurrentPrice(latestClose);
-          setPriceChange(change);
-
-          requestAnimationFrame(() => {
-            if (chartRef.current && isMounted) {
-              chartRef.current.timeScale().fitContent();
+          console.log('Setting fresh data to chart:', formattedData.length, 'points');
+          try {
+            if (chartType === "candlestick" || chartType === "bars" || chartType === "hlc") {
+              seriesRef.current.setData(formattedData);
+            } else {
+              const convertedData = formattedData.map((d: any) => ({
+                time: d.time,
+                value: d.close,
+              }));
+              seriesRef.current.setData(convertedData);
             }
-          });
+            
+            const latestClose = formattedData[formattedData.length - 1].close;
+            const firstClose = formattedData[0].close;
+            const change = ((latestClose - firstClose) / firstClose) * 100;
+            
+            setCurrentPrice(latestClose);
+            setPriceChange(change);
+
+            requestAnimationFrame(() => {
+              if (chartRef.current && isMounted) {
+                chartRef.current.timeScale().fitContent();
+              }
+            });
+          } catch (err) {
+            console.error('Error setting fresh data:', err);
+          }
+        } else {
+          console.log('Series not ready or no data:', !!seriesRef.current, formattedData.length);
         }
       } catch (err) {
         if (err.name !== 'AbortError' && isMounted) {
