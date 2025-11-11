@@ -1,4 +1,4 @@
-import { motion } from "motion/react";
+import { motion, useMotionTemplate, useMotionValue } from "motion/react";
 import { useEffect, useState } from "react";
 import { TrendingUp, TrendingDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +11,28 @@ const LivePrices = () => {
     ethereum?: number;
   }>({});
   const [loading, setLoading] = useState(true);
+
+  // Bitcoin card hover effect
+  const [btcVisible, setBtcVisible] = useState(false);
+  let btcMouseX = useMotionValue(0);
+  let btcMouseY = useMotionValue(0);
+
+  function handleBtcMouseMove({ currentTarget, clientX, clientY }: React.MouseEvent<HTMLDivElement>) {
+    let { left, top } = currentTarget.getBoundingClientRect();
+    btcMouseX.set(clientX - left);
+    btcMouseY.set(clientY - top);
+  }
+
+  // Ethereum card hover effect
+  const [ethVisible, setEthVisible] = useState(false);
+  let ethMouseX = useMotionValue(0);
+  let ethMouseY = useMotionValue(0);
+
+  function handleEthMouseMove({ currentTarget, clientX, clientY }: React.MouseEvent<HTMLDivElement>) {
+    let { left, top } = currentTarget.getBoundingClientRect();
+    ethMouseX.set(clientX - left);
+    ethMouseY.set(clientY - top);
+  }
   useEffect(() => {
     const fetchPrices = async () => {
       try {
@@ -50,25 +72,35 @@ const LivePrices = () => {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
-          <motion.div initial={{
-          opacity: 0,
-          x: -20
-        }} whileInView={{
-          opacity: 1,
-          x: 0
-        }} viewport={{
-          once: true
-        }} transition={{
-          duration: 0.6
-        }} onClick={() => navigate("/market/bitcoin")} className="p-4 sm:p-5 md:p-6 rounded-xl sm:rounded-2xl border border-border bg-card shadow-lg hover:shadow-xl transition-all cursor-pointer hover:scale-105">
-            <div className="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
-              <img src={bitcoinLogo} alt="Bitcoin" className="w-12 h-12 sm:w-14 sm:h-14" />
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }} 
+            whileInView={{ opacity: 1, x: 0 }} 
+            viewport={{ once: true }} 
+            transition={{ duration: 0.6 }}
+            style={{
+              background: useMotionTemplate`
+                radial-gradient(
+                  ${btcVisible ? "300px" : "0px"} circle at ${btcMouseX}px ${btcMouseY}px,
+                  hsl(var(--primary) / 0.15),
+                  transparent 80%
+                )
+              `,
+            }}
+            onMouseMove={handleBtcMouseMove}
+            onMouseEnter={() => setBtcVisible(true)}
+            onMouseLeave={() => setBtcVisible(false)}
+            onClick={() => navigate("/market/bitcoin")} 
+            className="relative p-4 sm:p-5 md:p-6 rounded-xl sm:rounded-2xl border border-border bg-card shadow-lg hover:shadow-2xl hover:shadow-primary/20 transition-all duration-300 cursor-pointer group overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl sm:rounded-2xl" />
+            <div className="relative z-10 flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
+              <img src={bitcoinLogo} alt="Bitcoin" className="w-12 h-12 sm:w-14 sm:h-14 group-hover:scale-110 transition-transform duration-300" />
               <div>
                 <h3 className="text-xl sm:text-2xl font-bold">Bitcoin</h3>
                 <p className="text-sm sm:text-base text-muted-foreground">BTC Price #1</p>
               </div>
             </div>
-            <div className="space-y-1.5 sm:space-y-2">
+            <div className="relative z-10 space-y-1.5 sm:space-y-2">
               <p className="text-3xl sm:text-4xl md:text-5xl font-bold">
                 {loading ? "Loading..." : `$${prices.bitcoin?.toLocaleString()}`}
               </p>
@@ -82,25 +114,35 @@ const LivePrices = () => {
             </div>
           </motion.div>
 
-          <motion.div initial={{
-          opacity: 0,
-          x: 20
-        }} whileInView={{
-          opacity: 1,
-          x: 0
-        }} viewport={{
-          once: true
-        }} transition={{
-          duration: 0.6
-        }} onClick={() => navigate("/market/ethereum")} className="p-4 sm:p-5 md:p-6 rounded-xl sm:rounded-2xl border border-border bg-card shadow-lg hover:shadow-xl transition-all cursor-pointer hover:scale-105">
-            <div className="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
-              <img src={ethereumLogo} alt="Ethereum" className="w-12 h-12 sm:w-14 sm:h-14" />
+          <motion.div 
+            initial={{ opacity: 0, x: 20 }} 
+            whileInView={{ opacity: 1, x: 0 }} 
+            viewport={{ once: true }} 
+            transition={{ duration: 0.6 }}
+            style={{
+              background: useMotionTemplate`
+                radial-gradient(
+                  ${ethVisible ? "300px" : "0px"} circle at ${ethMouseX}px ${ethMouseY}px,
+                  hsl(var(--primary) / 0.15),
+                  transparent 80%
+                )
+              `,
+            }}
+            onMouseMove={handleEthMouseMove}
+            onMouseEnter={() => setEthVisible(true)}
+            onMouseLeave={() => setEthVisible(false)}
+            onClick={() => navigate("/market/ethereum")} 
+            className="relative p-4 sm:p-5 md:p-6 rounded-xl sm:rounded-2xl border border-border bg-card shadow-lg hover:shadow-2xl hover:shadow-primary/20 transition-all duration-300 cursor-pointer group overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl sm:rounded-2xl" />
+            <div className="relative z-10 flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
+              <img src={ethereumLogo} alt="Ethereum" className="w-12 h-12 sm:w-14 sm:h-14 group-hover:scale-110 transition-transform duration-300" />
               <div>
                 <h3 className="text-xl sm:text-2xl font-bold">Ethereum</h3>
                 <p className="text-sm sm:text-base text-muted-foreground">ETH Price #2</p>
               </div>
             </div>
-            <div className="space-y-1.5 sm:space-y-2">
+            <div className="relative z-10 space-y-1.5 sm:space-y-2">
               <p className="text-3xl sm:text-4xl md:text-5xl font-bold">
                 {loading ? "Loading..." : `$${prices.ethereum?.toLocaleString()}`}
               </p>
