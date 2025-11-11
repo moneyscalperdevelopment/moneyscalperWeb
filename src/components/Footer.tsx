@@ -123,9 +123,8 @@ const Footer = () => {
 
         {/* Social Media Icons */}
         <div className="border-t border-border/40 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-muted-foreground text-sm">© 2025 MoneyScalper. All rights reserved.</p>
-            <div className="flex gap-4">
+          <div className="flex flex-col items-center gap-6">
+            <div className="flex gap-4 justify-center">
               <a href="https://t.me/moneyscalper" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
                 <img src={telegramIcon} alt="Telegram" className="w-8 h-8" />
               </a>
@@ -139,6 +138,7 @@ const Footer = () => {
                 <img src={gmailIcon} alt="Email" className="w-8 h-8" />
               </a>
             </div>
+            <p className="text-muted-foreground text-sm">© 2025 MoneyScalper. All rights reserved.</p>
           </div>
         </div>
       </div>
