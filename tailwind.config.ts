@@ -98,6 +98,10 @@ export default {
         "cyber-scan": {
           "0%": { transform: "translateX(-100%)" },
           "100%": { transform: "translateX(100%)" },
+        },
+        "shimmer": {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(100%)" },
         }
       },
       animation: {
@@ -107,6 +111,7 @@ export default {
         "glow-pulse": "glow-pulse 2s ease-in-out infinite alternate",
         "particle-float": "particle-float 8s linear infinite",
         "cyber-scan": "cyber-scan 3s ease-in-out infinite",
+        "shimmer": "shimmer 1.5s ease-in-out infinite",
       },
     },
   },

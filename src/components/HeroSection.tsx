@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { Zap } from "lucide-react";
+import { Zap, TrendingUp } from "lucide-react";
 import heroImage from "@/assets/hero-crypto.jpg";
 import { useState, useEffect } from "react";
 import emailjs from "@emailjs/browser";
@@ -11,7 +11,9 @@ import { SuccessPopup } from "@/components/SuccessPopup";
 import TradingChartBackground from "@/components/TradingChartBackground";
 import { useWaitlistCounter } from "@/hooks/useWaitlistCounter";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 const HeroSection = () => {
+  const navigate = useNavigate();
   const { count: traderCount, incrementCounter } = useWaitlistCounter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccessPopup, setShowSuccessPopup] = useState(false);
@@ -129,14 +131,19 @@ const HeroSection = () => {
           </span>
         </p>
 
-        {/* Dynamic Counter */}
+        {/* Live Market Button */}
         <div className="mt-6 sm:mt-8 md:mt-12 flex flex-col items-center gap-4 sm:gap-6 md:gap-8">
-          <div className="bg-card/30 backdrop-blur-sm rounded-xl p-4 sm:p-5 md:p-6 border border-border/50 cyber-glow min-w-[240px]">
-            <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary mb-2">
-              <span className="counter">{traderCount.toLocaleString()}</span>
-            </div>
-            <div className="text-sm sm:text-base text-muted-foreground">Traders on waitlist</div>
-          </div>
+          <button 
+            onClick={() => navigate('/market/bitcoin')}
+            className="group relative px-8 sm:px-12 py-4 sm:py-6 bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_100%] hover:bg-[position:100%_0] text-white font-bold text-lg sm:text-xl rounded-xl shadow-[0_0_30px_rgba(59,130,246,0.5)] hover:shadow-[0_0_50px_rgba(59,130,246,0.8)] transition-all duration-500 border border-primary/50 hover:scale-105"
+          >
+            <span className="flex items-center gap-3">
+              <TrendingUp className="w-6 h-6 sm:w-7 sm:h-7 animate-pulse" />
+              <span className="text-xl sm:text-2xl">Live Market</span>
+              <TrendingUp className="w-6 h-6 sm:w-7 sm:h-7 animate-pulse" />
+            </span>
+            <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-[shimmer_1.5s_ease-in-out_infinite] pointer-events-none" />
+          </button>
 
           {/* Pre-register Button */}
           <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
