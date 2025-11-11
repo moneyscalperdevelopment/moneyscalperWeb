@@ -268,6 +268,12 @@ const Market = () => {
     }
   }, [scaleType]);
 
+  useEffect(() => {
+    if (chartData.length > 0) {
+      updateChartType(chartType);
+    }
+  }, [chartType]);
+
   const bgColor = isDarkTheme ? "#0D0D2B" : "#f5f5f5";
   const cardBg = isDarkTheme ? "#1a1a2e" : "#ffffff";
   const borderColor = isDarkTheme ? "gray-800" : "gray-200";
