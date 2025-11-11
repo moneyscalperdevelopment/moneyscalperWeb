@@ -21,12 +21,24 @@ const TradingChartBackground = () => {
     // Mobile detection
     const isMobile = window.innerWidth < 768;
     
-    // Pause animation when tab is hidden to save resources
+    // Pause animation when tab is hidden or scrolling to save resources
     let isAnimating = true;
+    let scrollTimeout: NodeJS.Timeout;
+    
     const handleVisibilityChange = () => {
       isAnimating = !document.hidden;
     };
+    
+    const handleScroll = () => {
+      isAnimating = false;
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        isAnimating = true;
+      }, 150);
+    };
+    
     document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     
     // Trading floor grid
     const gridOffset = { x: 0, y: 0 };
@@ -53,7 +65,7 @@ const TradingChartBackground = () => {
       }
     };
 
-    // Data streams (ticker-like moving text)
+    // Data streams (ticker-like moving text) - reduced for performance
     interface DataStream {
       y: number;
       speed: number;
@@ -63,8 +75,8 @@ const TradingChartBackground = () => {
     const streams: DataStream[] = [];
     const symbols = ['BTC', 'ETH', 'SOL', 'USDT', 'BNB', 'XRP', 'ADA', 'DOGE', 'MATIC', 'DOT'];
     
-    // Initialize data streams
-    for (let i = 0; i < (isMobile ? 3 : 5); i++) {
+    // Initialize data streams - reduced count
+    for (let i = 0; i < (isMobile ? 2 : 3); i++) {
       const streamData = [];
       for (let j = 0; j < 8; j++) {
         const isPositive = Math.random() > 0.5;
@@ -104,7 +116,7 @@ const TradingChartBackground = () => {
       candleData.push(generateCandle(i));
     }
 
-    // Glowing particles - reduced count for performance
+    // Glowing particles - heavily reduced for performance
     interface Particle {
       x: number;
       y: number;
@@ -116,7 +128,7 @@ const TradingChartBackground = () => {
     }
     
     const particles: Particle[] = [];
-    const particleCount = isMobile ? 8 : 15; // Reduced from 15/30
+    const particleCount = isMobile ? 5 : 8; // Further reduced
     
     for (let i = 0; i < particleCount; i++) {
       particles.push({
@@ -134,12 +146,23 @@ const TradingChartBackground = () => {
     let candleIndex = numCandles;
     let frame = 0;
     let animationId: number;
+    let lastFrameTime = 0;
+    const targetFPS = 30; // Limit to 30 FPS for better performance
+    const frameInterval = 1000 / targetFPS;
     
-    const animate = () => {
+    const animate = (currentTime: number = 0) => {
+      animationId = requestAnimationFrame(animate);
+      
       if (!ctx || !canvas || !isAnimating) {
-        animationId = requestAnimationFrame(animate);
         return;
       }
+      
+      // Throttle to 30 FPS
+      const elapsed = currentTime - lastFrameTime;
+      if (elapsed < frameInterval) {
+        return;
+      }
+      lastFrameTime = currentTime - (elapsed % frameInterval);
       frame++;
       
       // Clear canvas with gradient background
@@ -150,9 +173,9 @@ const TradingChartBackground = () => {
       ctx.fillStyle = bgGradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Animate grid - reduced speed for performance
-      gridOffset.x -= 0.1; // Reduced from 0.2
-      gridOffset.y -= 0.05; // Reduced from 0.1
+      // Animate grid - minimal movement
+      gridOffset.x -= 0.05;
+      gridOffset.y -= 0.025;
       drawGrid();
 
       // Draw and animate particles
@@ -200,8 +223,8 @@ const TradingChartBackground = () => {
         });
       });
 
-      // Animate candlesticks - reduced speed for performance
-      animationOffset += 0.4; // Reduced from 0.8
+      // Animate candlesticks - minimal movement
+      animationOffset += 0.2;
       if (animationOffset >= candleWidth) {
         animationOffset = 0;
         
@@ -252,16 +275,16 @@ const TradingChartBackground = () => {
         
         ctx.shadowBlur = 0;
       });
-
-      animationId = requestAnimationFrame(animate);
     };
 
     animate();
 
     return () => {
       window.removeEventListener('resize', setCanvasSize);
+      window.removeEventListener('scroll', handleScroll);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       cancelAnimationFrame(animationId);
+      clearTimeout(scrollTimeout);
     };
   }, []);
 

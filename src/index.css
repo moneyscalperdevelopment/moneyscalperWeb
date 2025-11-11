@@ -201,6 +201,16 @@ All colors MUST be HSL.
     background: hsl(var(--accent));
   }
 
+  /* Hide scrollbar for specific elements */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
   /* Pre-register Button Styles */
   .pre-register-btn {
     border: none;

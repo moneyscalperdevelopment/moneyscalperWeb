@@ -78,24 +78,11 @@ const Testimonials = () => {
             </motion.div>)}
         </div>
 
-        {/* Mobile view with horizontal scroll animation */}
-        <div className="sm:hidden overflow-hidden">
-          <motion.div 
-            className="flex gap-4"
-            animate={{
-              x: [0, -100 * testimonials.length]
-            }}
-            transition={{
-              x: {
-                repeat: Infinity,
-                repeatType: "loop",
-                duration: 25,
-                ease: "linear"
-              }
-            }}
-          >
-            {[...testimonials, ...testimonials].map((testimonial, index) => (
-              <div key={`${testimonial.name}-${index}`} className="min-w-[300px]">
+        {/* Mobile view - static cards in scroll container */}
+        <div className="sm:hidden overflow-x-auto scrollbar-hide -mx-3 px-3">
+          <div className="flex gap-4 pb-4">
+            {testimonials.map((testimonial, index) => (
+              <div key={`${testimonial.name}-${index}`} className="min-w-[300px] flex-shrink-0">
                 <Card className="h-full bg-card/50 backdrop-blur-sm border-border/50">
                   <CardContent className="pt-4 p-4">
                     <div className="flex gap-1 mb-3">
@@ -119,7 +106,7 @@ const Testimonials = () => {
                 </Card>
               </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>;
