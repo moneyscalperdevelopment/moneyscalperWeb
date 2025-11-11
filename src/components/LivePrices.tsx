@@ -1,9 +1,11 @@
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { TrendingUp, TrendingDown } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import bitcoinLogo from "@/assets/bitcoin-logo.webp";
 import ethereumLogo from "@/assets/ethereum-logo.png";
 const LivePrices = () => {
+  const navigate = useNavigate();
   const [prices, setPrices] = useState<{
     bitcoin?: number;
     ethereum?: number;
@@ -58,7 +60,7 @@ const LivePrices = () => {
           once: true
         }} transition={{
           duration: 0.6
-        }} className="p-4 sm:p-5 md:p-6 rounded-xl sm:rounded-2xl border border-border bg-card shadow-lg hover:shadow-xl transition-shadow">
+        }} onClick={() => navigate("/market/bitcoin")} className="p-4 sm:p-5 md:p-6 rounded-xl sm:rounded-2xl border border-border bg-card shadow-lg hover:shadow-xl transition-all cursor-pointer hover:scale-105">
             <div className="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
               <img src={bitcoinLogo} alt="Bitcoin" className="w-12 h-12 sm:w-14 sm:h-14" />
               <div>
@@ -90,7 +92,7 @@ const LivePrices = () => {
           once: true
         }} transition={{
           duration: 0.6
-        }} className="p-4 sm:p-5 md:p-6 rounded-xl sm:rounded-2xl border border-border bg-card shadow-lg hover:shadow-xl transition-shadow">
+        }} onClick={() => navigate("/market/ethereum")} className="p-4 sm:p-5 md:p-6 rounded-xl sm:rounded-2xl border border-border bg-card shadow-lg hover:shadow-xl transition-all cursor-pointer hover:scale-105">
             <div className="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-4">
               <img src={ethereumLogo} alt="Ethereum" className="w-12 h-12 sm:w-14 sm:h-14" />
               <div>
