@@ -3,10 +3,8 @@ import telegramIcon from "@/assets/telegram-icon-new.png";
 import discordIcon from "@/assets/discord-icon-new.png";
 import instagramIcon from "@/assets/instagram-icon-new.png";
 import gmailIcon from "@/assets/gmail-icon.png";
-
 const Footer = () => {
-  return (
-    <footer className="bg-background border-t border-border/40 py-12">
+  return <footer className="bg-background border-t border-border/40 py-12">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* Column A - Platform */}
@@ -126,46 +124,24 @@ const Footer = () => {
         {/* Social Media Icons */}
         <div className="border-t border-border/40 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-muted-foreground text-sm">
-              © 2024 MoneyScalper. All rights reserved.
-            </p>
+            <p className="text-muted-foreground text-sm">© 2025 MoneyScalper. All rights reserved.</p>
             <div className="flex gap-4">
-              <a
-                href="https://t.me/moneyscalper"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:opacity-80 transition-opacity"
-              >
+              <a href="https://t.me/moneyscalper" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
                 <img src={telegramIcon} alt="Telegram" className="w-8 h-8" />
               </a>
-              <a
-                href="https://discord.gg/moneyscalper"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:opacity-80 transition-opacity"
-              >
+              <a href="https://discord.gg/moneyscalper" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
                 <img src={discordIcon} alt="Discord" className="w-8 h-8" />
               </a>
-              <a
-                href="https://instagram.com/moneyscalper"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:opacity-80 transition-opacity"
-              >
+              <a href="https://instagram.com/moneyscalper" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
                 <img src={instagramIcon} alt="Instagram" className="w-8 h-8" />
               </a>
-              <a
-                href="mailto:contact@moneyscalper.com"
-                className="hover:opacity-80 transition-opacity"
-              >
+              <a href="mailto:contact@moneyscalper.com" className="hover:opacity-80 transition-opacity">
                 <img src={gmailIcon} alt="Email" className="w-8 h-8" />
               </a>
             </div>
           </div>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
-
 export default Footer;
