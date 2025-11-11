@@ -13,6 +13,7 @@ const Market = () => {
   const seriesRef = useRef<any>(null);
   const [days, setDays] = useState("30");
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [currentPrice, setCurrentPrice] = useState<number>(0);
   const [priceChange, setPriceChange] = useState<number>(0);
   const [chartType, setChartType] = useState<"candlestick" | "line" | "area" | "bars" | "hlc">("candlestick");
@@ -30,6 +31,41 @@ const Market = () => {
   };
 
   const coinId = coinMap[coin?.toLowerCase() || ""] || coin;
+
+  // Cache key for localStorage
+  const getCacheKey = (coinId: string, days: string) => `chart_${coinId}_${days}`;
+
+  // Load cached data immediately
+  const loadCachedData = (coinId: string, days: string) => {
+    try {
+      const cacheKey = getCacheKey(coinId, days);
+      const cached = localStorage.getItem(cacheKey);
+      if (cached) {
+        const { data, timestamp } = JSON.parse(cached);
+        // Use cached data if less than 5 minutes old
+        const age = Date.now() - timestamp;
+        if (age < 5 * 60 * 1000) {
+          return data;
+        }
+      }
+    } catch (err) {
+      console.error('Error loading cached data:', err);
+    }
+    return null;
+  };
+
+  // Save data to cache
+  const saveToCache = (coinId: string, days: string, data: any[]) => {
+    try {
+      const cacheKey = getCacheKey(coinId, days);
+      localStorage.setItem(cacheKey, JSON.stringify({
+        data,
+        timestamp: Date.now()
+      }));
+    } catch (err) {
+      console.error('Error saving to cache:', err);
+    }
+  };
 
   const availableCoins = [
     { id: "bitcoin", name: "Bitcoin", symbol: "BTC" },
@@ -207,13 +243,52 @@ const Market = () => {
     let isMounted = true;
     let refreshInterval: NodeJS.Timeout | null = null;
     
-    const loadOHLC = async () => {
+    // Load cached data immediately for instant UI
+    const cachedData = loadCachedData(coinId, days);
+    if (cachedData && cachedData.length > 0) {
+      setChartData(cachedData);
+      setLoading(false);
+      
+      // Update chart with cached data
+      if (seriesRef.current) {
+        if (chartType === "candlestick" || chartType === "bars" || chartType === "hlc") {
+          seriesRef.current.setData(cachedData);
+        } else {
+          const convertedData = cachedData.map((d: any) => ({
+            time: d.time,
+            value: d.close,
+          }));
+          seriesRef.current.setData(convertedData);
+        }
+        
+        const latestClose = cachedData[cachedData.length - 1].close;
+        const firstClose = cachedData[0].close;
+        const change = ((latestClose - firstClose) / firstClose) * 100;
+        
+        setCurrentPrice(latestClose);
+        setPriceChange(change);
+        
+        requestAnimationFrame(() => {
+          if (chartRef.current && isMounted) {
+            chartRef.current.timeScale().fitContent();
+          }
+        });
+      }
+      
+      // Set refreshing state to show we're fetching fresh data
+      setRefreshing(true);
+    }
+    
+    const loadOHLC = async (isInitialLoad = true) => {
       if (!coinId || !isMounted) return;
       
-      setLoading(true);
+      if (isInitialLoad && !cachedData) {
+        setLoading(true);
+      }
+      
       try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
+        const timeoutId = setTimeout(() => controller.abort(), 10000);
         
         const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/crypto-ohlc?coin=${coinId}&days=${days}&vs=usd`;
         const res = await fetch(url, { signal: controller.signal });
@@ -226,15 +301,16 @@ const Market = () => {
         
         if (!isMounted) return;
         
+        // Save to cache
+        saveToCache(coinId, days, formattedData);
+        
         setChartData(formattedData);
         setLastUpdate(new Date());
 
         if (seriesRef.current && formattedData.length > 0) {
-          // Update data based on current chart type
           if (chartType === "candlestick" || chartType === "bars" || chartType === "hlc") {
             seriesRef.current.setData(formattedData);
           } else {
-            // For line and area charts, convert to simple value format
             const convertedData = formattedData.map((d: any) => ({
               time: d.time,
               value: d.close,
@@ -249,7 +325,6 @@ const Market = () => {
           setCurrentPrice(latestClose);
           setPriceChange(change);
 
-          // Use requestAnimationFrame for smooth rendering
           requestAnimationFrame(() => {
             if (chartRef.current && isMounted) {
               chartRef.current.timeScale().fitContent();
@@ -263,20 +338,22 @@ const Market = () => {
       } finally {
         if (isMounted) {
           setLoading(false);
+          setRefreshing(false);
         }
       }
     };
 
-    loadOHLC();
+    // Load fresh data
+    loadOHLC(true);
 
-    // Increased refresh interval to 60 seconds to reduce load
+    // Set up background refresh
     refreshInterval = setInterval(() => {
       if (isMounted) {
-        loadOHLC();
+        setRefreshing(true);
+        loadOHLC(false);
       }
     }, 60000);
 
-    // Cleanup
     return () => {
       isMounted = false;
       if (refreshInterval) {
@@ -493,10 +570,22 @@ const Market = () => {
             
             {/* Right: Live Indicator */}
             <div className="flex items-center gap-2 justify-end">
-              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-              <span className={`text-sm ${isDarkTheme ? 'text-gray-400' : 'text-gray-600'}`}>
-                Live
-              </span>
+              {refreshing && !loading && (
+                <>
+                  <div className="w-2 h-2 rounded-full bg-blue-500 animate-spin border-2 border-transparent border-t-blue-500" />
+                  <span className={`text-xs ${isDarkTheme ? 'text-gray-400' : 'text-gray-600'}`}>
+                    Updating...
+                  </span>
+                </>
+              )}
+              {!refreshing && (
+                <>
+                  <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                  <span className={`text-sm ${isDarkTheme ? 'text-gray-400' : 'text-gray-600'}`}>
+                    Live
+                  </span>
+                </>
+              )}
             </div>
           </div>
         </div>

@@ -33,11 +33,34 @@ const LivePrices = memo(() => {
     ethMouseX.set(clientX - left);
     ethMouseY.set(clientY - top);
   }
+  
   useEffect(() => {
+    // Load cached prices immediately
+    const loadCachedPrices = () => {
+      try {
+        const cached = localStorage.getItem('crypto_prices');
+        if (cached) {
+          const { data, timestamp } = JSON.parse(cached);
+          const age = Date.now() - timestamp;
+          // Use if less than 2 minutes old
+          if (age < 2 * 60 * 1000) {
+            setPrices(data);
+            setLoading(false);
+            return true;
+          }
+        }
+      } catch (err) {
+        console.error('Error loading cached prices:', err);
+      }
+      return false;
+    };
+
+    const hasCached = loadCachedPrices();
+    
     const fetchPrices = async () => {
       try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 5000); // 5s timeout
+        const timeoutId = setTimeout(() => controller.abort(), 5000);
         
         const res = await fetch("https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd", {
           signal: controller.signal
@@ -48,16 +71,26 @@ const LivePrices = memo(() => {
         if (!res.ok) throw new Error('API request failed');
         
         const data = await res.json();
-        setPrices({
+        const newPrices = {
           bitcoin: data.bitcoin.usd,
           ethereum: data.ethereum.usd
-        });
+        };
+        
+        setPrices(newPrices);
         setLoading(false);
+        
+        // Save to cache
+        localStorage.setItem('crypto_prices', JSON.stringify({
+          data: newPrices,
+          timestamp: Date.now()
+        }));
       } catch (err) {
         if (err.name !== 'AbortError') {
           console.error("Error fetching prices", err);
         }
-        setLoading(false);
+        if (!hasCached) {
+          setLoading(false);
+        }
       }
     };
     
