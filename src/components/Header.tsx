@@ -77,6 +77,13 @@ const Header = () => {
                 >
                   About Us
                 </Link>
+                <Link
+                  to="/careers"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-left py-3 px-4 rounded-lg hover:bg-accent transition-colors text-lg font-medium"
+                >
+                  Careers
+                </Link>
                 <button
                   onClick={() => scrollToSection('pricing')}
                   className="text-left py-3 px-4 rounded-lg hover:bg-accent transition-colors text-lg font-medium"
@@ -115,6 +122,11 @@ const Header = () => {
               <NavigationMenuItem>
                 <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
                   <Link to="/about">About Us</Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+                  <Link to="/careers">Careers</Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
               <NavigationMenuItem>
