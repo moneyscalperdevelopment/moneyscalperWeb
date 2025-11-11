@@ -298,34 +298,6 @@ const Market = () => {
               >
                 Back
               </Button>
-              
-              {/* Bitcoin/Ethereum Toggle Switcher */}
-              <div className={`inline-flex rounded-lg border p-1 ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700' : 'bg-white border-gray-300'}`}>
-                <Button
-                  variant={coinId === "bitcoin" ? "default" : "ghost"}
-                  size="sm"
-                  onClick={() => handleCoinChange("bitcoin")}
-                  className={`px-6 py-2 ${coinId === "bitcoin" ? '' : isDarkTheme ? 'text-white hover:bg-white/10' : 'text-gray-900'}`}
-                >
-                  <span className="flex items-center gap-2">
-                    <span className="text-lg">₿</span>
-                    <span className="font-bold">Bitcoin</span>
-                  </span>
-                </Button>
-                <Button
-                  variant={coinId === "ethereum" ? "default" : "ghost"}
-                  size="sm"
-                  onClick={() => handleCoinChange("ethereum")}
-                  className={`px-6 py-2 ${coinId === "ethereum" ? '' : isDarkTheme ? 'text-white hover:bg-white/10' : 'text-gray-900'}`}
-                >
-                  <span className="flex items-center gap-2">
-                    <span className="text-lg">Ξ</span>
-                    <span className="font-bold">Ethereum</span>
-                  </span>
-                </Button>
-              </div>
-              
-              <span className={`text-lg ${isDarkTheme ? 'text-gray-400' : 'text-gray-600'}`}>/ USD</span>
             </div>
 
             {/* Theme & Export */}
@@ -460,6 +432,33 @@ const Market = () => {
                 <span className={`text-sm ml-2 ${isDarkTheme ? 'text-gray-400' : 'text-gray-600'}`}>({days}D)</span>
               </div>
             </div>
+            
+            {/* Bitcoin/Ethereum Toggle Switcher - Centered */}
+            <div className={`inline-flex rounded-lg border p-1 ${isDarkTheme ? 'bg-[#0D0D2B] border-gray-700' : 'bg-gray-50 border-gray-300'}`}>
+              <Button
+                variant={coinId === "bitcoin" ? "default" : "ghost"}
+                size="sm"
+                onClick={() => handleCoinChange("bitcoin")}
+                className={`px-6 py-2 ${coinId === "bitcoin" ? '' : isDarkTheme ? 'text-white hover:bg-white/10' : 'text-gray-900'}`}
+              >
+                <span className="flex items-center gap-2">
+                  <span className="text-lg">₿</span>
+                  <span className="font-bold">Bitcoin</span>
+                </span>
+              </Button>
+              <Button
+                variant={coinId === "ethereum" ? "default" : "ghost"}
+                size="sm"
+                onClick={() => handleCoinChange("ethereum")}
+                className={`px-6 py-2 ${coinId === "ethereum" ? '' : isDarkTheme ? 'text-white hover:bg-white/10' : 'text-gray-900'}`}
+              >
+                <span className="flex items-center gap-2">
+                  <span className="text-lg">Ξ</span>
+                  <span className="font-bold">Ethereum</span>
+                </span>
+              </Button>
+            </div>
+            
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
               <span className={`text-sm ${isDarkTheme ? 'text-gray-400' : 'text-gray-600'}`}>
