@@ -60,7 +60,7 @@ const ContactDialog = ({
           </a>
         </div>
         <div className="text-center pt-2 pb-2">
-          <p className="text-sm text-muted-foreground">   Secure   •  Active 24/7 •   Expert Support</p>
+          <p className="text-sm text-muted-foreground">   Secure   •   Active 24/7   •   Expert Support</p>
         </div>
       </DialogContent>
     </Dialog>;
