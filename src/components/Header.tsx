@@ -6,6 +6,7 @@ import ContactDialog from "@/components/ContactDialog";
 import discordIcon from "@/assets/discord-icon-new.png";
 import telegramIcon from "@/assets/telegram-icon-new.png";
 import instagramIcon from "@/assets/instagram-icon-new.png";
+import msLogo from "@/assets/ms-logo-3d.jpeg";
 import { ArrowRight, Menu } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
@@ -105,9 +106,12 @@ const Header = () => {
 
           {/* Logo - Centered on mobile */}
           <Link to="/" className="absolute left-1/2 -translate-x-1/2 md:relative md:left-auto md:translate-x-0 md:flex-1">
-            <span className="text-base sm:text-lg md:text-xl font-bold bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent whitespace-nowrap cursor-pointer hover:opacity-80 transition-opacity">
-              Money Scalper
-            </span>
+            <div className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity">
+              <span className="text-base sm:text-lg md:text-xl font-bold bg-gradient-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent whitespace-nowrap">
+                Money Scalper
+              </span>
+              <img src={msLogo} alt="MS Logo" className="h-6 sm:h-8 md:h-10 w-auto object-contain" />
+            </div>
           </Link>
 
           {/* Desktop Navigation Menu */}
