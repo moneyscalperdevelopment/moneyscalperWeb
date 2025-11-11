@@ -1,10 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { createChart, ColorType, CandlestickSeries } from "lightweight-charts";
-import { ArrowLeft, TrendingUp, TrendingDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/Header";
-import msLogo from "@/assets/ms-logo.jpg";
 
 const Market = () => {
   const { coin } = useParams<{ coin: string }>();
@@ -142,11 +140,10 @@ const Market = () => {
           <div className="flex items-center gap-4">
             <Button
               variant="ghost"
-              size="icon"
               onClick={() => navigate("/")}
-              className="text-foreground hover:bg-white/10"
+              className="text-foreground hover:bg-white/10 px-4"
             >
-              <ArrowLeft className="w-5 h-5" />
+              Back
             </Button>
             <div className="flex items-center gap-3">
               <h1 className="text-2xl sm:text-3xl font-bold text-white">
@@ -182,21 +179,9 @@ const Market = () => {
               </div>
             </div>
             <div className="flex items-center gap-2">
-              {priceChange >= 0 ? (
-                <>
-                  <TrendingUp className="w-5 h-5 text-[#26a69a]" />
-                  <span className="text-[#26a69a] font-semibold text-lg">
-                    +{priceChange.toFixed(2)}%
-                  </span>
-                </>
-              ) : (
-                <>
-                  <TrendingDown className="w-5 h-5 text-[#ef5350]" />
-                  <span className="text-[#ef5350] font-semibold text-lg">
-                    {priceChange.toFixed(2)}%
-                  </span>
-                </>
-              )}
+              <span className={`${priceChange >= 0 ? "text-[#26a69a]" : "text-[#ef5350]"} font-semibold text-lg`}>
+                {priceChange >= 0 ? "+" : ""}{priceChange.toFixed(2)}%
+              </span>
               <span className="text-gray-400 text-sm ml-2">({days}D)</span>
             </div>
           </div>
@@ -210,15 +195,6 @@ const Market = () => {
 
         {/* Chart Container */}
         <div className="relative rounded-2xl border border-gray-800 overflow-hidden shadow-2xl bg-[#1a1a2e]">
-          {/* Money Scalper Logo Watermark */}
-          <div className="absolute bottom-4 left-4 z-10 opacity-40 hover:opacity-60 transition-opacity">
-            <img 
-              src={msLogo} 
-              alt="Money Scalper" 
-              className="w-20 h-20 object-contain"
-            />
-          </div>
-          
           <div
             ref={chartContainerRef}
             className="w-full"
