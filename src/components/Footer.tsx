@@ -132,16 +132,22 @@ const Footer = () => {
                 <img src={telegramIcon} alt="Telegram" className="w-12 h-12 animate-scale-in" />
               </a>
               <a href="https://discord.gg/moneyscalper" target="_blank" rel="noopener noreferrer" className="hover:scale-110 transition-transform duration-300">
-                <img src={discordIcon} alt="Discord" className="w-12 h-12 animate-scale-in" style={{ animationDelay: '0.1s' }} />
+                <img src={discordIcon} alt="Discord" className="w-12 h-12 animate-scale-in" style={{
+                animationDelay: '0.1s'
+              }} />
               </a>
               <a href="https://instagram.com/moneyscalper" target="_blank" rel="noopener noreferrer" className="hover:scale-110 transition-transform duration-300">
-                <img src={instagramIcon} alt="Instagram" className="w-12 h-12 animate-scale-in" style={{ animationDelay: '0.2s' }} />
+                <img src={instagramIcon} alt="Instagram" className="w-12 h-12 animate-scale-in" style={{
+                animationDelay: '0.2s'
+              }} />
               </a>
               <a href="mailto:contact@moneyscalper.com" className="hover:scale-110 transition-transform duration-300">
-                <img src={gmailIcon} alt="Email" className="w-12 h-12 animate-scale-in" style={{ animationDelay: '0.3s' }} />
+                <img src={gmailIcon} alt="Email" className="w-12 h-12 animate-scale-in" style={{
+                animationDelay: '0.3s'
+              }} />
               </a>
             </div>
-            <p className="text-muted-foreground text-sm">© 2025 MoneyScalper. All rights reserved.</p>
+            <p className="text-muted-foreground text-sm">© 2025 Money Scalper. All rights reserved.</p>
           </div>
         </div>
       </div>
