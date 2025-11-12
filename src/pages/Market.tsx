@@ -447,9 +447,9 @@ const Market = () => {
   return (
     <div className="min-h-screen" style={{ backgroundColor: bgColor }}>
       <Header />
-      <div className={`container mx-auto max-w-[1600px] ${isTabletOrMobile ? 'px-2 py-3' : 'px-4 py-6'}`}>
+      <div className="container mx-auto px-4 py-6 max-w-[1600px]">
         {/* Top Controls Bar */}
-        <div className={`flex flex-col ${isTabletOrMobile ? 'gap-2 mb-2' : 'gap-4 mb-4'}`}>
+        <div className="flex flex-col gap-4 mb-4">
           {/* Coin Selector & Actions */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-center gap-4 flex-wrap">
@@ -628,10 +628,10 @@ const Market = () => {
         </div>
 
         {/* Price Summary */}
-        <div className={`${isTabletOrMobile ? 'mb-3 p-2' : 'mb-6 p-4'} rounded-xl border ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-800' : 'bg-white border-gray-200'}`}>
+        <div className={`mb-6 rounded-xl p-4 border ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-800' : 'bg-white border-gray-200'}`}>
           {/* Mobile & Tablet: Toggle on top */}
           {isTabletOrMobile && (
-            <div className="flex justify-center mb-2">
+            <div className="flex justify-center mb-4">
               <div className={`inline-flex rounded-lg border p-1 ${isDarkTheme ? 'bg-[#0D0D2B] border-gray-700' : 'bg-gray-50 border-gray-300'}`}>
                 <Button
                   variant={coinId === "bitcoin" ? "default" : "ghost"}
@@ -659,7 +659,7 @@ const Market = () => {
             </div>
           )}
           
-          <div className={`grid ${isTabletOrMobile ? 'grid-cols-1' : 'grid-cols-3'} items-center ${isTabletOrMobile ? 'gap-2' : 'gap-4'}`}>
+          <div className={`grid ${isTabletOrMobile ? 'grid-cols-1' : 'grid-cols-3'} items-center gap-4`}>
             {/* Left: Price Info */}
             <div className="flex items-center gap-6">
               <div>
@@ -729,7 +729,7 @@ const Market = () => {
         </div>
 
         {loading && (
-          <div className={`relative rounded-2xl border overflow-hidden shadow-2xl ${isTabletOrMobile ? 'mb-3' : 'mb-6'} ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-800' : 'bg-white border-gray-200'}`}
+          <div className={`relative rounded-2xl border overflow-hidden shadow-2xl mb-6 ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-800' : 'bg-white border-gray-200'}`}
             style={{ height: "560px" }}>
             {/* Skeleton Loader */}
             <div className="absolute inset-0 p-4">
@@ -802,18 +802,18 @@ const Market = () => {
         </div>
 
         {/* Market Summary Cards */}
-        <div className={`grid grid-cols-1 md:grid-cols-3 ${isTabletOrMobile ? 'gap-2 mt-3' : 'gap-4 mt-6'}`}>
-          <div className={`rounded-xl border ${isTabletOrMobile ? 'p-2' : 'p-4'} ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-800' : 'bg-white border-gray-200'}`}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+          <div className={`rounded-xl p-4 border ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-800' : 'bg-white border-gray-200'}`}>
             <div className={`text-sm mb-2 ${isDarkTheme ? 'text-gray-400' : 'text-gray-600'}`}>24h Volume</div>
             <div className={`text-xl font-bold ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>High Liquidity</div>
           </div>
-          <div className={`rounded-xl border ${isTabletOrMobile ? 'p-2' : 'p-4'} ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-800' : 'bg-white border-gray-200'}`}>
+          <div className={`rounded-xl p-4 border ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-800' : 'bg-white border-gray-200'}`}>
             <div className={`text-sm mb-2 ${isDarkTheme ? 'text-gray-400' : 'text-gray-600'}`}>Market Cap Rank</div>
             <div className={`text-xl font-bold ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>
               #{coinId === "bitcoin" ? "1" : "2"}
             </div>
           </div>
-          <div className={`rounded-xl border ${isTabletOrMobile ? 'p-2' : 'p-4'} ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-800' : 'bg-white border-gray-200'}`}>
+          <div className={`rounded-xl p-4 border ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-800' : 'bg-white border-gray-200'}`}>
             <div className={`text-sm mb-2 ${isDarkTheme ? 'text-gray-400' : 'text-gray-600'}`}>Trading Status</div>
             <div className="text-xl font-bold text-[#26a69a]">Active</div>
           </div>
