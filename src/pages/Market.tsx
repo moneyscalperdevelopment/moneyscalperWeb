@@ -327,7 +327,13 @@ const Market = () => {
         const timeoutId = setTimeout(() => controller.abort(), 10000);
         
         const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/crypto-ohlc?coin=${coinId}&days=${days}&vs=usd`;
-        const res = await fetch(url, { signal: controller.signal });
+        const res = await fetch(url, {
+          signal: controller.signal,
+          headers: {
+            Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+            apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+          },
+        });
         
         clearTimeout(timeoutId);
         
