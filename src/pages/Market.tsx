@@ -30,6 +30,8 @@ const Market = () => {
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
   const [showVolume, setShowVolume] = useState(false);
   const [scaleType, setScaleType] = useState<"normal" | "logarithmic" | "percentage">("normal");
+  const [fetchError, setFetchError] = useState<string | null>(null);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
   const isMobile = useIsMobile();
   
   // Check for tablet/iPad view (under 1024px)
@@ -88,6 +90,50 @@ const Market = () => {
     }
   };
 
+  // Retry with exponential backoff
+  const fetchWithRetry = async (url: string, maxRetries = 3): Promise<Response> => {
+    let lastError: Error | null = null;
+    
+    for (let attempt = 0; attempt < maxRetries; attempt++) {
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000);
+        
+        const res = await fetch(url, {
+          signal: controller.signal,
+          headers: {
+            Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+            apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+          },
+        });
+        
+        clearTimeout(timeoutId);
+        
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+        }
+        
+        return res;
+      } catch (err) {
+        lastError = err as Error;
+        
+        // Don't retry on abort
+        if (err.name === 'AbortError') {
+          throw err;
+        }
+        
+        // If not the last attempt, wait with exponential backoff
+        if (attempt < maxRetries - 1) {
+          const delay = Math.min(1000 * Math.pow(2, attempt), 5000);
+          console.log(`Retry attempt ${attempt + 1} after ${delay}ms`);
+          await new Promise(resolve => setTimeout(resolve, delay));
+        }
+      }
+    }
+    
+    throw lastError || new Error('Failed to fetch after retries');
+  };
+
   const availableCoins = [
     { id: "bitcoin", name: "Bitcoin", symbol: "BTC" },
     { id: "ethereum", name: "Ethereum", symbol: "ETH" },
@@ -120,6 +166,12 @@ const Market = () => {
       link.href = url;
       link.click();
     }
+  };
+
+  const handleManualRefresh = () => {
+    setFetchError(null);
+    setRefreshing(true);
+    setRefreshTrigger(prev => prev + 1);
   };
 
   const updateChartType = (newType: "candlestick" | "line" | "area" | "bars" | "hlc") => {
@@ -322,22 +374,12 @@ const Market = () => {
         setLoading(true);
       }
       
+      // Clear previous error when starting fresh fetch
+      setFetchError(null);
+      
       try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 10000);
-        
         const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/crypto-ohlc?coin=${coinId}&days=${days}&vs=usd`;
-        const res = await fetch(url, {
-          signal: controller.signal,
-          headers: {
-            Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
-            apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
-          },
-        });
-        
-        clearTimeout(timeoutId);
-        
-        if (!res.ok) throw new Error("Failed to fetch OHLC data");
+        const res = await fetchWithRetry(url);
         
         const formattedData = await res.json();
         
@@ -383,6 +425,8 @@ const Market = () => {
       } catch (err) {
         if (err.name !== 'AbortError' && isMounted) {
           console.error("Error loading OHLC:", err);
+          const errorMsg = err instanceof Error ? err.message : "Failed to load chart data";
+          setFetchError(errorMsg);
         }
       } finally {
         if (isMounted) {
@@ -409,7 +453,7 @@ const Market = () => {
         clearInterval(refreshInterval);
       }
     };
-  }, [coinId, days, chartType]);
+  }, [coinId, days, chartType, refreshTrigger]);
 
   useEffect(() => {
     if (chartRef.current) {
@@ -794,6 +838,30 @@ const Market = () => {
                   </p>
                 </div>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* Error Banner */}
+        {fetchError && !loading && (
+          <div className={`mb-4 rounded-xl border p-4 ${isDarkTheme ? 'bg-red-950/20 border-red-900/50' : 'bg-red-50 border-red-200'}`}>
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex-1">
+                <div className={`font-semibold mb-1 ${isDarkTheme ? 'text-red-400' : 'text-red-700'}`}>
+                  Unable to load chart data
+                </div>
+                <div className={`text-sm ${isDarkTheme ? 'text-red-300' : 'text-red-600'}`}>
+                  {fetchError}
+                </div>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleManualRefresh}
+                className={`flex-shrink-0 ${isDarkTheme ? 'border-red-800 hover:bg-red-900/30 text-red-400' : 'border-red-300 hover:bg-red-100 text-red-700'}`}
+              >
+                Retry
+              </Button>
             </div>
           </div>
         )}
