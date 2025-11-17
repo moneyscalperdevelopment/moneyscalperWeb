@@ -1,18 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-   <url>
-      <loc>https://moneyscalper.com/</loc>
-      <lastmod>2025-09-24</lastmod>
-      <priority>1.00</priority>
-   </url>
-   <url>
-      <loc>https://moneyscalper.com/about</loc>
-      <lastmod>2025-09-24</lastmod>
-      <priority>0.80</priority>
-   </url>
-   <url>
-      <loc>https://moneyscalper.com/contact</loc>
-      <lastmod>2025-09-24</lastmod>
-      <priority>0.64</priority>
-   </url>
+<urlset 
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- Homepage -->
+  <url>
+    <loc>https://www.moneyscalper.com/</loc>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- About Page -->
+  <url>
+    <loc>https://www.moneyscalper.com/about</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <!-- Careers Page -->
+  <url>
+    <loc>https://www.moneyscalper.com/careers</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.70</priority>
+  </url>
+
+  <!-- Market Dynamic Pages -->
+  <url>
+    <loc>https://www.moneyscalper.com/market/bitcoin</loc>
+    <changefreq>hourly</changefreq>
+    <priority>0.90</priority>
+  </url>
+
+  <url>
+    <loc>https://www.moneyscalper.com/market/ethereum</loc>
+    <changefreq>hourly</changefreq>
+    <priority>0.90</priority>
+  </url>
+
+  <url>
+    <loc>https://www.moneyscalper.com/market/solana</loc>
+    <changefreq>hourly</changefreq>
+    <priority>0.90</priority>
+  </url>
+
+  <url>
+    <loc>https://www.moneyscalper.com/market/binancecoin</loc>
+    <changefreq>hourly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://www.moneyscalper.com/market/ripple</loc>
+    <changefreq>hourly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://www.moneyscalper.com/market/cardano</loc>
+    <changefreq>hourly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://www.moneyscalper.com/market/dogecoin</loc>
+    <changefreq>hourly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://www.moneyscalper.com/market/polkadot</loc>
+    <changefreq>hourly</changefreq>
+    <priority>0.80</priority>
+  </url>
+
 </urlset>
