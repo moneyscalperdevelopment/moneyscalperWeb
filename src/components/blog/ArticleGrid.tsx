@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import ArticleCard from "./ArticleCard";
 
 export interface Article {
@@ -85,7 +86,9 @@ const ArticleGrid = () => {
       
       <div className="grid gap-6 md:grid-cols-2">
         {articles.map((article) => (
-          <ArticleCard key={article.id} article={article} />
+          <Link key={article.id} to={`/blog/${article.slug}`}>
+            <ArticleCard article={article} />
+          </Link>
         ))}
       </div>
     </div>
