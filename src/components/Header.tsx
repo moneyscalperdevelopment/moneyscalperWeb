@@ -24,6 +24,14 @@ const Header = () => {
     setMobileMenuOpen(false);
   };
 
+  const handleBlogClick = () => {
+    navigate('/blog');
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
+    setMobileMenuOpen(false);
+  };
+
   const scrollToSection = (sectionId: string) => {
     // If not on home page, navigate to home first
     if (location.pathname !== '/') {
@@ -79,20 +87,18 @@ const Header = () => {
                 >
                   About Us
                 </Link>
-                <Link
-                  to="/blog"
-                  onClick={() => setMobileMenuOpen(false)}
+                <button
+                  onClick={handleBlogClick}
                   className="text-left py-3 px-4 rounded-lg hover:bg-accent transition-colors text-lg font-medium"
                 >
                   Blog
-                </Link>
-                <Link
-                  to="/blog"
-                  onClick={() => setMobileMenuOpen(false)}
+                </button>
+                <button
+                  onClick={handleBlogClick}
                   className="text-left py-3 px-4 rounded-lg hover:bg-accent transition-colors text-lg font-medium"
                 >
                   Insights
-                </Link>
+                </button>
                 <Link
                   to="/careers"
                   onClick={() => setMobileMenuOpen(false)}
@@ -146,13 +152,21 @@ const Header = () => {
                 </NavigationMenuLink>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                  <Link to="/blog">Blog</Link>
+                <NavigationMenuLink 
+                  className={navigationMenuTriggerStyle()} 
+                  onClick={handleBlogClick}
+                  style={{ cursor: 'pointer' }}
+                >
+                  Blog
                 </NavigationMenuLink>
               </NavigationMenuItem>
               <NavigationMenuItem>
-                <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                  <Link to="/blog">Insights</Link>
+                <NavigationMenuLink 
+                  className={navigationMenuTriggerStyle()} 
+                  onClick={handleBlogClick}
+                  style={{ cursor: 'pointer' }}
+                >
+                  Insights
                 </NavigationMenuLink>
               </NavigationMenuItem>
               <NavigationMenuItem>
