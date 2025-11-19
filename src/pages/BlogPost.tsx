@@ -795,7 +795,18 @@ const BlogPost = () => {
               <p className="text-lg text-muted-foreground mb-8">
                 Join thousands of traders using AI-powered signals to maximize their crypto profits.
               </p>
-              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground text-lg px-8 py-6">
+              <Button 
+                className="bg-primary hover:bg-primary/90 text-primary-foreground text-lg px-8 py-6"
+                onClick={() => {
+                  navigate('/');
+                  setTimeout(() => {
+                    const pricingElement = document.getElementById('pricing');
+                    if (pricingElement) {
+                      pricingElement.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }, 100);
+                }}
+              >
                 Get Started Now
               </Button>
             </div>
