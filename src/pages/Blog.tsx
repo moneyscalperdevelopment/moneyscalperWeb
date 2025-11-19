@@ -21,11 +21,11 @@ interface Article {
 const articles: Article[] = [
   {
     id: "1",
-    title: "Bitcoin Price Prediction 2024: Expert Analysis",
+    title: "Bitcoin Price Prediction 2025: Expert Analysis",
     excerpt: "Deep dive into Bitcoin's technical indicators and on-chain metrics to forecast potential price movements.",
     category: "Bitcoin",
     image: "/src/assets/bitcoin-logo.webp",
-    date: "Dec 15, 2024",
+    date: "Nov 28, 2025",
     readTime: "8 min read",
     slug: "bitcoin-price-prediction-2024"
   },
@@ -35,7 +35,7 @@ const articles: Article[] = [
     excerpt: "Learn how to leverage Ethereum smart contracts for automated trading and maximize your DeFi returns.",
     category: "Ethereum",
     image: "/src/assets/ethereum-logo.png",
-    date: "Dec 14, 2024",
+    date: "Nov 25, 2025",
     readTime: "6 min read",
     slug: "ethereum-smart-contract-strategies"
   },
@@ -45,7 +45,7 @@ const articles: Article[] = [
     excerpt: "Everything you need to know about AI-powered trading bots, from setup to advanced configuration.",
     category: "Strategy",
     image: "/src/assets/ms-logo-3d.jpeg",
-    date: "Dec 13, 2024",
+    date: "Nov 22, 2025",
     readTime: "10 min read",
     slug: "ai-trading-bots-guide"
   },
@@ -55,7 +55,7 @@ const articles: Article[] = [
     excerpt: "Master the art of reading blockchain data to make informed trading decisions and spot trends early.",
     category: "On-chain",
     image: "/src/assets/hero-crypto.jpg",
-    date: "Dec 12, 2024",
+    date: "Nov 20, 2025",
     readTime: "7 min read",
     slug: "on-chain-metrics-trading"
   },
@@ -65,7 +65,7 @@ const articles: Article[] = [
     excerpt: "Essential risk management techniques to protect your capital during extreme market volatility.",
     category: "Strategy",
     image: "/src/assets/bitcoin-logo.webp",
-    date: "Dec 11, 2024",
+    date: "Nov 18, 2025",
     readTime: "5 min read",
     slug: "risk-management-crypto"
   },
@@ -75,7 +75,7 @@ const articles: Article[] = [
     excerpt: "Explore proven yield farming strategies and learn how to identify legitimate opportunities.",
     category: "DeFi",
     image: "/src/assets/ethereum-logo.png",
-    date: "Dec 10, 2024",
+    date: "Nov 15, 2025",
     readTime: "9 min read",
     slug: "defi-yield-farming-guide"
   }
@@ -112,16 +112,16 @@ const Blog = () => {
           <div className="container max-w-6xl mx-auto px-4">
             {/* Featured Article Hero */}
             <div className="relative rounded-2xl overflow-hidden" style={{ background: '#111111', border: '1px solid #1F2933' }}>
-              {/* Purple gradient accent */}
-              <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-purple-600/20 to-transparent rounded-full blur-3xl pointer-events-none" />
+            {/* Green gradient accent */}
+            <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-green-500/20 to-transparent rounded-full blur-3xl pointer-events-none" />
               
               <div className="relative grid lg:grid-cols-2 gap-8 p-8 lg:p-12">
                 {/* Left Column - Content */}
                 <div className="flex flex-col justify-center space-y-6 z-10">
-                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full w-fit" style={{ background: 'rgba(155, 92, 255, 0.1)', border: '1px solid rgba(155, 92, 255, 0.2)' }}>
-                    <Sparkles className="w-4 h-4" style={{ color: '#9B5CFF' }} />
-                    <span className="text-sm font-semibold" style={{ color: '#9B5CFF' }}>FEATURED INSIGHT</span>
-                  </div>
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full w-fit" style={{ background: 'rgba(34, 197, 94, 0.1)', border: '1px solid rgba(34, 197, 94, 0.2)' }}>
+                  <Sparkles className="w-4 h-4" style={{ color: '#22C55E' }} />
+                  <span className="text-sm font-semibold" style={{ color: '#22C55E' }}>FEATURED INSIGHT</span>
+                </div>
 
                   <h1 className="text-4xl lg:text-5xl font-extrabold leading-tight" style={{ color: '#FFFFFF' }}>
                     The Real Way To Trade Crypto With AI
@@ -163,14 +163,14 @@ const Blog = () => {
                     <span>•</span>
                     <span>5 min read</span>
                     <span>•</span>
-                    <span>Dec 18, 2024</span>
+                    <span>Nov 30, 2025</span>
                   </div>
                 </div>
 
                 {/* Right Column - Image */}
                 <div className="relative">
                   <div className="relative aspect-[4/3] lg:aspect-auto lg:h-full rounded-xl overflow-hidden" style={{ border: '1px solid #1F2933' }}>
-                    <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 via-blue-600/10 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-emerald-600/10 to-transparent" />
                     <img 
                       src="/src/assets/hero-crypto.jpg" 
                       alt="AI Crypto Trading"
@@ -207,9 +207,9 @@ const Blog = () => {
                           background: '#111111', 
                           border: '1px solid #1F2933' 
                         }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.borderColor = '#9B5CFF';
-                        }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.borderColor = '#22C55E';
+                      }}
                         onMouseLeave={(e) => {
                           e.currentTarget.style.borderColor = '#1F2933';
                         }}
@@ -225,27 +225,27 @@ const Blog = () => {
                           
                           {/* Category Badge */}
                           <div className="absolute top-4 left-4">
-                            <span 
-                              className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold uppercase"
-                              style={{ 
-                                background: 'rgba(155, 92, 255, 0.1)', 
-                                color: '#9B5CFF',
-                                border: '1px solid rgba(155, 92, 255, 0.2)'
-                              }}
-                            >
-                              {article.category}
-                            </span>
+                          <span 
+                            className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold uppercase"
+                            style={{ 
+                              background: 'rgba(34, 197, 94, 0.1)', 
+                              color: '#22C55E',
+                              border: '1px solid rgba(34, 197, 94, 0.2)'
+                            }}
+                          >
+                            {article.category}
+                          </span>
                           </div>
                         </div>
 
                         {/* Content */}
                         <div className="p-6 space-y-3">
-                          <h3 
-                            className="text-xl font-semibold group-hover:text-purple-400 transition-colors duration-300 line-clamp-2"
-                            style={{ color: '#FFFFFF' }}
-                          >
-                            {article.title}
-                          </h3>
+                        <h3 
+                          className="text-xl font-semibold group-hover:text-green-400 transition-colors duration-300 line-clamp-2"
+                          style={{ color: '#FFFFFF' }}
+                        >
+                          {article.title}
+                        </h3>
 
                           <p className="text-sm line-clamp-2 leading-relaxed" style={{ color: '#9CA3AF' }}>
                             {article.excerpt}
@@ -276,7 +276,7 @@ const Blog = () => {
                   {/* Trending Now */}
                   <div className="rounded-xl p-6" style={{ background: '#111111', border: '1px solid #1F2933' }}>
                     <div className="flex items-center gap-2 mb-6">
-                      <TrendingUp className="w-5 h-5" style={{ color: '#9B5CFF' }} />
+                      <TrendingUp className="w-5 h-5" style={{ color: '#22C55E' }} />
                       <h3 className="text-lg font-semibold" style={{ color: '#FFFFFF' }}>
                         Trending Now
                       </h3>
@@ -292,11 +292,11 @@ const Blog = () => {
                           <div 
                             className="flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center"
                             style={{ 
-                              background: 'rgba(155, 92, 255, 0.1)',
-                              border: '1px solid rgba(155, 92, 255, 0.2)'
+                              background: 'rgba(34, 197, 94, 0.1)',
+                              border: '1px solid rgba(34, 197, 94, 0.2)'
                             }}
                           >
-                            <span className="text-sm font-bold" style={{ color: '#9B5CFF' }}>
+                            <span className="text-sm font-bold" style={{ color: '#22C55E' }}>
                               {post.rank}
                             </span>
                           </div>
@@ -304,7 +304,7 @@ const Blog = () => {
                           {/* Content */}
                           <div className="flex-1 min-w-0">
                             <h4 
-                              className="text-sm font-medium group-hover:text-purple-400 transition-colors line-clamp-2"
+                              className="text-sm font-medium group-hover:text-green-400 transition-colors line-clamp-2"
                               style={{ color: '#FFFFFF' }}
                             >
                               {post.title}
