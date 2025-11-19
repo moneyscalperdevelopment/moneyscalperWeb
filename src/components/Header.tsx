@@ -87,6 +87,13 @@ const Header = () => {
                   Blog
                 </Link>
                 <Link
+                  to="/blog"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-left py-3 px-4 rounded-lg hover:bg-accent transition-colors text-lg font-medium"
+                >
+                  Insights
+                </Link>
+                <Link
                   to="/careers"
                   onClick={() => setMobileMenuOpen(false)}
                   className="text-left py-3 px-4 rounded-lg hover:bg-accent transition-colors text-lg font-medium"
@@ -141,6 +148,11 @@ const Header = () => {
               <NavigationMenuItem>
                 <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
                   <Link to="/blog">Blog</Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+                  <Link to="/blog">Insights</Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
               <NavigationMenuItem>
