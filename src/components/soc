@@ -136,7 +136,7 @@ const Footer = () => {
                 animationDelay: '0.1s'
               }} />
               </a>
-              <a href="https://instagram.com/moneyscalper" target="_blank" rel="noopener noreferrer" className="hover:scale-110 transition-transform duration-300">
+              <a href="https://instagram.com/money_scalper" target="_blank" rel="noopener noreferrer" className="hover:scale-110 transition-transform duration-300">
                 <img src={instagramIcon} alt="Instagram" className="w-12 h-12 animate-scale-in" style={{
                 animationDelay: '0.2s'
               }} />
