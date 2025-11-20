@@ -1084,20 +1084,23 @@ const BlogPost = () => {
                      __html: post.content
                        .split('\n\n')
                        .map(paragraph => {
+                         // Helper function to convert **text** to <strong>text</strong>
+                         const parseBold = (text: string) => {
+                           return text.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+                         };
+
                          if (paragraph.startsWith('# ')) {
-                           return `<h1 class="text-3xl font-bold mt-12 mb-6">${paragraph.slice(2)}</h1>`;
+                           return `<h1 class="text-3xl font-bold mt-12 mb-6">${parseBold(paragraph.slice(2))}</h1>`;
                          } else if (paragraph.startsWith('## ')) {
-                           return `<h2 class="text-2xl font-semibold mt-10 mb-4">${paragraph.slice(3)}</h2>`;
+                           return `<h2 class="text-2xl font-semibold mt-10 mb-4">${parseBold(paragraph.slice(3))}</h2>`;
                          } else if (paragraph.startsWith('### ')) {
-                           return `<h3 class="text-xl font-semibold mt-8 mb-3">${paragraph.slice(4)}</h3>`;
-                         } else if (paragraph.startsWith('- ')) {
-                           return `<li class="ml-6 mb-2">${paragraph.slice(2)}</li>`;
-                         } else if (paragraph.startsWith('**') && paragraph.endsWith('**')) {
-                           return `<p class="font-bold mb-4">${paragraph.slice(2, -2)}</p>`;
-                         } else if (paragraph.startsWith('*') && paragraph.endsWith('*')) {
+                           return `<h3 class="text-xl font-semibold mt-8 mb-3">${parseBold(paragraph.slice(4))}</h3>`;
+                         } else if (paragraph.startsWith('- ') || paragraph.startsWith('• ')) {
+                           return `<li class="ml-6 mb-2">${parseBold(paragraph.slice(2))}</li>`;
+                         } else if (paragraph.startsWith('*') && paragraph.endsWith('*') && !paragraph.includes('**')) {
                            return `<p class="italic text-muted-foreground mb-4">${paragraph.slice(1, -1)}</p>`;
                          } else {
-                           return `<p class="mb-4 text-muted-foreground leading-relaxed">${paragraph}</p>`;
+                           return `<p class="mb-4 text-muted-foreground leading-relaxed">${parseBold(paragraph)}</p>`;
                          }
                        })
                        .join('')
