@@ -7,6 +7,12 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Share2, Facebook, Twitter, Linkedin, Clock, Calendar } from "lucide-react";
 import { Article } from "@/components/blog/ArticleGrid";
 import ArticleCard from "@/components/blog/ArticleCard";
+import bitcoinPredictionImg from "@/assets/blog/bitcoin-prediction-2025.jpg";
+import ethereumSmartContractsImg from "@/assets/blog/ethereum-smart-contracts.jpg";
+import aiTradingBotsImg from "@/assets/blog/ai-trading-bots.jpg";
+import onchainMetricsImg from "@/assets/blog/onchain-metrics.jpg";
+import riskManagementImg from "@/assets/blog/risk-management.jpg";
+import defiYieldFarmingImg from "@/assets/blog/defi-yield-farming.jpg";
 
 // Extended article data with full content
 const blogPosts: Record<string, Article & { content: string; author: string }> = {
@@ -15,7 +21,7 @@ const blogPosts: Record<string, Article & { content: string; author: string }> =
     title: "Bitcoin Price Prediction 2025: What the Data Tells Us",
     excerpt: "As we move into 2025, Bitcoin remains the most influential asset in the digital economy. Data-driven forecasts provide sharper clarity on what may come next.",
     category: "Bitcoin",
-    image: "/src/assets/blog/bitcoin-prediction-2025.jpg",
+    image: bitcoinPredictionImg,
     date: "Nov 28, 2025",
     readTime: "8 min read",
     slug: "bitcoin-price-prediction-2024",
@@ -105,7 +111,7 @@ Although no model can predict Bitcoin's future with complete accuracy, the conve
     title: "Ethereum Smart Contract Trading Strategies: A Complete Money Scalper Guide",
     excerpt: "Smart contracts are reshaping the future of decentralized finance (DeFi), offering traders new ways to automate strategies and unlock high-potential opportunities.",
     category: "Ethereum",
-    image: "/src/assets/blog/ethereum-smart-contracts.jpg",
+    image: ethereumSmartContractsImg,
     date: "Nov 25, 2025",
     readTime: "6 min read",
     slug: "ethereum-smart-contract-strategies",
@@ -225,7 +231,7 @@ Ethereum smart contracts are unlocking a new era of automated trading. From AMMs
     title: "AI Trading Bots: Complete Beginner's Guide (Money Scalper)",
     excerpt: "Artificial intelligence is reshaping cryptocurrency trading. What was once limited to manual chart analysis is now automated through intelligent algorithms.",
     category: "Strategy",
-    image: "/src/assets/blog/ai-trading-bots.jpg",
+    image: aiTradingBotsImg,
     date: "Nov 22, 2025",
     readTime: "10 min read",
     slug: "ai-trading-bots-guide",
@@ -371,7 +377,7 @@ AI trading bots are powerful tools that help traders automate strategies, remove
     title: "Understanding On-Chain Metrics for Trading: A Complete Money Scalper Guide",
     excerpt: "On-chain data has become one of the most powerful tools for modern cryptocurrency traders, offering unmatched transparency into market behavior.",
     category: "On-chain",
-    image: "/src/assets/blog/onchain-metrics.jpg",
+    image: onchainMetricsImg,
     date: "Nov 20, 2025",
     readTime: "7 min read",
     slug: "on-chain-metrics-trading",
@@ -517,7 +523,7 @@ On-chain metrics provide a unique trading edge by revealing what's happening beh
     title: "Risk Management in Volatile Crypto Markets: Money Scalper Complete Guide",
     excerpt: "The cryptocurrency market is one of the most exciting — and most unpredictable — financial environments. Risk management is the most important skill a trader can develop.",
     category: "Strategy",
-    image: "/src/assets/blog/risk-management.jpg",
+    image: riskManagementImg,
     date: "Nov 18, 2025",
     readTime: "5 min read",
     slug: "risk-management-crypto",
@@ -687,7 +693,7 @@ Risk management is not about avoiding risks; it's about taking calculated, manag
     title: "DeFi Yield Farming: Maximizing Returns Safely (Money Scalper Guide)",
     excerpt: "Yield farming has quickly become one of the most popular ways to earn passive income in the cryptocurrency ecosystem through lending, staking, or providing liquidity.",
     category: "DeFi",
-    image: "/src/assets/blog/defi-yield-farming.jpg",
+    image: defiYieldFarmingImg,
     date: "Nov 15, 2025",
     readTime: "9 min read",
     slug: "defi-yield-farming-guide",
