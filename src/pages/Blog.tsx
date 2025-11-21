@@ -33,7 +33,7 @@ const articles: Article[] = [
     excerpt: "As we move into 2025, Bitcoin remains the most influential asset in the digital economy. Data-driven forecasts provide sharper clarity on what may come next.",
     category: "Bitcoin",
     image: bitcoinPredictionImg,
-    date: "Nov 28, 2025",
+    date: "Nov 21, 2025",
     readTime: "8 min read",
     slug: "bitcoin-price-prediction-2024"
   },
@@ -43,7 +43,7 @@ const articles: Article[] = [
     excerpt: "Smart contracts are reshaping the future of decentralized finance (DeFi), offering traders new ways to automate strategies and unlock high-potential opportunities.",
     category: "Ethereum",
     image: ethereumSmartContractsImg,
-    date: "Nov 25, 2025",
+    date: "Nov 19, 2025",
     readTime: "6 min read",
     slug: "ethereum-smart-contract-strategies"
   },
@@ -53,7 +53,7 @@ const articles: Article[] = [
     excerpt: "Artificial intelligence is reshaping cryptocurrency trading. What was once limited to manual chart analysis is now automated through intelligent algorithms.",
     category: "Strategy",
     image: aiTradingBotsImg,
-    date: "Nov 22, 2025",
+    date: "Nov 17, 2025",
     readTime: "10 min read",
     slug: "ai-trading-bots-guide"
   },
@@ -175,7 +175,7 @@ const Blog = () => {
                     <span>•</span>
                     <span>5 min read</span>
                     <span>•</span>
-                    <span>Nov 30, 2025</span>
+                    <span>Nov 21, 2025</span>
                   </div>
                 </div>
 
