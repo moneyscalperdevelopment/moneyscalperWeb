@@ -930,6 +930,10 @@ const BlogPost = () => {
   const post = slug ? blogPosts[slug] : null;
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [slug]);
+
+  useEffect(() => {
     if (!post) return;
 
     // Get related articles from the same category
