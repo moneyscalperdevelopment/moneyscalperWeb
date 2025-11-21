@@ -229,20 +229,6 @@ const Blog = () => {
                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                          
-                          {/* Category Badge */}
-                          <div className="absolute top-4 left-4">
-                          <span 
-                            className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold uppercase"
-                            style={{ 
-                              background: 'rgba(34, 197, 94, 0.1)', 
-                              color: '#22C55E',
-                              border: '1px solid rgba(34, 197, 94, 0.2)'
-                            }}
-                          >
-                            {article.category}
-                          </span>
-                          </div>
                         </div>
 
                         {/* Content */}
