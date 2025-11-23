@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { TrendingUp, TrendingDown, Activity } from "lucide-react";
+import { TrendingUp, TrendingDown, Activity, ChevronDown, ChevronUp } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface CoinPrice {
   id: string;
@@ -12,6 +13,7 @@ interface CoinPrice {
 const SidebarMarketSnapshot = () => {
   const [prices, setPrices] = useState<CoinPrice[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showAll, setShowAll] = useState(false);
 
   useEffect(() => {
     const fetchPrices = async () => {
@@ -94,6 +96,8 @@ const SidebarMarketSnapshot = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const displayedCoins = showAll ? prices : prices.slice(0, 3);
+
   return (
     <div className="rounded-xl border border-border/50 bg-card/50 backdrop-blur-sm p-6">
       <div className="flex items-center gap-2 mb-4">
@@ -103,15 +107,16 @@ const SidebarMarketSnapshot = () => {
 
       {loading ? (
         <div className="space-y-4">
-          {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+          {[1, 2, 3].map((i) => (
             <div key={i} className="animate-pulse">
               <div className="h-12 bg-muted/50 rounded-lg" />
             </div>
           ))}
         </div>
       ) : (
-        <div className="space-y-3">
-          {prices.map((coin) => (
+        <>
+          <div className="space-y-3">
+            {displayedCoins.map((coin) => (
             <div
               key={coin.id}
               className="flex items-center justify-between p-3 rounded-lg bg-secondary/30 border border-border/30 hover:border-primary/30 transition-colors"
@@ -137,8 +142,27 @@ const SidebarMarketSnapshot = () => {
                 </span>
               </div>
             </div>
-          ))}
-        </div>
+            ))}
+          </div>
+
+          {prices.length > 3 && (
+            <Button
+              onClick={() => setShowAll(!showAll)}
+              variant="ghost"
+              className="w-full mt-3 gap-2 text-sm font-semibold hover:bg-secondary/50"
+            >
+              {showAll ? (
+                <>
+                  Show Less <ChevronUp className="w-4 h-4" />
+                </>
+              ) : (
+                <>
+                  View More <ChevronDown className="w-4 h-4" />
+                </>
+              )}
+            </Button>
+          )}
+        </>
       )}
 
       <div className="mt-4 pt-4 border-t border-border/30">
