@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { TrendingUp, TrendingDown, Activity, ChevronDown, ChevronUp } from "lucide-react";
+import { TrendingUp, TrendingDown, Activity, ChevronDown, ChevronUp, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 interface CoinPrice {
   id: string;
@@ -165,7 +166,15 @@ const SidebarMarketSnapshot = () => {
         </>
       )}
 
-      <div className="mt-4 pt-4 border-t border-border/30">
+      <div className="mt-4 pt-4 border-t border-border/30 space-y-3">
+        <Link to="/market/all">
+          <Button
+            variant="outline"
+            className="w-full gap-2 text-sm font-semibold hover:bg-primary/10 hover:text-primary"
+          >
+            View All Markets <ExternalLink className="w-4 h-4" />
+          </Button>
+        </Link>
         <p className="text-xs text-muted-foreground text-center">
           Data updates every 30 seconds
         </p>
