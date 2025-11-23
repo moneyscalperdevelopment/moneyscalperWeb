@@ -1149,13 +1149,7 @@ const BlogPost = () => {
               <Button 
                 className="bg-primary hover:bg-primary/90 text-primary-foreground text-lg px-8 py-6"
                 onClick={() => {
-                  navigate('/');
-                  setTimeout(() => {
-                    const pricingElement = document.getElementById('pricing');
-                    if (pricingElement) {
-                      pricingElement.scrollIntoView({ behavior: 'smooth' });
-                    }
-                  }, 100);
+                  window.open('https://t.me/moneyscalper', '_blank');
                 }}
               >
                 Get Started Now
