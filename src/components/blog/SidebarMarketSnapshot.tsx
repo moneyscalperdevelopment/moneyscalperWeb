@@ -17,7 +17,7 @@ const SidebarMarketSnapshot = () => {
     const fetchPrices = async () => {
       try {
         const response = await fetch(
-          "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd&include_24hr_change=true"
+          "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,cardano,ripple,polkadot,avalanche-2,chainlink&vs_currencies=usd&include_24hr_change=true"
         );
         const data = await response.json();
 
@@ -42,6 +42,41 @@ const SidebarMarketSnapshot = () => {
             name: "Solana",
             price: data.solana.usd,
             change24h: data.solana.usd_24h_change,
+          },
+          {
+            id: "cardano",
+            symbol: "ADA",
+            name: "Cardano",
+            price: data.cardano.usd,
+            change24h: data.cardano.usd_24h_change,
+          },
+          {
+            id: "ripple",
+            symbol: "XRP",
+            name: "Ripple",
+            price: data.ripple.usd,
+            change24h: data.ripple.usd_24h_change,
+          },
+          {
+            id: "polkadot",
+            symbol: "DOT",
+            name: "Polkadot",
+            price: data.polkadot.usd,
+            change24h: data.polkadot.usd_24h_change,
+          },
+          {
+            id: "avalanche-2",
+            symbol: "AVAX",
+            name: "Avalanche",
+            price: data["avalanche-2"].usd,
+            change24h: data["avalanche-2"].usd_24h_change,
+          },
+          {
+            id: "chainlink",
+            symbol: "LINK",
+            name: "Chainlink",
+            price: data.chainlink.usd,
+            change24h: data.chainlink.usd_24h_change,
           },
         ];
 
@@ -68,7 +103,7 @@ const SidebarMarketSnapshot = () => {
 
       {loading ? (
         <div className="space-y-4">
-          {[1, 2, 3].map((i) => (
+          {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
             <div key={i} className="animate-pulse">
               <div className="h-12 bg-muted/50 rounded-lg" />
             </div>
