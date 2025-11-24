@@ -5,6 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import bitcoinLogo from "@/assets/bitcoin-logo.webp";
 import ethereumLogo from "@/assets/ethereum-logo.png";
+import solanaLogo from "@/assets/solana-logo.png";
+import cardanoLogo from "@/assets/cardano-logo.png";
+import rippleLogo from "@/assets/ripple-logo.png";
+import polkadotLogo from "@/assets/polkadot-logo.png";
+import avalancheLogo from "@/assets/avalanche-logo.png";
+import chainlinkLogo from "@/assets/chainlink-logo.png";
 
 interface CoinPrice {
   id: string;
@@ -119,6 +125,7 @@ const LivePrices = memo(() => {
             name: "Solana",
             price: data.solana.usd,
             change24h: data.solana.usd_24h_change,
+            logo: solanaLogo,
           },
           {
             id: "cardano",
@@ -126,6 +133,7 @@ const LivePrices = memo(() => {
             name: "Cardano",
             price: data.cardano.usd,
             change24h: data.cardano.usd_24h_change,
+            logo: cardanoLogo,
           },
           {
             id: "ripple",
@@ -133,6 +141,7 @@ const LivePrices = memo(() => {
             name: "Ripple",
             price: data.ripple.usd,
             change24h: data.ripple.usd_24h_change,
+            logo: rippleLogo,
           },
           {
             id: "polkadot",
@@ -140,6 +149,7 @@ const LivePrices = memo(() => {
             name: "Polkadot",
             price: data.polkadot.usd,
             change24h: data.polkadot.usd_24h_change,
+            logo: polkadotLogo,
           },
           {
             id: "avalanche-2",
@@ -147,6 +157,7 @@ const LivePrices = memo(() => {
             name: "Avalanche",
             price: data["avalanche-2"].usd,
             change24h: data["avalanche-2"].usd_24h_change,
+            logo: avalancheLogo,
           },
           {
             id: "chainlink",
@@ -154,6 +165,7 @@ const LivePrices = memo(() => {
             name: "Chainlink",
             price: data.chainlink.usd,
             change24h: data.chainlink.usd_24h_change,
+            logo: chainlinkLogo,
           },
         ];
 
@@ -193,8 +205,18 @@ const LivePrices = memo(() => {
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
             {[1, 2].map((i) => (
-              <div key={i} className="p-6 rounded-2xl border border-border bg-card animate-pulse">
-                <div className="h-32 bg-muted/50 rounded-lg" />
+              <div key={i} className="p-6 rounded-2xl border border-border bg-card">
+                <div className="flex items-center gap-4 mb-4 animate-pulse">
+                  <div className="w-14 h-14 rounded-full bg-muted/50" />
+                  <div className="flex-1 space-y-2">
+                    <div className="h-6 bg-muted/50 rounded w-1/3" />
+                    <div className="h-4 bg-muted/50 rounded w-1/4" />
+                  </div>
+                </div>
+                <div className="space-y-2 animate-pulse">
+                  <div className="h-8 bg-muted/50 rounded w-1/2" />
+                  <div className="h-5 bg-muted/50 rounded w-1/3" />
+                </div>
               </div>
             ))}
           </div>
