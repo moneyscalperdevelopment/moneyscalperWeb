@@ -14,6 +14,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import Header from "@/components/Header";
 import { AddToWatchlistButton } from "@/components/market/AddToWatchlistButton";
 import { CreatePriceAlert } from "@/components/market/CreatePriceAlert";
+import { motion, AnimatePresence } from "motion/react";
 
 // Import coin logos
 import bitcoinLogo from "@/assets/bitcoin-logo.webp";
@@ -893,13 +894,22 @@ const Market = () => {
         )}
 
         {/* Chart Container */}
-        <div className={`relative rounded-2xl border overflow-hidden shadow-2xl ${loading ? 'hidden' : ''} ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-800' : 'bg-white border-gray-200'}`}>
-          <div
-            ref={chartContainerRef}
-            className="w-full"
-            style={{ height: "560px" }}
-          />
-        </div>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={chartType}
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.98 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className={`relative rounded-2xl border overflow-hidden shadow-2xl ${loading ? 'hidden' : ''} ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-800' : 'bg-white border-gray-200'}`}
+          >
+            <div
+              ref={chartContainerRef}
+              className="w-full"
+              style={{ height: "560px" }}
+            />
+          </motion.div>
+        </AnimatePresence>
 
         {/* Mobile Actions - Below Chart */}
         {isTabletOrMobile && !loading && (
