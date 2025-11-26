@@ -4,12 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
 import { toast } from "sonner";
-import { Eye, EyeOff, Loader2, CheckCircle, AlertCircle } from "lucide-react";
+import { Eye, EyeOff, Loader2, CheckCircle, AlertCircle, ChevronsUpDown, Check } from "lucide-react";
 import emailjs from '@emailjs/browser';
 import { countries } from "@/data/countryCodes";
 import { AsYouType, isValidPhoneNumber, parsePhoneNumber, CountryCode } from "libphonenumber-js";
+import { cn } from "@/lib/utils";
 
 interface AuthProps {
   onSuccess?: () => void;
@@ -21,6 +23,7 @@ export const Auth = ({ onSuccess }: AuthProps) => {
   const [selectedCountry, setSelectedCountry] = useState(countries.find(c => c.code === "US") || countries[0]);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [phoneError, setPhoneError] = useState<string | null>(null);
+  const [countryOpen, setCountryOpen] = useState(false);
 
   const handlePhoneChange = (value: string) => {
     // Remove any non-digit characters for processing
@@ -55,6 +58,7 @@ export const Auth = ({ onSuccess }: AuthProps) => {
     const country = countries.find(c => c.code === code);
     if (country) {
       setSelectedCountry(country);
+      setCountryOpen(false);
       // Reformat existing number for new country
       if (phoneNumber) {
         const digitsOnly = phoneNumber.replace(/\D/g, '');
@@ -239,37 +243,58 @@ export const Auth = ({ onSuccess }: AuthProps) => {
           <div className="space-y-2">
             <Label htmlFor="signup-phone">Phone Number</Label>
             <div className="flex gap-2">
-              <Select 
-                value={selectedCountry.code} 
-                onValueChange={handleCountryChange}
-                disabled={loading}
-              >
-                <SelectTrigger className="w-[100px] bg-background border-input z-50">
-                  <SelectValue>
-                    <span className="flex items-center gap-1.5">
+              <Popover open={countryOpen} onOpenChange={setCountryOpen}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={countryOpen}
+                    disabled={loading}
+                    className="w-[100px] justify-between bg-background border-input z-50 px-2"
+                  >
+                    <span className="flex items-center gap-1.5 truncate">
                       <span className="text-base">{selectedCountry.flag}</span>
                       <span className="font-mono text-xs">{selectedCountry.dialCode}</span>
                     </span>
-                  </SelectValue>
-                </SelectTrigger>
-                <SelectContent className="max-h-[280px] bg-background border-border z-[100] w-[280px]">
-                  {countries.map((country) => (
-                    <SelectItem 
-                      key={country.code} 
-                      value={country.code}
-                      className="cursor-pointer hover:bg-accent py-2"
-                    >
-                      <div className="flex items-center justify-between w-full gap-3">
-                        <div className="flex items-center gap-2">
-                          <span className="text-base">{country.flag}</span>
-                          <span className="text-xs font-medium truncate max-w-[140px]">{country.name}</span>
-                        </div>
-                        <span className="font-mono text-xs text-muted-foreground ml-auto">{country.dialCode}</span>
-                      </div>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+                    <ChevronsUpDown className="ml-1 h-3 w-3 shrink-0 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[300px] p-0 bg-background border-border z-[100]" align="start">
+                  <Command>
+                    <CommandInput 
+                      placeholder="Search country..." 
+                      className="h-9"
+                    />
+                    <CommandList>
+                      <CommandEmpty>No country found.</CommandEmpty>
+                      <CommandGroup>
+                        {countries.map((country) => (
+                          <CommandItem
+                            key={country.code}
+                            value={`${country.name} ${country.dialCode}`}
+                            onSelect={() => handleCountryChange(country.code)}
+                            className="cursor-pointer"
+                          >
+                            <div className="flex items-center justify-between w-full gap-3">
+                              <div className="flex items-center gap-2">
+                                <span className="text-base">{country.flag}</span>
+                                <span className="text-xs font-medium truncate max-w-[140px]">{country.name}</span>
+                              </div>
+                              <span className="font-mono text-xs text-muted-foreground ml-auto">{country.dialCode}</span>
+                            </div>
+                            <Check
+                              className={cn(
+                                "ml-2 h-4 w-4",
+                                selectedCountry.code === country.code ? "opacity-100" : "opacity-0"
+                              )}
+                            />
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
               <div className="flex-1 space-y-1">
                 <div className="relative">
                   <Input
