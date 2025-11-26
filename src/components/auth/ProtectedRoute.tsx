@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Loader2 } from "lucide-react";
+import { EmailVerification } from "./EmailVerification";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -10,11 +11,15 @@ interface ProtectedRouteProps {
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const [loading, setLoading] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
+  const [emailVerified, setEmailVerified] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
 
   useEffect(() => {
     const checkAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       setAuthenticated(!!session);
+      setEmailVerified(!!session?.user?.email_confirmed_at);
+      setUserEmail(session?.user?.email || "");
       setLoading(false);
     };
 
@@ -22,6 +27,8 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setAuthenticated(!!session);
+      setEmailVerified(!!session?.user?.email_confirmed_at);
+      setUserEmail(session?.user?.email || "");
     });
 
     return () => subscription.unsubscribe();
@@ -37,6 +44,10 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
   if (!authenticated) {
     return <Navigate to="/" replace />;
+  }
+
+  if (!emailVerified) {
+    return <EmailVerification email={userEmail} />;
   }
 
   return <>{children}</>;

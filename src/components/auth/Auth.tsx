@@ -66,7 +66,7 @@ export const Auth = ({ onSuccess }: AuthProps) => {
         // Don't block signup if email fails
       }
 
-      toast.success("Account created! You're now logged in.");
+      toast.success("Account created! Please check your email to verify your account.");
       onSuccess?.();
     } catch (error: any) {
       toast.error(error.message || "Failed to create account");
