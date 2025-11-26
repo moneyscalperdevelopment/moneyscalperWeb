@@ -124,32 +124,30 @@ const Insights = () => {
           onClick={() => setSelectedCoin(coin)}
           className="flex items-center justify-between p-4 cursor-pointer"
         >
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <div 
-                  className="flex items-center gap-3 flex-1 cursor-pointer hover:opacity-80 transition-opacity"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    navigate(`/market/${coin.id}`);
-                  }}
-                >
-                  <img src={coin.image} alt={coin.name} className="w-10 h-10 rounded-full" />
-                  <div className="flex-1">
-                    <p className="font-semibold underline decoration-primary/50" style={{ color: '#FFFFFF' }}>
-                      {coin.name}
-                    </p>
-                    <p className="text-sm" style={{ color: '#9CA3AF' }}>
-                      {coin.symbol.toUpperCase()}
-                    </p>
-                  </div>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div 
+                className="flex items-center gap-3 flex-1 cursor-pointer hover:opacity-80 transition-opacity"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate(`/market/${coin.id}`);
+                }}
+              >
+                <img src={coin.image} alt={coin.name} className="w-10 h-10 rounded-full" />
+                <div className="flex-1">
+                  <p className="font-semibold underline decoration-primary/50" style={{ color: '#FFFFFF' }}>
+                    {coin.name}
+                  </p>
+                  <p className="text-sm" style={{ color: '#9CA3AF' }}>
+                    {coin.symbol.toUpperCase()}
+                  </p>
                 </div>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Click to view detailed chart on Market page</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+              </div>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Click to view detailed chart on Market page</p>
+            </TooltipContent>
+          </Tooltip>
           <div className="text-right">
             <p className="font-semibold" style={{ color: '#FFFFFF' }}>
               ${coin.current_price.toLocaleString()}
@@ -198,8 +196,9 @@ const Insights = () => {
         />
       </Helmet>
 
-      <div className="min-h-screen" style={{ background: '#050509' }}>
-        <Header />
+      <TooltipProvider>
+        <div className="min-h-screen" style={{ background: '#050509' }}>
+          <Header />
         
         <section className="pt-24 pb-16">
           <div className="container max-w-7xl mx-auto px-4">
@@ -315,7 +314,8 @@ const Insights = () => {
         </section>
 
         <Footer />
-      </div>
+        </div>
+      </TooltipProvider>
     </>
   );
 };
