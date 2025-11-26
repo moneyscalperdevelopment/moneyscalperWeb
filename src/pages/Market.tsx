@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/select";
 import { useIsMobile } from "@/hooks/use-mobile";
 import Header from "@/components/Header";
+import { AddToWatchlistButton } from "@/components/market/AddToWatchlistButton";
+import { CreatePriceAlert } from "@/components/market/CreatePriceAlert";
 
 const Market = () => {
   const { coin } = useParams<{ coin: string }>();
@@ -770,8 +772,26 @@ const Market = () => {
               </div>
             )}
             
-            {/* Right: Live Indicator */}
-            <div className={`flex items-center gap-2 ${isTabletOrMobile ? 'justify-start' : 'justify-end'}`}>
+            {/* Right: Live Indicator + Actions */}
+            <div className={`flex items-center gap-3 ${isTabletOrMobile ? 'justify-start' : 'justify-end'}`}>
+              {!isTabletOrMobile && (
+                <>
+                  <AddToWatchlistButton
+                    coinId={coinId}
+                    coinName={availableCoins.find(c => c.id === coinId)?.name || coinId}
+                    coinSymbol={availableCoins.find(c => c.id === coinId)?.symbol || coinId}
+                    size="sm"
+                  />
+                  <CreatePriceAlert
+                    coinId={coinId}
+                    coinName={availableCoins.find(c => c.id === coinId)?.name || coinId}
+                    coinSymbol={availableCoins.find(c => c.id === coinId)?.symbol || coinId}
+                    currentPrice={currentPrice}
+                    size="sm"
+                  />
+                </>
+              )}
+              
               {refreshing && !loading && (
                 <>
                   <div className="w-2 h-2 rounded-full bg-blue-500 animate-spin border-2 border-transparent border-t-blue-500" />
@@ -888,6 +908,25 @@ const Market = () => {
             style={{ height: "560px" }}
           />
         </div>
+
+        {/* Mobile Actions - Below Chart */}
+        {isTabletOrMobile && !loading && (
+          <div className="flex gap-3 mt-4">
+            <AddToWatchlistButton
+              coinId={coinId}
+              coinName={availableCoins.find(c => c.id === coinId)?.name || coinId}
+              coinSymbol={availableCoins.find(c => c.id === coinId)?.symbol || coinId}
+              className="flex-1 animate-fade-in"
+            />
+            <CreatePriceAlert
+              coinId={coinId}
+              coinName={availableCoins.find(c => c.id === coinId)?.name || coinId}
+              coinSymbol={availableCoins.find(c => c.id === coinId)?.symbol || coinId}
+              currentPrice={currentPrice}
+              className="flex-1 animate-fade-in"
+            />
+          </div>
+        )}
 
         {/* Market Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
