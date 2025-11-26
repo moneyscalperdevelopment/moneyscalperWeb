@@ -28,6 +28,23 @@ import { AddToWatchlistButton } from "@/components/market/AddToWatchlistButton";
 import { CreatePriceAlert } from "@/components/market/CreatePriceAlert";
 import { cn } from "@/lib/utils";
 
+// Import coin logos
+import bitcoinLogo from "@/assets/bitcoin-logo.webp";
+import ethereumLogo from "@/assets/ethereum-logo.png";
+import solanaLogo from "@/assets/solana-logo.png";
+import cardanoLogo from "@/assets/cardano-logo.png";
+import dogecoinLogo from "@/assets/dogecoin-logo.png";
+import polkadotLogo from "@/assets/polkadot-logo.png";
+import avalancheLogo from "@/assets/avalanche-logo.png";
+import chainlinkLogo from "@/assets/chainlink-logo.png";
+import polygonLogo from "@/assets/polygon-logo.png";
+import litecoinLogo from "@/assets/litecoin-logo.png";
+import uniswapLogo from "@/assets/uniswap-logo.png";
+import cosmosLogo from "@/assets/cosmos-logo.png";
+import stellarLogo from "@/assets/stellar-logo.png";
+import tronLogo from "@/assets/tron-logo.png";
+import moneroLogo from "@/assets/monero-logo.png";
+
 const Market = () => {
   const { coin } = useParams<{ coin: string }>();
   const navigate = useNavigate();
@@ -151,21 +168,21 @@ const Market = () => {
   };
 
   const availableCoins = [
-    { id: "bitcoin", name: "Bitcoin", symbol: "BTC" },
-    { id: "ethereum", name: "Ethereum", symbol: "ETH" },
-    { id: "solana", name: "Solana", symbol: "SOL" },
-    { id: "cardano", name: "Cardano", symbol: "ADA" },
-    { id: "dogecoin", name: "Dogecoin", symbol: "DOGE" },
-    { id: "polkadot", name: "Polkadot", symbol: "DOT" },
-    { id: "avalanche-2", name: "Avalanche", symbol: "AVAX" },
-    { id: "chainlink", name: "Chainlink", symbol: "LINK" },
-    { id: "matic-network", name: "Polygon", symbol: "MATIC" },
-    { id: "litecoin", name: "Litecoin", symbol: "LTC" },
-    { id: "uniswap", name: "Uniswap", symbol: "UNI" },
-    { id: "cosmos", name: "Cosmos", symbol: "ATOM" },
-    { id: "stellar", name: "Stellar", symbol: "XLM" },
-    { id: "tron", name: "Tron", symbol: "TRX" },
-    { id: "monero", name: "Monero", symbol: "XMR" },
+    { id: "bitcoin", name: "Bitcoin", symbol: "BTC", logo: bitcoinLogo },
+    { id: "ethereum", name: "Ethereum", symbol: "ETH", logo: ethereumLogo },
+    { id: "solana", name: "Solana", symbol: "SOL", logo: solanaLogo },
+    { id: "cardano", name: "Cardano", symbol: "ADA", logo: cardanoLogo },
+    { id: "dogecoin", name: "Dogecoin", symbol: "DOGE", logo: dogecoinLogo },
+    { id: "polkadot", name: "Polkadot", symbol: "DOT", logo: polkadotLogo },
+    { id: "avalanche-2", name: "Avalanche", symbol: "AVAX", logo: avalancheLogo },
+    { id: "chainlink", name: "Chainlink", symbol: "LINK", logo: chainlinkLogo },
+    { id: "matic-network", name: "Polygon", symbol: "MATIC", logo: polygonLogo },
+    { id: "litecoin", name: "Litecoin", symbol: "LTC", logo: litecoinLogo },
+    { id: "uniswap", name: "Uniswap", symbol: "UNI", logo: uniswapLogo },
+    { id: "cosmos", name: "Cosmos", symbol: "ATOM", logo: cosmosLogo },
+    { id: "stellar", name: "Stellar", symbol: "XLM", logo: stellarLogo },
+    { id: "tron", name: "Tron", symbol: "TRX", logo: tronLogo },
+    { id: "monero", name: "Monero", symbol: "XMR", logo: moneroLogo },
   ];
 
   const timeframes = [
@@ -544,11 +561,20 @@ const Market = () => {
                     variant="outline"
                     role="combobox"
                     aria-expanded={coinSelectorOpen}
-                    className={`w-[200px] justify-between ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700 text-white hover:bg-[#252541]' : 'bg-white border-gray-300'}`}
+                    className={`w-[220px] justify-between ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700 text-white hover:bg-[#252541]' : 'bg-white border-gray-300'}`}
                   >
-                    <span className="font-medium">
-                      {availableCoins.find((c) => c.id === coinId)?.name || "Select coin..."}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      {availableCoins.find((c) => c.id === coinId)?.logo && (
+                        <img 
+                          src={availableCoins.find((c) => c.id === coinId)?.logo} 
+                          alt=""
+                          className="w-5 h-5 object-contain"
+                        />
+                      )}
+                      <span className="font-medium">
+                        {availableCoins.find((c) => c.id === coinId)?.name || "Select coin..."}
+                      </span>
+                    </div>
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                   </Button>
                 </PopoverTrigger>
@@ -580,6 +606,11 @@ const Market = () => {
                               "mr-2 h-4 w-4",
                               coinId === c.id ? "opacity-100" : "opacity-0"
                             )}
+                          />
+                          <img 
+                            src={c.logo} 
+                            alt={c.name}
+                            className="w-6 h-6 object-contain mr-2"
                           />
                           <div className="flex items-center justify-between flex-1">
                             <span className="font-medium">{c.name}</span>
