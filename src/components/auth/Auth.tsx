@@ -43,6 +43,11 @@ export const Auth = ({ onSuccess }: AuthProps) => {
       const { error } = await supabase.auth.signUp({
         email,
         password,
+        options: {
+          data: {
+            phone_number: contactNumber,
+          }
+        }
       });
 
       if (error) throw error;
@@ -66,7 +71,7 @@ export const Auth = ({ onSuccess }: AuthProps) => {
         // Don't block signup if email fails
       }
 
-      toast.success("Account created! Please check your email to verify your account.");
+      toast.success("Account created! Choose your verification method: email or SMS.");
       onSuccess?.();
     } catch (error: any) {
       toast.error(error.message || "Failed to create account");
@@ -164,7 +169,7 @@ export const Auth = ({ onSuccess }: AuthProps) => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="signup-contact">Contact Number</Label>
+            <Label htmlFor="signup-contact">Phone Number (with country code)</Label>
             <Input
               id="signup-contact"
               name="signup-contact"
