@@ -123,16 +123,10 @@ const Insights = () => {
           onClick={() => setSelectedCoin(coin)}
           className="flex items-center justify-between p-4 cursor-pointer"
         >
-          <div 
-            className="flex items-center gap-3 flex-1 cursor-pointer hover:opacity-80 transition-opacity"
-            onClick={(e) => {
-              e.stopPropagation();
-              navigate(`/market/${coin.id}`);
-            }}
-          >
+          <div className="flex items-center gap-3 flex-1">
             <img src={coin.image} alt={coin.name} className="w-10 h-10 rounded-full" />
             <div className="flex-1">
-              <p className="font-semibold underline decoration-primary/50" style={{ color: '#FFFFFF' }}>
+              <p className="font-semibold" style={{ color: '#FFFFFF' }}>
                 {coin.name}
               </p>
               <p className="text-sm" style={{ color: '#9CA3AF' }}>
