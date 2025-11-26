@@ -572,12 +572,12 @@ const Market = () => {
                   <SelectTrigger className={`flex-1 ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700 text-white' : 'bg-white border-gray-300'}`}>
                     <SelectValue placeholder="Chart Type" />
                   </SelectTrigger>
-                  <SelectContent className={`${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700 text-white' : 'bg-white'} z-50`}>
-                    <SelectItem value="candlestick">Candlestick</SelectItem>
-                    <SelectItem value="bars">Bars</SelectItem>
-                    <SelectItem value="hlc">HLC</SelectItem>
-                    <SelectItem value="line">Line</SelectItem>
-                    <SelectItem value="area">Area</SelectItem>
+                  <SelectContent className={`${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700 text-white' : 'bg-white border-gray-300'} z-[9999] opacity-100`}>
+                    <SelectItem value="candlestick" className={isDarkTheme ? 'bg-[#1a1a2e]' : 'bg-white'}>Candlestick</SelectItem>
+                    <SelectItem value="bars" className={isDarkTheme ? 'bg-[#1a1a2e]' : 'bg-white'}>Bars</SelectItem>
+                    <SelectItem value="hlc" className={isDarkTheme ? 'bg-[#1a1a2e]' : 'bg-white'}>HLC</SelectItem>
+                    <SelectItem value="line" className={isDarkTheme ? 'bg-[#1a1a2e]' : 'bg-white'}>Line</SelectItem>
+                    <SelectItem value="area" className={isDarkTheme ? 'bg-[#1a1a2e]' : 'bg-white'}>Area</SelectItem>
                   </SelectContent>
                 </Select>
 
@@ -586,9 +586,9 @@ const Market = () => {
                   <SelectTrigger className={`flex-1 ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700 text-white' : 'bg-white border-gray-300'}`}>
                     <SelectValue placeholder="Timeframe" />
                   </SelectTrigger>
-                  <SelectContent className={`${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700 text-white' : 'bg-white'} z-50`}>
+                  <SelectContent className={`${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700 text-white' : 'bg-white border-gray-300'} z-[9999] opacity-100`}>
                     {timeframes.map((tf) => (
-                      <SelectItem key={tf.value} value={tf.value}>{tf.label}</SelectItem>
+                      <SelectItem key={tf.value} value={tf.value} className={isDarkTheme ? 'bg-[#1a1a2e]' : 'bg-white'}>{tf.label}</SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
@@ -598,10 +598,10 @@ const Market = () => {
                   <SelectTrigger className={`flex-1 ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700 text-white' : 'bg-white border-gray-300'}`}>
                     <SelectValue placeholder="Scale" />
                   </SelectTrigger>
-                  <SelectContent className={`${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700 text-white' : 'bg-white'} z-50`}>
-                    <SelectItem value="normal">Normal</SelectItem>
-                    <SelectItem value="logarithmic">Log</SelectItem>
-                    <SelectItem value="percentage">%</SelectItem>
+                  <SelectContent className={`${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700 text-white' : 'bg-white border-gray-300'} z-[9999] opacity-100`}>
+                    <SelectItem value="normal" className={isDarkTheme ? 'bg-[#1a1a2e]' : 'bg-white'}>Normal</SelectItem>
+                    <SelectItem value="logarithmic" className={isDarkTheme ? 'bg-[#1a1a2e]' : 'bg-white'}>Log</SelectItem>
+                    <SelectItem value="percentage" className={isDarkTheme ? 'bg-[#1a1a2e]' : 'bg-white'}>%</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -740,12 +740,12 @@ const Market = () => {
                     </div>
                   </SelectValue>
                 </SelectTrigger>
-                <SelectContent className={`${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700' : 'bg-white'} z-[9999] max-h-[400px]`}>
+                <SelectContent className={`${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700' : 'bg-white border-gray-300'} z-[9999] max-h-[400px] opacity-100 backdrop-blur-sm`}>
                   {availableCoins.map((c) => (
                     <SelectItem 
                       key={c.id} 
                       value={c.id}
-                      className={isDarkTheme ? 'text-white hover:bg-[#252541] focus:bg-[#252541]' : 'text-gray-900'}
+                      className={isDarkTheme ? 'text-white hover:bg-[#252541] focus:bg-[#252541] bg-[#1a1a2e]' : 'text-gray-900 bg-white'}
                     >
                       <div className="flex items-center gap-2">
                         <img 
