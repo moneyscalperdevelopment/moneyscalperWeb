@@ -10,6 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useIsMobile } from "@/hooks/use-mobile";
 import Header from "@/components/Header";
 import { AddToWatchlistButton } from "@/components/market/AddToWatchlistButton";
@@ -513,19 +514,29 @@ const Market = () => {
                 Back
               </Button>
               
-              {/* Coin Selector Dropdown */}
-              <Select value={coinId} onValueChange={handleCoinChange}>
-                <SelectTrigger className={`w-[180px] ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700 text-white' : 'bg-white border-gray-300'}`}>
-                  <SelectValue placeholder="Select Coin" />
-                </SelectTrigger>
-                <SelectContent className={`${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700 text-white' : 'bg-white'} z-50`}>
-                  {availableCoins.map((c) => (
-                    <SelectItem key={c.id} value={c.id}>
-                      {c.name} ({c.symbol})
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              {/* Coin Selector Toggle Buttons */}
+              <ToggleGroup 
+                type="single" 
+                value={coinId} 
+                onValueChange={(value) => value && handleCoinChange(value)}
+                className="gap-2"
+              >
+                {availableCoins.map((c) => (
+                  <ToggleGroupItem 
+                    key={c.id} 
+                    value={c.id}
+                    className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                      coinId === c.id 
+                        ? 'bg-primary text-primary-foreground hover:bg-primary/90 data-[state=on]:bg-primary data-[state=on]:text-primary-foreground' 
+                        : isDarkTheme 
+                          ? 'bg-[#1a1a2e] text-white hover:bg-[#252541] border border-border/50' 
+                          : 'bg-white text-gray-900 hover:bg-gray-100 border border-gray-300'
+                    }`}
+                  >
+                    {c.symbol}
+                  </ToggleGroupItem>
+                ))}
+              </ToggleGroup>
             </div>
 
             {/* Theme & Export - Desktop Only */}
