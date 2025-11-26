@@ -23,18 +23,44 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const [authDialogOpen, setAuthDialogOpen] = useState(false);
+  const [emailVerified, setEmailVerified] = useState(false);
+  const [smsVerified, setSmsVerified] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
     // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       setUser(session?.user ?? null);
+      setEmailVerified(!!session?.user?.email_confirmed_at);
+      
+      // Check SMS verification status
+      if (session?.user?.id) {
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("sms_verified")
+          .eq("id", session.user.id)
+          .maybeSingle();
+        
+        setSmsVerified(profile?.sms_verified || false);
+      }
     });
 
     // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       setUser(session?.user ?? null);
+      setEmailVerified(!!session?.user?.email_confirmed_at);
+      
+      // Check SMS verification status
+      if (session?.user?.id) {
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("sms_verified")
+          .eq("id", session.user.id)
+          .maybeSingle();
+        
+        setSmsVerified(profile?.sms_verified || false);
+      }
     });
 
     return () => subscription.unsubscribe();
@@ -218,6 +244,23 @@ const Header = () => {
                     <p className="text-xs font-normal text-muted-foreground truncate" style={{ color: '#9CA3AF' }}>
                       {user.email}
                     </p>
+                    <div className="flex gap-2 mt-2">
+                      {emailVerified && (
+                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-500/10 text-green-500 border border-green-500/20">
+                          Email ✓
+                        </span>
+                      )}
+                      {smsVerified && (
+                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-500/10 text-green-500 border border-green-500/20">
+                          SMS ✓
+                        </span>
+                      )}
+                      {!emailVerified && !smsVerified && (
+                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-yellow-500/10 text-yellow-500 border border-yellow-500/20">
+                          Unverified
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator style={{ background: '#1F2933' }} />
