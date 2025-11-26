@@ -26,6 +26,7 @@ interface CoinMover {
 }
 
 const Insights = () => {
+  const navigate = useNavigate();
   const [gainers, setGainers] = useState<CoinMover[]>([]);
   const [losers, setLosers] = useState<CoinMover[]>([]);
   const [loading, setLoading] = useState(true);
@@ -245,11 +246,15 @@ const Insights = () => {
                   </div>
                   
                   {selectedCoin && (
-                    <div className="mb-4 p-4 rounded-lg" style={{ background: 'rgba(34, 197, 94, 0.1)', border: '1px solid rgba(34, 197, 94, 0.2)' }}>
+                    <div 
+                      className="mb-4 p-4 rounded-lg cursor-pointer hover:opacity-90 transition-opacity" 
+                      style={{ background: 'rgba(34, 197, 94, 0.1)', border: '1px solid rgba(34, 197, 94, 0.2)' }}
+                      onClick={() => navigate(`/market/${selectedCoin.id}`)}
+                    >
                       <div className="flex items-center gap-3 mb-2">
                         <img src={selectedCoin.image} alt={selectedCoin.name} className="w-8 h-8 rounded-full" />
                         <div>
-                          <p className="font-bold" style={{ color: '#FFFFFF' }}>
+                          <p className="font-bold underline decoration-primary/50" style={{ color: '#FFFFFF' }}>
                             {selectedCoin.name}
                           </p>
                           <p className="text-sm" style={{ color: '#9CA3AF' }}>
