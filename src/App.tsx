@@ -10,6 +10,7 @@ import BlogPost from "./pages/BlogPost";
 import Insights from "./pages/Insights";
 import Market from "./pages/Market";
 import MarketAll from "./pages/MarketAll";
+import Dashboard from "./pages/Dashboard";
 import AccountSettings from "./pages/AccountSettings";
 import Careers from "./pages/Careers";
 import CareerApplication from "./pages/CareerApplication";
@@ -31,6 +32,7 @@ const App = () => (
           <Route path="/insights" element={<Insights />} />
           <Route path="/market/all" element={<MarketAll />} />
           <Route path="/market/:coin" element={<Market />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/account" element={<AccountSettings />} />
           <Route path="/careers" element={<Careers />} />
           <Route path="/careers/apply/:jobId" element={<CareerApplication />} />

@@ -12,7 +12,7 @@ import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuL
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Auth } from "@/components/auth/Auth";
 import msLogo from "@/assets/ms-logo-3d.jpeg";
-import { Menu, User, Settings, LogOut } from "lucide-react";
+import { Menu, User, Settings, LogOut, Activity } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -221,6 +221,14 @@ const Header = () => {
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator style={{ background: '#1F2933' }} />
+                <DropdownMenuItem 
+                  onClick={() => navigate('/dashboard')}
+                  className="cursor-pointer"
+                  style={{ color: '#FFFFFF' }}
+                >
+                  <Activity className="mr-2 h-4 w-4" />
+                  <span>Dashboard</span>
+                </DropdownMenuItem>
                 <DropdownMenuItem 
                   onClick={() => navigate('/account')}
                   className="cursor-pointer"
