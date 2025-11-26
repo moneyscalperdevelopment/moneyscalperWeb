@@ -12,7 +12,7 @@ import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuL
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Auth } from "@/components/auth/Auth";
 import msLogo from "@/assets/ms-logo-3d.jpeg";
-import { Menu, User, Settings, LogOut, Activity } from "lucide-react";
+import { Menu, User, Settings, LogOut, Activity, Shield } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -25,6 +25,7 @@ const Header = () => {
   const [authDialogOpen, setAuthDialogOpen] = useState(false);
   const [emailVerified, setEmailVerified] = useState(false);
   const [smsVerified, setSmsVerified] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -43,6 +44,16 @@ const Header = () => {
           .maybeSingle();
         
         setSmsVerified(profile?.sms_verified || false);
+        
+        // Check admin role
+        const { data: role } = await supabase
+          .from("user_roles")
+          .select("role")
+          .eq("user_id", session.user.id)
+          .eq("role", "admin")
+          .maybeSingle();
+        
+        setIsAdmin(!!role);
       }
     });
 
@@ -60,6 +71,16 @@ const Header = () => {
           .maybeSingle();
         
         setSmsVerified(profile?.sms_verified || false);
+        
+        // Check admin role
+        const { data: role } = await supabase
+          .from("user_roles")
+          .select("role")
+          .eq("user_id", session.user.id)
+          .eq("role", "admin")
+          .maybeSingle();
+        
+        setIsAdmin(!!role);
       }
     });
 
@@ -280,6 +301,16 @@ const Header = () => {
                   <Settings className="mr-2 h-4 w-4" />
                   <span>Account Settings</span>
                 </DropdownMenuItem>
+                {isAdmin && (
+                  <DropdownMenuItem 
+                    onClick={() => navigate('/admin/security')}
+                    className="cursor-pointer"
+                    style={{ color: '#22C55E' }}
+                  >
+                    <Shield className="mr-2 h-4 w-4" />
+                    <span>Security Dashboard</span>
+                  </DropdownMenuItem>
+                )}
                 <DropdownMenuSeparator style={{ background: '#1F2933' }} />
                 <DropdownMenuItem 
                   onClick={handleLogout}
