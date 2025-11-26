@@ -762,26 +762,7 @@ const Market = () => {
 
         {/* Price Summary */}
         <div className={`mb-6 rounded-xl p-4 border ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-800' : 'bg-white border-gray-200'}`}>
-          {/* Mobile & Tablet: Toggle on top */}
-          {isTabletOrMobile && (
-            <div className="flex justify-center mb-4">
-              <div className={`inline-flex rounded-lg border p-1 ${isDarkTheme ? 'bg-[#0D0D2B] border-gray-700' : 'bg-gray-50 border-gray-300'} flex-wrap gap-1`}>
-                {availableCoins.map((c) => (
-                  <Button
-                    key={c.id}
-                    variant={coinId === c.id ? "default" : "ghost"}
-                    size="sm"
-                    onClick={() => handleCoinChange(c.id)}
-                    className={`px-3 py-2 ${coinId === c.id ? '' : isDarkTheme ? 'text-white hover:bg-white/10' : 'text-gray-900'}`}
-                  >
-                    <span className="font-bold">{c.symbol}</span>
-                  </Button>
-                ))}
-              </div>
-            </div>
-          )}
-          
-          <div className={`grid ${isTabletOrMobile ? 'grid-cols-1' : 'grid-cols-3'} items-center gap-4`}>
+          <div className={`flex flex-col ${isTabletOrMobile ? 'gap-4' : 'md:flex-row md:items-center md:justify-between'}`}>
             {/* Left: Price Info */}
             <div className="flex items-center gap-6">
               <div>
@@ -798,27 +779,8 @@ const Market = () => {
               </div>
             </div>
             
-            {/* Center: Coin Toggle Switcher - Desktop only */}
-            {!isTabletOrMobile && (
-              <div className="flex justify-center">
-                <div className={`inline-flex rounded-lg border p-1 ${isDarkTheme ? 'bg-[#0D0D2B] border-gray-700' : 'bg-gray-50 border-gray-300'}`}>
-                  {availableCoins.map((c) => (
-                    <Button
-                      key={c.id}
-                      variant={coinId === c.id ? "default" : "ghost"}
-                      size="sm"
-                      onClick={() => handleCoinChange(c.id)}
-                      className={`px-4 py-2 ${coinId === c.id ? '' : isDarkTheme ? 'text-white hover:bg-white/10' : 'text-gray-900'}`}
-                    >
-                      <span className="font-bold">{c.symbol}</span>
-                    </Button>
-                  ))}
-                </div>
-              </div>
-            )}
-            
             {/* Right: Live Indicator + Actions */}
-            <div className={`flex items-center gap-3 ${isTabletOrMobile ? 'justify-start' : 'justify-end'}`}>
+            <div className="flex items-center gap-3 justify-end">
               {!isTabletOrMobile && (
                 <>
                   <AddToWatchlistButton
