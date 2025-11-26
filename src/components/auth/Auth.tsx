@@ -6,9 +6,10 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
-import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { Eye, EyeOff, Loader2, CheckCircle, AlertCircle } from "lucide-react";
 import emailjs from '@emailjs/browser';
 import { countries } from "@/data/countryCodes";
+import { AsYouType, isValidPhoneNumber, parsePhoneNumber, CountryCode } from "libphonenumber-js";
 
 interface AuthProps {
   onSuccess?: () => void;
@@ -18,20 +19,81 @@ export const Auth = ({ onSuccess }: AuthProps) => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(countries.find(c => c.code === "US") || countries[0]);
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneError, setPhoneError] = useState<string | null>(null);
+
+  const handlePhoneChange = (value: string) => {
+    // Remove any non-digit characters for processing
+    const digitsOnly = value.replace(/\D/g, '');
+    
+    // Format the phone number using AsYouType formatter
+    const formatter = new AsYouType(selectedCountry.code as CountryCode);
+    const formatted = formatter.input(digitsOnly);
+    
+    setPhoneNumber(formatted);
+    
+    // Validate the phone number
+    if (digitsOnly.length > 0) {
+      try {
+        const fullNumber = selectedCountry.dialCode + digitsOnly;
+        const isValid = isValidPhoneNumber(fullNumber, selectedCountry.code as CountryCode);
+        
+        if (!isValid && digitsOnly.length >= 10) {
+          setPhoneError(`Invalid ${selectedCountry.name} phone number`);
+        } else {
+          setPhoneError(null);
+        }
+      } catch (error) {
+        setPhoneError(null); // Clear error if we can't validate yet
+      }
+    } else {
+      setPhoneError(null);
+    }
+  };
+
+  const handleCountryChange = (code: string) => {
+    const country = countries.find(c => c.code === code);
+    if (country) {
+      setSelectedCountry(country);
+      // Reformat existing number for new country
+      if (phoneNumber) {
+        const digitsOnly = phoneNumber.replace(/\D/g, '');
+        const formatter = new AsYouType(code as CountryCode);
+        const formatted = formatter.input(digitsOnly);
+        setPhoneNumber(formatted);
+        setPhoneError(null);
+      }
+    }
+  };
 
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+    // Validate phone number before submission
+    const digitsOnly = phoneNumber.replace(/\D/g, '');
+    const fullNumber = selectedCountry.dialCode + digitsOnly;
+    
+    try {
+      if (!isValidPhoneNumber(fullNumber, selectedCountry.code as CountryCode)) {
+        toast.error("Please enter a valid phone number");
+        setPhoneError(`Invalid ${selectedCountry.name} phone number`);
+        return;
+      }
+    } catch (error) {
+      toast.error("Please enter a valid phone number");
+      return;
+    }
+    
     setLoading(true);
 
     const formData = new FormData(e.currentTarget);
     const name = formData.get("signup-name") as string;
-    const phoneNumber = formData.get("signup-phone") as string;
     const email = formData.get("signup-email") as string;
     const password = formData.get("signup-password") as string;
     const confirmPassword = formData.get("confirm-password") as string;
     
-    // Combine country code with phone number
-    const contactNumber = `${selectedCountry.dialCode}${phoneNumber}`;
+    // Use the full international number format
+    const contactNumber = fullNumber;
 
     if (password !== confirmPassword) {
       toast.error("Passwords don't match");
@@ -179,10 +241,7 @@ export const Auth = ({ onSuccess }: AuthProps) => {
             <div className="flex gap-2">
               <Select 
                 value={selectedCountry.code} 
-                onValueChange={(code) => {
-                  const country = countries.find(c => c.code === code);
-                  if (country) setSelectedCountry(country);
-                }}
+                onValueChange={handleCountryChange}
                 disabled={loading}
               >
                 <SelectTrigger className="w-[160px] bg-background border-input z-50">
@@ -209,15 +268,36 @@ export const Auth = ({ onSuccess }: AuthProps) => {
                   ))}
                 </SelectContent>
               </Select>
-              <Input
-                id="signup-phone"
-                name="signup-phone"
-                type="tel"
-                placeholder="1234567890"
-                required
-                disabled={loading}
-                className="flex-1"
-              />
+              <div className="flex-1 space-y-1">
+                <div className="relative">
+                  <Input
+                    id="signup-phone"
+                    name="signup-phone"
+                    type="tel"
+                    placeholder="(555) 123-4567"
+                    value={phoneNumber}
+                    onChange={(e) => handlePhoneChange(e.target.value)}
+                    required
+                    disabled={loading}
+                    className={`pr-10 ${phoneError ? 'border-red-500 focus-visible:ring-red-500' : phoneNumber && !phoneError ? 'border-green-500 focus-visible:ring-green-500' : ''}`}
+                  />
+                  {phoneNumber && (
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                      {phoneError ? (
+                        <AlertCircle className="h-4 w-4 text-red-500" />
+                      ) : (
+                        <CheckCircle className="h-4 w-4 text-green-500" />
+                      )}
+                    </div>
+                  )}
+                </div>
+                {phoneError && (
+                  <p className="text-xs text-red-500">{phoneError}</p>
+                )}
+                {phoneNumber && !phoneError && phoneNumber.replace(/\D/g, '').length >= 10 && (
+                  <p className="text-xs text-green-500">Valid {selectedCountry.name} number</p>
+                )}
+              </div>
             </div>
           </div>
 
