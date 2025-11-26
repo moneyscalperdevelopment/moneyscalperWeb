@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { createChart, ColorType, CandlestickSeries, LineSeries, AreaSeries, BarSeries, HistogramSeries } from "lightweight-charts";
 import { Button } from "@/components/ui/button";
-import { Download, Moon, Sun } from "lucide-react";
+import { Download, Moon, Sun, Check, ChevronsUpDown } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -10,11 +10,23 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { useIsMobile } from "@/hooks/use-mobile";
 import Header from "@/components/Header";
 import { AddToWatchlistButton } from "@/components/market/AddToWatchlistButton";
 import { CreatePriceAlert } from "@/components/market/CreatePriceAlert";
+import { cn } from "@/lib/utils";
 
 const Market = () => {
   const { coin } = useParams<{ coin: string }>();
@@ -36,6 +48,7 @@ const Market = () => {
   const [fetchError, setFetchError] = useState<string | null>(null);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
   const isMobile = useIsMobile();
+  const [coinSelectorOpen, setCoinSelectorOpen] = useState(false);
   
   // Check for tablet/iPad view (under 1024px)
   const [isTabletOrMobile, setIsTabletOrMobile] = useState(false);
@@ -514,29 +527,62 @@ const Market = () => {
                 Back
               </Button>
               
-              {/* Coin Selector Toggle Buttons */}
-              <ToggleGroup 
-                type="single" 
-                value={coinId} 
-                onValueChange={(value) => value && handleCoinChange(value)}
-                className="gap-2"
-              >
-                {availableCoins.map((c) => (
-                  <ToggleGroupItem 
-                    key={c.id} 
-                    value={c.id}
-                    className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                      coinId === c.id 
-                        ? 'bg-primary text-primary-foreground hover:bg-primary/90 data-[state=on]:bg-primary data-[state=on]:text-primary-foreground' 
-                        : isDarkTheme 
-                          ? 'bg-[#1a1a2e] text-white hover:bg-[#252541] border border-border/50' 
-                          : 'bg-white text-gray-900 hover:bg-gray-100 border border-gray-300'
-                    }`}
+              {/* Coin Selector Searchable Dropdown */}
+              <Popover open={coinSelectorOpen} onOpenChange={setCoinSelectorOpen}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={coinSelectorOpen}
+                    className={`w-[200px] justify-between ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700 text-white hover:bg-[#252541]' : 'bg-white border-gray-300'}`}
                   >
-                    {c.symbol}
-                  </ToggleGroupItem>
-                ))}
-              </ToggleGroup>
+                    <span className="font-medium">
+                      {availableCoins.find((c) => c.id === coinId)?.name || "Select coin..."}
+                    </span>
+                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className={`w-[280px] p-0 ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700' : 'bg-white'}`}>
+                  <Command className={isDarkTheme ? 'bg-[#1a1a2e]' : 'bg-white'}>
+                    <CommandInput 
+                      placeholder="Search coin..." 
+                      className={isDarkTheme ? 'text-white' : 'text-gray-900'}
+                    />
+                    <CommandEmpty className={isDarkTheme ? 'text-gray-400' : 'text-gray-600'}>
+                      No coin found.
+                    </CommandEmpty>
+                    <CommandGroup className="max-h-[300px] overflow-auto">
+                      {availableCoins.map((c) => (
+                        <CommandItem
+                          key={c.id}
+                          value={`${c.name} ${c.symbol}`}
+                          onSelect={() => {
+                            handleCoinChange(c.id);
+                            setCoinSelectorOpen(false);
+                          }}
+                          className={cn(
+                            "cursor-pointer",
+                            isDarkTheme ? 'text-white hover:bg-[#252541]' : 'text-gray-900 hover:bg-gray-100'
+                          )}
+                        >
+                          <Check
+                            className={cn(
+                              "mr-2 h-4 w-4",
+                              coinId === c.id ? "opacity-100" : "opacity-0"
+                            )}
+                          />
+                          <div className="flex items-center justify-between flex-1">
+                            <span className="font-medium">{c.name}</span>
+                            <span className={`text-sm ${isDarkTheme ? 'text-gray-400' : 'text-gray-600'}`}>
+                              {c.symbol}
+                            </span>
+                          </div>
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </Command>
+                </PopoverContent>
+              </Popover>
             </div>
 
             {/* Theme & Export - Desktop Only */}
