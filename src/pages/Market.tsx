@@ -156,6 +156,16 @@ const Market = () => {
     { id: "solana", name: "Solana", symbol: "SOL" },
     { id: "cardano", name: "Cardano", symbol: "ADA" },
     { id: "dogecoin", name: "Dogecoin", symbol: "DOGE" },
+    { id: "polkadot", name: "Polkadot", symbol: "DOT" },
+    { id: "avalanche-2", name: "Avalanche", symbol: "AVAX" },
+    { id: "chainlink", name: "Chainlink", symbol: "LINK" },
+    { id: "matic-network", name: "Polygon", symbol: "MATIC" },
+    { id: "litecoin", name: "Litecoin", symbol: "LTC" },
+    { id: "uniswap", name: "Uniswap", symbol: "UNI" },
+    { id: "cosmos", name: "Cosmos", symbol: "ATOM" },
+    { id: "stellar", name: "Stellar", symbol: "XLM" },
+    { id: "tron", name: "Tron", symbol: "TRX" },
+    { id: "monero", name: "Monero", symbol: "XMR" },
   ];
 
   const timeframes = [
