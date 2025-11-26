@@ -510,6 +510,20 @@ const Market = () => {
               >
                 Back
               </Button>
+              
+              {/* Coin Selector Dropdown */}
+              <Select value={coinId} onValueChange={handleCoinChange}>
+                <SelectTrigger className={`w-[180px] ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700 text-white' : 'bg-white border-gray-300'}`}>
+                  <SelectValue placeholder="Select Coin" />
+                </SelectTrigger>
+                <SelectContent className={`${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700 text-white' : 'bg-white'} z-50`}>
+                  {availableCoins.map((c) => (
+                    <SelectItem key={c.id} value={c.id}>
+                      {c.name} ({c.symbol})
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
 
             {/* Theme & Export - Desktop Only */}
