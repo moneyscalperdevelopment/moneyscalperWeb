@@ -302,14 +302,24 @@ const Header = () => {
                   <span>Account Settings</span>
                 </DropdownMenuItem>
                 {isAdmin && (
-                  <DropdownMenuItem 
-                    onClick={() => navigate('/admin/security')}
-                    className="cursor-pointer"
-                    style={{ color: '#22C55E' }}
-                  >
-                    <Shield className="mr-2 h-4 w-4" />
-                    <span>Security Dashboard</span>
-                  </DropdownMenuItem>
+                  <>
+                    <DropdownMenuItem 
+                      onClick={() => navigate('/admin/security')}
+                      className="cursor-pointer"
+                      style={{ color: '#22C55E' }}
+                    >
+                      <Shield className="mr-2 h-4 w-4" />
+                      <span>Security Dashboard</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                      onClick={() => navigate('/admin/users')}
+                      className="cursor-pointer"
+                      style={{ color: '#3B82F6' }}
+                    >
+                      <User className="mr-2 h-4 w-4" />
+                      <span>User Management</span>
+                    </DropdownMenuItem>
+                  </>
                 )}
                 <DropdownMenuSeparator style={{ background: '#1F2933' }} />
                 <DropdownMenuItem 

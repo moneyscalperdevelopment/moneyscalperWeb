@@ -2,13 +2,23 @@
 
 ## Overview
 
-The admin security dashboard provides comprehensive monitoring and management of OTP verification security, including:
+The admin dashboard provides comprehensive tools for managing users and monitoring security:
 
+### Admin Security Dashboard
 - **Security Logs**: View all OTP-related security events
 - **Suspicious IPs**: Track and block IP addresses with suspicious patterns
 - **Metrics**: Monitor verification success rates, failed attempts, and rate limits
 - **IP-Based Rate Limiting**: Automatic blocking of IPs with excessive failed attempts
 - **Automated Alerts**: Detection of suspicious patterns like multiple failed verification attempts
+- **Downloadable Reports**: Export security data in PDF/CSV formats
+
+### Admin User Management Dashboard
+- **User Database**: View all registered users with complete details
+- **Search & Filter**: Find users by email or phone number
+- **Export Reports**: Download user data in PDF or CSV format
+- **Email Integration**: Send user details via EmailJS
+- **Verification Status**: Track email and SMS verification status
+- **User Statistics**: View total users, verified counts, and more
 
 ## Granting Admin Access
 
@@ -39,10 +49,61 @@ Once admin role is granted:
 
 1. Log in to your account
 2. Click on your profile icon in the header
-3. Select "Security Dashboard" from the dropdown menu
-4. You'll see the full security monitoring interface at `/admin/security`
+3. Select "Security Dashboard" for security monitoring at `/admin/security`
+4. Select "User Management" for user administration at `/admin/users`
+5. Navigate between dashboards using the navigation buttons
 
-## Security Features
+## User Management Features
+
+### 1. User Database Management
+
+View and manage all registered users with:
+- Email addresses
+- Phone numbers
+- Registration dates
+- Email verification status
+- SMS verification status
+
+### 2. Search & Filter
+
+- Search users by email or phone number
+- Real-time filtering of results
+- Display filtered count
+
+### 3. Export User Reports
+
+**PDF Export:**
+- Professional formatted report
+- User table with all details
+- Verification status indicators
+- Timestamped generation date
+
+**CSV Export:**
+- Spreadsheet-compatible format
+- All user data included
+- Easy import into Excel/Google Sheets
+
+### 4. Email Integration via EmailJS
+
+**Individual User Emails:**
+- Click "Email" button on any user row
+- Sends user details to admin email
+- Uses existing EmailJS configuration
+
+**Bulk Email:**
+- "Email All" button sends details for all filtered users
+- Useful for reporting and compliance
+- Includes registration and verification info
+
+### 5. User Statistics
+
+Dashboard shows:
+- Total registered users
+- Email verified count
+- SMS verified count  
+- Unverified users count
+
+## Security Features (OTP Monitoring)
 
 ### 1. IP-Based Rate Limiting
 
