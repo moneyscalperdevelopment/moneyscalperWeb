@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { createChart, ColorType, CandlestickSeries, LineSeries, AreaSeries, BarSeries, HistogramSeries } from "lightweight-charts";
 import { Button } from "@/components/ui/button";
-import { Download, Moon, Sun, Check, ChevronsUpDown } from "lucide-react";
+import { Download, Moon, Sun } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -10,23 +10,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { useIsMobile } from "@/hooks/use-mobile";
 import Header from "@/components/Header";
 import { AddToWatchlistButton } from "@/components/market/AddToWatchlistButton";
 import { CreatePriceAlert } from "@/components/market/CreatePriceAlert";
-import { cn } from "@/lib/utils";
 
 // Import coin logos
 import bitcoinLogo from "@/assets/bitcoin-logo.webp";
@@ -65,7 +52,6 @@ const Market = () => {
   const [fetchError, setFetchError] = useState<string | null>(null);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
   const isMobile = useIsMobile();
-  const [coinSelectorOpen, setCoinSelectorOpen] = useState(false);
   
   // Check for tablet/iPad view (under 1024px)
   const [isTabletOrMobile, setIsTabletOrMobile] = useState(false);
@@ -542,87 +528,20 @@ const Market = () => {
       <Header />
       <div className="container mx-auto px-4 py-6 max-w-[1600px]">
         {/* Top Controls Bar */}
-        <div className="flex flex-col gap-4 mb-6">
-          {/* Coin Selector - Top Row */}
-          <div className={`flex items-center gap-3 p-4 rounded-xl border ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-800' : 'bg-white border-gray-200'}`}>
-            <span className={`text-sm font-medium ${isDarkTheme ? 'text-gray-400' : 'text-gray-600'}`}>
-              Select Cryptocurrency:
-            </span>
+        <div className="flex flex-col gap-4 mb-4">
+          {/* Top Actions Bar */}
+          <div className="flex items-center justify-between gap-4">
+            <Button
+              variant="ghost"
+              onClick={() => navigate("/")}
+              className={`${isDarkTheme ? 'text-white hover:bg-white/10' : 'text-gray-900 hover:bg-gray-100'}`}
+            >
+              Back
+            </Button>
             
-            {/* Coin Selector Searchable Dropdown */}
-            <Popover open={coinSelectorOpen} onOpenChange={setCoinSelectorOpen}>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  role="combobox"
-                  aria-expanded={coinSelectorOpen}
-                  className={`w-[240px] justify-between ${isDarkTheme ? 'bg-[#0D0D2B] border-gray-700 text-white hover:bg-[#252541]' : 'bg-white border-gray-300'}`}
-                >
-                  <div className="flex items-center gap-2">
-                    {availableCoins.find((c) => c.id === coinId)?.logo && (
-                      <img 
-                        src={availableCoins.find((c) => c.id === coinId)?.logo} 
-                        alt=""
-                        className="w-5 h-5 object-contain"
-                      />
-                    )}
-                    <span className="font-medium">
-                      {availableCoins.find((c) => c.id === coinId)?.name || "Select coin..."}
-                    </span>
-                  </div>
-                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className={`w-[320px] p-0 z-[100] ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700' : 'bg-white'}`}>
-                <Command className={isDarkTheme ? 'bg-[#1a1a2e]' : 'bg-white'}>
-                  <CommandInput 
-                    placeholder="Search coin..." 
-                    className={isDarkTheme ? 'text-white' : 'text-gray-900'}
-                  />
-                  <CommandEmpty className={isDarkTheme ? 'text-gray-400' : 'text-gray-600'}>
-                    No coin found.
-                  </CommandEmpty>
-                  <CommandGroup className="max-h-[350px] overflow-auto">
-                    {availableCoins.map((c) => (
-                      <CommandItem
-                        key={c.id}
-                        value={`${c.name} ${c.symbol}`}
-                        onSelect={() => {
-                          handleCoinChange(c.id);
-                          setCoinSelectorOpen(false);
-                        }}
-                        className={cn(
-                          "cursor-pointer py-3",
-                          isDarkTheme ? 'text-white hover:bg-[#252541]' : 'text-gray-900 hover:bg-gray-100'
-                        )}
-                      >
-                        <Check
-                          className={cn(
-                            "mr-2 h-4 w-4",
-                            coinId === c.id ? "opacity-100" : "opacity-0"
-                          )}
-                        />
-                        <img 
-                          src={c.logo} 
-                          alt={c.name}
-                          className="w-6 h-6 object-contain mr-3"
-                        />
-                        <div className="flex items-center justify-between flex-1">
-                          <span className="font-medium">{c.name}</span>
-                          <span className={`text-sm ${isDarkTheme ? 'text-gray-400' : 'text-gray-600'}`}>
-                            {c.symbol}
-                          </span>
-                        </div>
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
-                </Command>
-              </PopoverContent>
-            </Popover>
-            
-            {/* Theme & Export - Desktop Only */}
+            {/* Theme & Export */}
             {!isTabletOrMobile && (
-              <div className="flex items-center gap-2 ml-auto">
+              <div className="flex items-center gap-2">
                 <Button
                   variant="outline"
                   size="icon"
@@ -641,15 +560,6 @@ const Market = () => {
                 </Button>
               </div>
             )}
-            
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => navigate("/")}
-              className={`${isTabletOrMobile ? 'ml-auto' : ''} ${isDarkTheme ? 'text-white hover:bg-white/10' : 'text-gray-900 hover:bg-gray-100'}`}
-            >
-              Back to Home
-            </Button>
           </div>
 
           {/* Chart Type & Timeframe Controls */}
@@ -796,7 +706,7 @@ const Market = () => {
 
         {/* Price Summary */}
         <div className={`mb-6 rounded-xl p-4 border ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-800' : 'bg-white border-gray-200'}`}>
-          <div className={`flex flex-col ${isTabletOrMobile ? 'gap-4' : 'md:flex-row md:items-center md:justify-between'}`}>
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             {/* Left: Price Info */}
             <div className="flex items-center gap-6">
               <div>
@@ -811,6 +721,47 @@ const Market = () => {
                 </span>
                 <span className={`text-sm ml-2 ${isDarkTheme ? 'text-gray-400' : 'text-gray-600'}`}>({days}D)</span>
               </div>
+            </div>
+            
+            {/* Center: Coin Selector Dropdown */}
+            <div className="flex items-center gap-2">
+              <Select value={coinId} onValueChange={handleCoinChange}>
+                <SelectTrigger className={`w-[200px] ${isDarkTheme ? 'bg-[#0D0D2B] border-gray-700 text-white' : 'bg-white border-gray-300'}`}>
+                  <SelectValue>
+                    <div className="flex items-center gap-2">
+                      {availableCoins.find((c) => c.id === coinId)?.logo && (
+                        <img 
+                          src={availableCoins.find((c) => c.id === coinId)?.logo} 
+                          alt=""
+                          className="w-5 h-5 object-contain"
+                        />
+                      )}
+                      <span>{availableCoins.find((c) => c.id === coinId)?.name || "Select"}</span>
+                    </div>
+                  </SelectValue>
+                </SelectTrigger>
+                <SelectContent className={`${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700' : 'bg-white'} z-[9999] max-h-[400px]`}>
+                  {availableCoins.map((c) => (
+                    <SelectItem 
+                      key={c.id} 
+                      value={c.id}
+                      className={isDarkTheme ? 'text-white hover:bg-[#252541] focus:bg-[#252541]' : 'text-gray-900'}
+                    >
+                      <div className="flex items-center gap-2">
+                        <img 
+                          src={c.logo} 
+                          alt={c.name}
+                          className="w-5 h-5 object-contain"
+                        />
+                        <span className="font-medium">{c.name}</span>
+                        <span className={`text-sm ml-2 ${isDarkTheme ? 'text-gray-400' : 'text-gray-600'}`}>
+                          {c.symbol}
+                        </span>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             
             {/* Right: Live Indicator + Actions */}
