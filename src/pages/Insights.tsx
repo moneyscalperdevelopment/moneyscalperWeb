@@ -9,7 +9,6 @@ import { createChart, ColorType, IChartApi, LineSeries } from "lightweight-chart
 import { AddToWatchlistButton } from "@/components/market/AddToWatchlistButton";
 import { CreatePriceAlert } from "@/components/market/CreatePriceAlert";
 import { useNavigate } from "react-router-dom";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface CoinMover {
   id: string;
@@ -26,7 +25,6 @@ interface CoinMover {
 }
 
 const Insights = () => {
-  const navigate = useNavigate();
   const [gainers, setGainers] = useState<CoinMover[]>([]);
   const [losers, setLosers] = useState<CoinMover[]>([]);
   const [loading, setLoading] = useState(true);
@@ -124,30 +122,23 @@ const Insights = () => {
           onClick={() => setSelectedCoin(coin)}
           className="flex items-center justify-between p-4 cursor-pointer"
         >
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <div 
-                className="flex items-center gap-3 flex-1 cursor-pointer hover:opacity-80 transition-opacity"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  navigate(`/market/${coin.id}`);
-                }}
-              >
-                <img src={coin.image} alt={coin.name} className="w-10 h-10 rounded-full" />
-                <div className="flex-1">
-                  <p className="font-semibold underline decoration-primary/50" style={{ color: '#FFFFFF' }}>
-                    {coin.name}
-                  </p>
-                  <p className="text-sm" style={{ color: '#9CA3AF' }}>
-                    {coin.symbol.toUpperCase()}
-                  </p>
-                </div>
-              </div>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Click to view detailed chart on Market page</p>
-            </TooltipContent>
-          </Tooltip>
+          <div 
+            className="flex items-center gap-3 flex-1 cursor-pointer hover:opacity-80 transition-opacity"
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/market/${coin.id}`);
+            }}
+          >
+            <img src={coin.image} alt={coin.name} className="w-10 h-10 rounded-full" />
+            <div className="flex-1">
+              <p className="font-semibold underline decoration-primary/50" style={{ color: '#FFFFFF' }}>
+                {coin.name}
+              </p>
+              <p className="text-sm" style={{ color: '#9CA3AF' }}>
+                {coin.symbol.toUpperCase()}
+              </p>
+            </div>
+          </div>
           <div className="text-right">
             <p className="font-semibold" style={{ color: '#FFFFFF' }}>
               ${coin.current_price.toLocaleString()}
@@ -196,9 +187,8 @@ const Insights = () => {
         />
       </Helmet>
 
-      <TooltipProvider>
-        <div className="min-h-screen" style={{ background: '#050509' }}>
-          <Header />
+      <div className="min-h-screen" style={{ background: '#050509' }}>
+        <Header />
         
         <section className="pt-24 pb-16">
           <div className="container max-w-7xl mx-auto px-4">
@@ -245,15 +235,11 @@ const Insights = () => {
                   </div>
                   
                   {selectedCoin && (
-                    <div 
-                      className="mb-4 p-4 rounded-lg cursor-pointer hover:opacity-90 transition-opacity" 
-                      style={{ background: 'rgba(34, 197, 94, 0.1)', border: '1px solid rgba(34, 197, 94, 0.2)' }}
-                      onClick={() => navigate(`/market/${selectedCoin.id}`)}
-                    >
+                    <div className="mb-4 p-4 rounded-lg" style={{ background: 'rgba(34, 197, 94, 0.1)', border: '1px solid rgba(34, 197, 94, 0.2)' }}>
                       <div className="flex items-center gap-3 mb-2">
                         <img src={selectedCoin.image} alt={selectedCoin.name} className="w-8 h-8 rounded-full" />
                         <div>
-                          <p className="font-bold underline decoration-primary/50" style={{ color: '#FFFFFF' }}>
+                          <p className="font-bold" style={{ color: '#FFFFFF' }}>
                             {selectedCoin.name}
                           </p>
                           <p className="text-sm" style={{ color: '#9CA3AF' }}>
@@ -314,8 +300,7 @@ const Insights = () => {
         </section>
 
         <Footer />
-        </div>
-      </TooltipProvider>
+      </div>
     </>
   );
 };
