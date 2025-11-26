@@ -5,9 +5,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Shield, AlertTriangle, CheckCircle, XCircle, Activity, TrendingUp } from "lucide-react";
+import { Shield, AlertTriangle, CheckCircle, XCircle, Activity, TrendingUp, Download, FileText, FileSpreadsheet, Calendar } from "lucide-react";
 import { toast } from "sonner";
 import { LineChart, Line, BarChart, Bar, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { exportToCSV, exportToPDF } from "@/utils/securityReports";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar as CalendarComponent } from "@/components/ui/calendar";
+import { format } from "date-fns";
 
 interface SecurityLog {
   id: string;
@@ -73,6 +77,11 @@ export default function AdminSecurity() {
   const [dailyTrends, setDailyTrends] = useState<ChartData[]>([]);
   const [hourlyActivity, setHourlyActivity] = useState<HourlyData[]>([]);
   const [eventTypeBreakdown, setEventTypeBreakdown] = useState<EventTypeData[]>([]);
+  const [dateRange, setDateRange] = useState<{ from: Date; to: Date }>({
+    from: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+    to: new Date(),
+  });
+  const [exporting, setExporting] = useState(false);
 
   useEffect(() => {
     checkAdminAccess();
@@ -242,6 +251,48 @@ export default function AdminSecurity() {
       .sort((a, b) => b.value - a.value);
   };
 
+  const handleExportCSV = () => {
+    setExporting(true);
+    try {
+      const reportData = {
+        logs,
+        suspiciousIPs,
+        metrics,
+        startDate: format(dateRange.from, "PPP"),
+        endDate: format(dateRange.to, "PPP"),
+      };
+      
+      exportToCSV(reportData);
+      toast.success("CSV report downloaded successfully");
+    } catch (error) {
+      console.error("Error exporting CSV:", error);
+      toast.error("Failed to export CSV report");
+    } finally {
+      setExporting(false);
+    }
+  };
+
+  const handleExportPDF = () => {
+    setExporting(true);
+    try {
+      const reportData = {
+        logs,
+        suspiciousIPs,
+        metrics,
+        startDate: format(dateRange.from, "PPP"),
+        endDate: format(dateRange.to, "PPP"),
+      };
+      
+      exportToPDF(reportData);
+      toast.success("PDF report downloaded successfully");
+    } catch (error) {
+      console.error("Error exporting PDF:", error);
+      toast.error("Failed to export PDF report");
+    } finally {
+      setExporting(false);
+    }
+  };
+
   const toggleIPBlock = async (ip: SuspiciousIP) => {
     try {
       const { error } = await supabase
@@ -299,9 +350,68 @@ export default function AdminSecurity() {
               Monitor OTP verification security and detect suspicious patterns
             </p>
           </div>
-          <Button onClick={() => navigate("/dashboard")} variant="outline">
-            Back to Dashboard
-          </Button>
+          <div className="flex gap-2">
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="outline" className="gap-2">
+                  <Calendar className="h-4 w-4" />
+                  {format(dateRange.from, "MMM d")} - {format(dateRange.to, "MMM d, yyyy")}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="end">
+                <div className="p-3 space-y-2">
+                  <div className="space-y-1">
+                    <p className="text-sm font-medium">From Date</p>
+                    <CalendarComponent
+                      mode="single"
+                      selected={dateRange.from}
+                      onSelect={(date) => date && setDateRange(prev => ({ ...prev, from: date }))}
+                      disabled={(date) => date > dateRange.to}
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-sm font-medium">To Date</p>
+                    <CalendarComponent
+                      mode="single"
+                      selected={dateRange.to}
+                      onSelect={(date) => date && setDateRange(prev => ({ ...prev, to: date }))}
+                      disabled={(date) => date < dateRange.from || date > new Date()}
+                    />
+                  </div>
+                  <Button 
+                    className="w-full" 
+                    onClick={() => loadSecurityData()}
+                  >
+                    Apply Date Range
+                  </Button>
+                </div>
+              </PopoverContent>
+            </Popover>
+            
+            <Button 
+              onClick={handleExportCSV} 
+              variant="outline"
+              disabled={exporting}
+              className="gap-2"
+            >
+              <FileSpreadsheet className="h-4 w-4" />
+              Export CSV
+            </Button>
+            
+            <Button 
+              onClick={handleExportPDF} 
+              variant="outline"
+              disabled={exporting}
+              className="gap-2"
+            >
+              <FileText className="h-4 w-4" />
+              Export PDF
+            </Button>
+            
+            <Button onClick={() => navigate("/dashboard")} variant="outline">
+              Back to Dashboard
+            </Button>
+          </div>
         </div>
 
         {/* Metrics Cards */}
