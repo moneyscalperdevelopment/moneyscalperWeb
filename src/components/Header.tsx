@@ -1,17 +1,54 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Auth } from "@/components/auth/Auth";
 import msLogo from "@/assets/ms-logo-3d.jpeg";
-import { Menu } from "lucide-react";
-import { useState } from "react";
+import { Menu, User, Settings, LogOut } from "lucide-react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { User as SupabaseUser } from "@supabase/supabase-js";
+import { toast } from "sonner";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [user, setUser] = useState<SupabaseUser | null>(null);
+  const [authDialogOpen, setAuthDialogOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    // Get initial session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut();
+      toast.success("Logged out successfully");
+      navigate('/');
+    } catch (error: any) {
+      toast.error("Failed to log out");
+    }
+  };
   
   const handleHomeClick = () => {
     navigate('/');
@@ -161,22 +198,64 @@ const Header = () => {
             </NavigationMenuList>
           </NavigationMenu>
 
-          {/* Auth Button */}
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all duration-300 text-xs sm:text-sm px-3 sm:px-4 py-2">
-                Get Started
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="w-[90vw] max-w-[450px]">
-              <DialogHeader>
-                <DialogTitle className="text-2xl font-bold text-center">
-                  Welcome to Money Scalper
-                </DialogTitle>
-              </DialogHeader>
-              <Auth onSuccess={() => {}} />
-            </DialogContent>
-          </Dialog>
+          {/* Auth Button or User Profile */}
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button 
+                  variant="outline" 
+                  size="icon"
+                  className="rounded-full border-2"
+                  style={{ borderColor: '#22C55E' }}
+                >
+                  <User className="h-5 w-5" style={{ color: '#22C55E' }} />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56 z-[100]" style={{ background: '#1a1a2e', border: '1px solid #1F2933' }}>
+                <DropdownMenuLabel style={{ color: '#FFFFFF' }}>
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-sm font-medium">My Account</p>
+                    <p className="text-xs font-normal text-muted-foreground truncate" style={{ color: '#9CA3AF' }}>
+                      {user.email}
+                    </p>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator style={{ background: '#1F2933' }} />
+                <DropdownMenuItem 
+                  onClick={() => navigate('/account')}
+                  className="cursor-pointer"
+                  style={{ color: '#FFFFFF' }}
+                >
+                  <Settings className="mr-2 h-4 w-4" />
+                  <span>Account Settings</span>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator style={{ background: '#1F2933' }} />
+                <DropdownMenuItem 
+                  onClick={handleLogout}
+                  className="cursor-pointer text-red-500"
+                >
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Log Out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Dialog open={authDialogOpen} onOpenChange={setAuthDialogOpen}>
+              <DialogTrigger asChild>
+                <Button className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all duration-300 text-xs sm:text-sm px-3 sm:px-4 py-2">
+                  Get Started
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="w-[90vw] max-w-[450px]">
+                <DialogHeader>
+                  <DialogTitle className="text-2xl font-bold text-center">
+                    Welcome to Money Scalper
+                  </DialogTitle>
+                </DialogHeader>
+                <Auth onSuccess={() => setAuthDialogOpen(false)} />
+              </DialogContent>
+            </Dialog>
+          )}
         </div>
       </div>
     </header>;
