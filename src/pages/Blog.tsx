@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles, TrendingUp, Clock, Calendar } from "lucide-react";
 import SidebarMarketSnapshot from "@/components/blog/SidebarMarketSnapshot";
 import SidebarLiveNews from "@/components/blog/SidebarLiveNews";
+import { TopMovers } from "@/components/blog/TopMovers";
 import bitcoinPredictionImg from "@/assets/blog/bitcoin-prediction-2025.jpg";
 import ethereumSmartContractsImg from "@/assets/blog/ethereum-smart-contracts.jpg";
 import aiTradingBotsImg from "@/assets/blog/ai-trading-bots.jpg";
@@ -271,6 +272,9 @@ const Blog = () => {
               {/* Right 1 column - Sidebar */}
               <div className="lg:col-span-1">
                 <div className="lg:sticky lg:top-24 space-y-6">
+                  {/* Top Movers */}
+                  <TopMovers />
+
                   {/* Trending Now */}
                   <div className="rounded-xl p-6" style={{ background: '#111111', border: '1px solid #1F2933' }}>
                     <div className="flex items-center gap-2 mb-6">
