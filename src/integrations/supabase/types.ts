@@ -58,19 +58,58 @@ export type Database = {
           created_at: string
           email: string | null
           id: string
+          phone_number: string | null
+          sms_verified: boolean
           updated_at: string
         }
         Insert: {
           created_at?: string
           email?: string | null
           id: string
+          phone_number?: string | null
+          sms_verified?: boolean
           updated_at?: string
         }
         Update: {
           created_at?: string
           email?: string | null
           id?: string
+          phone_number?: string | null
+          sms_verified?: boolean
           updated_at?: string
+        }
+        Relationships: []
+      }
+      sms_otp_codes: {
+        Row: {
+          attempts: number
+          created_at: string
+          expires_at: string
+          id: string
+          otp_code: string
+          phone_number: string
+          user_id: string
+          verified: boolean
+        }
+        Insert: {
+          attempts?: number
+          created_at?: string
+          expires_at?: string
+          id?: string
+          otp_code: string
+          phone_number: string
+          user_id: string
+          verified?: boolean
+        }
+        Update: {
+          attempts?: number
+          created_at?: string
+          expires_at?: string
+          id?: string
+          otp_code?: string
+          phone_number?: string
+          user_id?: string
+          verified?: boolean
         }
         Relationships: []
       }
@@ -106,7 +145,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      cleanup_expired_otps: { Args: never; Returns: undefined }
     }
     Enums: {
       [_ in never]: never
