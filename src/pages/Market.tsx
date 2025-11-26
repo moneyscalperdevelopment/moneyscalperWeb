@@ -542,93 +542,87 @@ const Market = () => {
       <Header />
       <div className="container mx-auto px-4 py-6 max-w-[1600px]">
         {/* Top Controls Bar */}
-        <div className="flex flex-col gap-4 mb-4">
-          {/* Coin Selector & Actions */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <div className="flex items-center gap-4 flex-wrap">
-              <Button
-                variant="ghost"
-                onClick={() => navigate("/")}
-                className={`${isDarkTheme ? 'text-white hover:bg-white/10' : 'text-gray-900 hover:bg-gray-100'} px-4`}
-              >
-                Back
-              </Button>
-              
-              {/* Coin Selector Searchable Dropdown */}
-              <Popover open={coinSelectorOpen} onOpenChange={setCoinSelectorOpen}>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    role="combobox"
-                    aria-expanded={coinSelectorOpen}
-                    className={`w-[220px] justify-between ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700 text-white hover:bg-[#252541]' : 'bg-white border-gray-300'}`}
-                  >
-                    <div className="flex items-center gap-2">
-                      {availableCoins.find((c) => c.id === coinId)?.logo && (
-                        <img 
-                          src={availableCoins.find((c) => c.id === coinId)?.logo} 
-                          alt=""
-                          className="w-5 h-5 object-contain"
-                        />
-                      )}
-                      <span className="font-medium">
-                        {availableCoins.find((c) => c.id === coinId)?.name || "Select coin..."}
-                      </span>
-                    </div>
-                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className={`w-[280px] p-0 ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700' : 'bg-white'}`}>
-                  <Command className={isDarkTheme ? 'bg-[#1a1a2e]' : 'bg-white'}>
-                    <CommandInput 
-                      placeholder="Search coin..." 
-                      className={isDarkTheme ? 'text-white' : 'text-gray-900'}
-                    />
-                    <CommandEmpty className={isDarkTheme ? 'text-gray-400' : 'text-gray-600'}>
-                      No coin found.
-                    </CommandEmpty>
-                    <CommandGroup className="max-h-[300px] overflow-auto">
-                      {availableCoins.map((c) => (
-                        <CommandItem
-                          key={c.id}
-                          value={`${c.name} ${c.symbol}`}
-                          onSelect={() => {
-                            handleCoinChange(c.id);
-                            setCoinSelectorOpen(false);
-                          }}
+        <div className="flex flex-col gap-4 mb-6">
+          {/* Coin Selector - Top Row */}
+          <div className={`flex items-center gap-3 p-4 rounded-xl border ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-800' : 'bg-white border-gray-200'}`}>
+            <span className={`text-sm font-medium ${isDarkTheme ? 'text-gray-400' : 'text-gray-600'}`}>
+              Select Cryptocurrency:
+            </span>
+            
+            {/* Coin Selector Searchable Dropdown */}
+            <Popover open={coinSelectorOpen} onOpenChange={setCoinSelectorOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  role="combobox"
+                  aria-expanded={coinSelectorOpen}
+                  className={`w-[240px] justify-between ${isDarkTheme ? 'bg-[#0D0D2B] border-gray-700 text-white hover:bg-[#252541]' : 'bg-white border-gray-300'}`}
+                >
+                  <div className="flex items-center gap-2">
+                    {availableCoins.find((c) => c.id === coinId)?.logo && (
+                      <img 
+                        src={availableCoins.find((c) => c.id === coinId)?.logo} 
+                        alt=""
+                        className="w-5 h-5 object-contain"
+                      />
+                    )}
+                    <span className="font-medium">
+                      {availableCoins.find((c) => c.id === coinId)?.name || "Select coin..."}
+                    </span>
+                  </div>
+                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className={`w-[320px] p-0 z-[100] ${isDarkTheme ? 'bg-[#1a1a2e] border-gray-700' : 'bg-white'}`}>
+                <Command className={isDarkTheme ? 'bg-[#1a1a2e]' : 'bg-white'}>
+                  <CommandInput 
+                    placeholder="Search coin..." 
+                    className={isDarkTheme ? 'text-white' : 'text-gray-900'}
+                  />
+                  <CommandEmpty className={isDarkTheme ? 'text-gray-400' : 'text-gray-600'}>
+                    No coin found.
+                  </CommandEmpty>
+                  <CommandGroup className="max-h-[350px] overflow-auto">
+                    {availableCoins.map((c) => (
+                      <CommandItem
+                        key={c.id}
+                        value={`${c.name} ${c.symbol}`}
+                        onSelect={() => {
+                          handleCoinChange(c.id);
+                          setCoinSelectorOpen(false);
+                        }}
+                        className={cn(
+                          "cursor-pointer py-3",
+                          isDarkTheme ? 'text-white hover:bg-[#252541]' : 'text-gray-900 hover:bg-gray-100'
+                        )}
+                      >
+                        <Check
                           className={cn(
-                            "cursor-pointer",
-                            isDarkTheme ? 'text-white hover:bg-[#252541]' : 'text-gray-900 hover:bg-gray-100'
+                            "mr-2 h-4 w-4",
+                            coinId === c.id ? "opacity-100" : "opacity-0"
                           )}
-                        >
-                          <Check
-                            className={cn(
-                              "mr-2 h-4 w-4",
-                              coinId === c.id ? "opacity-100" : "opacity-0"
-                            )}
-                          />
-                          <img 
-                            src={c.logo} 
-                            alt={c.name}
-                            className="w-6 h-6 object-contain mr-2"
-                          />
-                          <div className="flex items-center justify-between flex-1">
-                            <span className="font-medium">{c.name}</span>
-                            <span className={`text-sm ${isDarkTheme ? 'text-gray-400' : 'text-gray-600'}`}>
-                              {c.symbol}
-                            </span>
-                          </div>
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  </Command>
-                </PopoverContent>
-              </Popover>
-            </div>
-
+                        />
+                        <img 
+                          src={c.logo} 
+                          alt={c.name}
+                          className="w-6 h-6 object-contain mr-3"
+                        />
+                        <div className="flex items-center justify-between flex-1">
+                          <span className="font-medium">{c.name}</span>
+                          <span className={`text-sm ${isDarkTheme ? 'text-gray-400' : 'text-gray-600'}`}>
+                            {c.symbol}
+                          </span>
+                        </div>
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </Command>
+              </PopoverContent>
+            </Popover>
+            
             {/* Theme & Export - Desktop Only */}
             {!isTabletOrMobile && (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 ml-auto">
                 <Button
                   variant="outline"
                   size="icon"
@@ -647,6 +641,15 @@ const Market = () => {
                 </Button>
               </div>
             )}
+            
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => navigate("/")}
+              className={`${isTabletOrMobile ? 'ml-auto' : ''} ${isDarkTheme ? 'text-white hover:bg-white/10' : 'text-gray-900 hover:bg-gray-100'}`}
+            >
+              Back to Home
+            </Button>
           </div>
 
           {/* Chart Type & Timeframe Controls */}
