@@ -21,14 +21,6 @@ const Header = () => {
     setMobileMenuOpen(false);
   };
 
-  const handleBlogClick = () => {
-    navigate('/blog');
-    setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }, 100);
-    setMobileMenuOpen(false);
-  };
-
   const scrollToSection = (sectionId: string) => {
     // If not on home page, navigate to home first
     if (location.pathname !== '/') {
@@ -85,16 +77,23 @@ const Header = () => {
                   About Us
                 </Link>
                 <button
-                  onClick={handleBlogClick}
-                  className="text-left py-3 px-4 rounded-lg hover:bg-accent transition-colors text-lg font-medium"
-                >
-                  Blog
-                </button>
-                <button
-                  onClick={handleBlogClick}
+                  onClick={() => {
+                    navigate('/insights');
+                    setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 100);
+                    setMobileMenuOpen(false);
+                  }}
                   className="text-left py-3 px-4 rounded-lg hover:bg-accent transition-colors text-lg font-medium"
                 >
                   Insights
+                </button>
+                <button
+                  onClick={() => {
+                    navigate('/market/bitcoin');
+                    setMobileMenuOpen(false);
+                  }}
+                  className="text-left py-3 px-4 rounded-lg hover:bg-accent transition-colors text-lg font-medium"
+                >
+                  Market
                 </button>
                 <button
                   onClick={() => scrollToSection('pricing')}
@@ -136,19 +135,22 @@ const Header = () => {
               <NavigationMenuItem>
                 <NavigationMenuLink 
                   className={navigationMenuTriggerStyle()} 
-                  onClick={handleBlogClick}
+                  onClick={() => {
+                    navigate('/insights');
+                    setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 100);
+                  }}
                   style={{ cursor: 'pointer' }}
                 >
-                  Blog
+                  Insights
                 </NavigationMenuLink>
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <NavigationMenuLink 
                   className={navigationMenuTriggerStyle()} 
-                  onClick={handleBlogClick}
+                  onClick={() => navigate('/market/bitcoin')}
                   style={{ cursor: 'pointer' }}
                 >
-                  Insights
+                  Market
                 </NavigationMenuLink>
               </NavigationMenuItem>
               <NavigationMenuItem>
