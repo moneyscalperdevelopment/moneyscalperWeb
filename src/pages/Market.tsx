@@ -709,29 +709,18 @@ const Market = () => {
           {/* Mobile & Tablet: Toggle on top */}
           {isTabletOrMobile && (
             <div className="flex justify-center mb-4">
-              <div className={`inline-flex rounded-lg border p-1 ${isDarkTheme ? 'bg-[#0D0D2B] border-gray-700' : 'bg-gray-50 border-gray-300'}`}>
-                <Button
-                  variant={coinId === "bitcoin" ? "default" : "ghost"}
-                  size="sm"
-                  onClick={() => handleCoinChange("bitcoin")}
-                  className={`px-4 py-2 ${coinId === "bitcoin" ? '' : isDarkTheme ? 'text-white hover:bg-white/10' : 'text-gray-900'}`}
-                >
-                  <span className="flex items-center gap-2">
-                    <span className="text-lg">₿</span>
-                    <span className="font-bold">Bitcoin</span>
-                  </span>
-                </Button>
-                <Button
-                  variant={coinId === "ethereum" ? "default" : "ghost"}
-                  size="sm"
-                  onClick={() => handleCoinChange("ethereum")}
-                  className={`px-4 py-2 ${coinId === "ethereum" ? '' : isDarkTheme ? 'text-white hover:bg-white/10' : 'text-gray-900'}`}
-                >
-                  <span className="flex items-center gap-2">
-                    <span className="text-lg">Ξ</span>
-                    <span className="font-bold">Ethereum</span>
-                  </span>
-                </Button>
+              <div className={`inline-flex rounded-lg border p-1 ${isDarkTheme ? 'bg-[#0D0D2B] border-gray-700' : 'bg-gray-50 border-gray-300'} flex-wrap gap-1`}>
+                {availableCoins.map((c) => (
+                  <Button
+                    key={c.id}
+                    variant={coinId === c.id ? "default" : "ghost"}
+                    size="sm"
+                    onClick={() => handleCoinChange(c.id)}
+                    className={`px-3 py-2 ${coinId === c.id ? '' : isDarkTheme ? 'text-white hover:bg-white/10' : 'text-gray-900'}`}
+                  >
+                    <span className="font-bold">{c.symbol}</span>
+                  </Button>
+                ))}
               </div>
             </div>
           )}
@@ -753,32 +742,21 @@ const Market = () => {
               </div>
             </div>
             
-            {/* Center: Bitcoin/Ethereum Toggle Switcher - Desktop only */}
+            {/* Center: Coin Toggle Switcher - Desktop only */}
             {!isTabletOrMobile && (
               <div className="flex justify-center">
                 <div className={`inline-flex rounded-lg border p-1 ${isDarkTheme ? 'bg-[#0D0D2B] border-gray-700' : 'bg-gray-50 border-gray-300'}`}>
-                  <Button
-                    variant={coinId === "bitcoin" ? "default" : "ghost"}
-                    size="sm"
-                    onClick={() => handleCoinChange("bitcoin")}
-                    className={`px-6 py-2 ${coinId === "bitcoin" ? '' : isDarkTheme ? 'text-white hover:bg-white/10' : 'text-gray-900'}`}
-                  >
-                    <span className="flex items-center gap-2">
-                      <span className="text-lg">₿</span>
-                      <span className="font-bold">Bitcoin</span>
-                    </span>
-                  </Button>
-                  <Button
-                    variant={coinId === "ethereum" ? "default" : "ghost"}
-                    size="sm"
-                    onClick={() => handleCoinChange("ethereum")}
-                    className={`px-6 py-2 ${coinId === "ethereum" ? '' : isDarkTheme ? 'text-white hover:bg-white/10' : 'text-gray-900'}`}
-                  >
-                    <span className="flex items-center gap-2">
-                      <span className="text-lg">Ξ</span>
-                      <span className="font-bold">Ethereum</span>
-                    </span>
-                  </Button>
+                  {availableCoins.map((c) => (
+                    <Button
+                      key={c.id}
+                      variant={coinId === c.id ? "default" : "ghost"}
+                      size="sm"
+                      onClick={() => handleCoinChange(c.id)}
+                      className={`px-4 py-2 ${coinId === c.id ? '' : isDarkTheme ? 'text-white hover:bg-white/10' : 'text-gray-900'}`}
+                    >
+                      <span className="font-bold">{c.symbol}</span>
+                    </Button>
+                  ))}
                 </div>
               </div>
             )}
