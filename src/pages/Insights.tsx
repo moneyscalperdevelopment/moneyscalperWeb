@@ -9,6 +9,7 @@ import { createChart, ColorType, IChartApi, LineSeries } from "lightweight-chart
 import { AddToWatchlistButton } from "@/components/market/AddToWatchlistButton";
 import { CreatePriceAlert } from "@/components/market/CreatePriceAlert";
 import { useNavigate } from "react-router-dom";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface CoinMover {
   id: string;
@@ -122,23 +123,32 @@ const Insights = () => {
           onClick={() => setSelectedCoin(coin)}
           className="flex items-center justify-between p-4 cursor-pointer"
         >
-          <div 
-            className="flex items-center gap-3 flex-1 cursor-pointer hover:opacity-80 transition-opacity"
-            onClick={(e) => {
-              e.stopPropagation();
-              navigate(`/market/${coin.id}`);
-            }}
-          >
-            <img src={coin.image} alt={coin.name} className="w-10 h-10 rounded-full" />
-            <div className="flex-1">
-              <p className="font-semibold underline decoration-primary/50" style={{ color: '#FFFFFF' }}>
-                {coin.name}
-              </p>
-              <p className="text-sm" style={{ color: '#9CA3AF' }}>
-                {coin.symbol.toUpperCase()}
-              </p>
-            </div>
-          </div>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div 
+                  className="flex items-center gap-3 flex-1 cursor-pointer hover:opacity-80 transition-opacity"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate(`/market/${coin.id}`);
+                  }}
+                >
+                  <img src={coin.image} alt={coin.name} className="w-10 h-10 rounded-full" />
+                  <div className="flex-1">
+                    <p className="font-semibold underline decoration-primary/50" style={{ color: '#FFFFFF' }}>
+                      {coin.name}
+                    </p>
+                    <p className="text-sm" style={{ color: '#9CA3AF' }}>
+                      {coin.symbol.toUpperCase()}
+                    </p>
+                  </div>
+                </div>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Click to view detailed chart on Market page</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
           <div className="text-right">
             <p className="font-semibold" style={{ color: '#FFFFFF' }}>
               ${coin.current_price.toLocaleString()}
