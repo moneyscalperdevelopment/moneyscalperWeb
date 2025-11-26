@@ -17,7 +17,7 @@ interface AuthProps {
 export const Auth = ({ onSuccess }: AuthProps) => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [selectedCountryCode, setSelectedCountryCode] = useState("+1");
+  const [selectedCountry, setSelectedCountry] = useState(countries.find(c => c.code === "US") || countries[0]);
 
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -31,7 +31,7 @@ export const Auth = ({ onSuccess }: AuthProps) => {
     const confirmPassword = formData.get("confirm-password") as string;
     
     // Combine country code with phone number
-    const contactNumber = `${selectedCountryCode}${phoneNumber}`;
+    const contactNumber = `${selectedCountry.dialCode}${phoneNumber}`;
 
     if (password !== confirmPassword) {
       toast.error("Passwords don't match");
@@ -178,23 +178,32 @@ export const Auth = ({ onSuccess }: AuthProps) => {
             <Label htmlFor="signup-phone">Phone Number</Label>
             <div className="flex gap-2">
               <Select 
-                value={selectedCountryCode} 
-                onValueChange={setSelectedCountryCode}
+                value={selectedCountry.code} 
+                onValueChange={(code) => {
+                  const country = countries.find(c => c.code === code);
+                  if (country) setSelectedCountry(country);
+                }}
                 disabled={loading}
               >
-                <SelectTrigger className="w-[140px] bg-background border-input z-50">
-                  <SelectValue placeholder="Code" />
+                <SelectTrigger className="w-[160px] bg-background border-input z-50">
+                  <SelectValue>
+                    <span className="flex items-center gap-2">
+                      <span className="text-lg">{selectedCountry.flag}</span>
+                      <span className="font-mono text-sm">{selectedCountry.dialCode}</span>
+                    </span>
+                  </SelectValue>
                 </SelectTrigger>
                 <SelectContent className="max-h-[300px] bg-background border-border z-[100]">
                   {countries.map((country) => (
                     <SelectItem 
                       key={country.code} 
-                      value={country.dialCode}
+                      value={country.code}
                       className="cursor-pointer hover:bg-accent"
                     >
                       <span className="flex items-center gap-2">
                         <span className="text-lg">{country.flag}</span>
-                        <span className="font-mono">{country.dialCode}</span>
+                        <span className="text-sm min-w-[120px]">{country.name}</span>
+                        <span className="font-mono text-xs text-muted-foreground">{country.dialCode}</span>
                       </span>
                     </SelectItem>
                   ))}
