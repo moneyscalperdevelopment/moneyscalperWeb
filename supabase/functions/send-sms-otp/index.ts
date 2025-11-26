@@ -30,6 +30,26 @@ serve(async (req) => {
       throw new Error("Unauthorized");
     }
 
+    // Extract IP and User-Agent for security logging
+    const ipAddress = req.headers.get("x-forwarded-for") || req.headers.get("x-real-ip") || "unknown";
+    const userAgent = req.headers.get("user-agent") || "unknown";
+
+    // Helper function to log security events
+    const logSecurityEvent = async (eventType: string, eventDetails: any, phoneNumber?: string) => {
+      try {
+        await supabase.from("security_logs").insert({
+          user_id: user.id,
+          event_type: eventType,
+          event_details: eventDetails,
+          phone_number: phoneNumber,
+          ip_address: ipAddress,
+          user_agent: userAgent,
+        });
+      } catch (error) {
+        console.error("Failed to log security event:", error);
+      }
+    };
+
     const { action, phoneNumber, otpCode } = await req.json();
 
     if (action === "send") {
@@ -53,6 +73,11 @@ serve(async (req) => {
           (Date.now() - new Date(recentOtps[0].created_at).getTime()) / 1000
         );
         const waitTime = 60 - secondsSinceLastRequest;
+        
+        await logSecurityEvent("rate_limit_exceeded", {
+          reason: "Too many OTP requests within 60 seconds",
+          wait_time: waitTime,
+        }, phoneNumber);
         
         return new Response(
           JSON.stringify({ 
@@ -80,6 +105,11 @@ serve(async (req) => {
       }
 
       if (dailyCount && dailyCount >= 5) {
+        await logSecurityEvent("daily_limit_exceeded", {
+          reason: "Maximum 5 OTP requests reached for phone number in 24 hours",
+          attempts_count: dailyCount,
+        }, phoneNumber);
+
         return new Response(
           JSON.stringify({ 
             success: false, 
@@ -137,6 +167,10 @@ serve(async (req) => {
 
       console.log(`SMS OTP sent to ${phoneNumber}`);
 
+      await logSecurityEvent("otp_generated", {
+        phone_number_masked: phoneNumber.slice(0, -4) + "****",
+      }, phoneNumber);
+
       return new Response(
         JSON.stringify({ success: true, message: "OTP sent successfully" }),
         {
@@ -175,6 +209,12 @@ serve(async (req) => {
           .maybeSingle();
 
         if (latestOtp && new Date(latestOtp.expires_at) < new Date()) {
+          await logSecurityEvent("expired_otp_attempt", {
+            reason: "Attempted to verify expired OTP",
+            otp_id: latestOtp.id,
+            expired_at: latestOtp.expires_at,
+          }, phoneNumber);
+
           return new Response(
             JSON.stringify({ success: false, error: "OTP has expired. Please request a new code." }),
             {
@@ -186,10 +226,18 @@ serve(async (req) => {
 
         // Increment attempts
         if (latestOtp) {
+          const newAttempts = latestOtp.attempts + 1;
+          
           await supabase
             .from("sms_otp_codes")
-            .update({ attempts: latestOtp.attempts + 1 })
+            .update({ attempts: newAttempts })
             .eq("id", latestOtp.id);
+
+          await logSecurityEvent("failed_verification_attempt", {
+            reason: "Incorrect OTP code provided",
+            otp_id: latestOtp.id,
+            attempts: newAttempts,
+          }, phoneNumber);
         }
 
         return new Response(
@@ -227,6 +275,11 @@ serve(async (req) => {
       }
 
       console.log(`SMS verified for user ${user.id}`);
+
+      await logSecurityEvent("successful_verification", {
+        otp_id: otpRecord.id,
+        phone_number_masked: phoneNumber.slice(0, -4) + "****",
+      }, phoneNumber);
 
       return new Response(
         JSON.stringify({ success: true, message: "Phone number verified successfully" }),
