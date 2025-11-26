@@ -2,9 +2,13 @@ import { Helmet } from "react-helmet";
 import { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { TrendingUp, TrendingDown, BarChart3, Activity } from "lucide-react";
+import { TrendingUp, TrendingDown, BarChart3, Plus } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
 import { createChart, ColorType, IChartApi, LineSeries } from "lightweight-charts";
+import { AddToWatchlistButton } from "@/components/market/AddToWatchlistButton";
+import { CreatePriceAlert } from "@/components/market/CreatePriceAlert";
+import { useNavigate } from "react-router-dom";
 
 interface CoinMover {
   id: string;
@@ -104,39 +108,76 @@ const Insights = () => {
     return () => window.removeEventListener('resize', handleResize);
   };
 
-  const MoverRow = ({ coin, isGainer }: { coin: CoinMover; isGainer: boolean }) => (
-    <div
-      onClick={() => setSelectedCoin(coin)}
-      className={`flex items-center justify-between p-4 rounded-lg transition-all cursor-pointer ${
-        selectedCoin?.id === coin.id ? 'bg-accent/20' : 'hover:bg-accent/10'
-      }`}
-      style={{ background: selectedCoin?.id === coin.id ? 'rgba(34, 197, 94, 0.1)' : 'rgba(255, 255, 255, 0.02)' }}
-    >
-      <div className="flex items-center gap-3 flex-1">
-        <img src={coin.image} alt={coin.name} className="w-10 h-10 rounded-full" />
-        <div className="flex-1">
-          <p className="font-semibold" style={{ color: '#FFFFFF' }}>
-            {coin.name}
-          </p>
-          <p className="text-sm" style={{ color: '#9CA3AF' }}>
-            {coin.symbol.toUpperCase()}
-          </p>
-        </div>
-      </div>
-      <div className="text-right">
-        <p className="font-semibold" style={{ color: '#FFFFFF' }}>
-          ${coin.current_price.toLocaleString()}
-        </p>
-        <p
-          className="text-sm font-bold flex items-center gap-1 justify-end"
-          style={{ color: isGainer ? '#22C55E' : '#EF4444' }}
+  const MoverRow = ({ coin, isGainer }: { coin: CoinMover; isGainer: boolean }) => {
+    const navigate = useNavigate();
+    
+    return (
+      <div
+        className={`rounded-lg transition-all ${
+          selectedCoin?.id === coin.id ? 'bg-accent/20' : 'hover:bg-accent/10'
+        }`}
+        style={{ background: selectedCoin?.id === coin.id ? 'rgba(34, 197, 94, 0.1)' : 'rgba(255, 255, 255, 0.02)' }}
+      >
+        <div
+          onClick={() => setSelectedCoin(coin)}
+          className="flex items-center justify-between p-4 cursor-pointer"
         >
-          {isGainer ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
-          {Math.abs(coin.price_change_percentage_24h).toFixed(2)}%
-        </p>
+          <div className="flex items-center gap-3 flex-1">
+            <img src={coin.image} alt={coin.name} className="w-10 h-10 rounded-full" />
+            <div className="flex-1">
+              <p className="font-semibold" style={{ color: '#FFFFFF' }}>
+                {coin.name}
+              </p>
+              <p className="text-sm" style={{ color: '#9CA3AF' }}>
+                {coin.symbol.toUpperCase()}
+              </p>
+            </div>
+          </div>
+          <div className="text-right">
+            <p className="font-semibold" style={{ color: '#FFFFFF' }}>
+              ${coin.current_price.toLocaleString()}
+            </p>
+            <p
+              className="text-sm font-bold flex items-center gap-1 justify-end"
+              style={{ color: isGainer ? '#22C55E' : '#EF4444' }}
+            >
+              {isGainer ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
+              {Math.abs(coin.price_change_percentage_24h).toFixed(2)}%
+            </p>
+          </div>
+        </div>
+        
+        {/* Action Buttons - Show when selected */}
+        {selectedCoin?.id === coin.id && (
+          <div className="px-4 pb-4 flex gap-2 animate-fade-in">
+            <AddToWatchlistButton
+              coinId={coin.id}
+              coinName={coin.name}
+              coinSymbol={coin.symbol}
+              size="sm"
+              className="flex-1"
+            />
+            <CreatePriceAlert
+              coinId={coin.id}
+              coinName={coin.name}
+              coinSymbol={coin.symbol}
+              currentPrice={coin.current_price}
+              size="sm"
+              className="flex-1"
+            />
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => navigate(`/market/${coin.id}`)}
+              style={{ borderColor: '#1F2933', color: '#FFFFFF' }}
+            >
+              View Chart
+            </Button>
+          </div>
+        )}
       </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <>
