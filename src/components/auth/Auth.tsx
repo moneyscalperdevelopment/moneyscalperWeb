@@ -4,9 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import emailjs from '@emailjs/browser';
+import { countries } from "@/data/countryCodes";
 
 interface AuthProps {
   onSuccess?: () => void;
@@ -15,6 +17,7 @@ interface AuthProps {
 export const Auth = ({ onSuccess }: AuthProps) => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [selectedCountryCode, setSelectedCountryCode] = useState("+1");
 
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -22,10 +25,13 @@ export const Auth = ({ onSuccess }: AuthProps) => {
 
     const formData = new FormData(e.currentTarget);
     const name = formData.get("signup-name") as string;
-    const contactNumber = formData.get("signup-contact") as string;
+    const phoneNumber = formData.get("signup-phone") as string;
     const email = formData.get("signup-email") as string;
     const password = formData.get("signup-password") as string;
     const confirmPassword = formData.get("confirm-password") as string;
+    
+    // Combine country code with phone number
+    const contactNumber = `${selectedCountryCode}${phoneNumber}`;
 
     if (password !== confirmPassword) {
       toast.error("Passwords don't match");
@@ -169,15 +175,41 @@ export const Auth = ({ onSuccess }: AuthProps) => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="signup-contact">Phone Number (with country code)</Label>
-            <Input
-              id="signup-contact"
-              name="signup-contact"
-              type="tel"
-              placeholder="+1234567890"
-              required
-              disabled={loading}
-            />
+            <Label htmlFor="signup-phone">Phone Number</Label>
+            <div className="flex gap-2">
+              <Select 
+                value={selectedCountryCode} 
+                onValueChange={setSelectedCountryCode}
+                disabled={loading}
+              >
+                <SelectTrigger className="w-[140px] bg-background border-input z-50">
+                  <SelectValue placeholder="Code" />
+                </SelectTrigger>
+                <SelectContent className="max-h-[300px] bg-background border-border z-[100]">
+                  {countries.map((country) => (
+                    <SelectItem 
+                      key={country.code} 
+                      value={country.dialCode}
+                      className="cursor-pointer hover:bg-accent"
+                    >
+                      <span className="flex items-center gap-2">
+                        <span className="text-lg">{country.flag}</span>
+                        <span className="font-mono">{country.dialCode}</span>
+                      </span>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <Input
+                id="signup-phone"
+                name="signup-phone"
+                type="tel"
+                placeholder="1234567890"
+                required
+                disabled={loading}
+                className="flex-1"
+              />
+            </div>
           </div>
 
           <div className="space-y-2">
