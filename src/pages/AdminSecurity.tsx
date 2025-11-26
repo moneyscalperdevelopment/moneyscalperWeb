@@ -408,6 +408,10 @@ export default function AdminSecurity() {
               Export PDF
             </Button>
             
+            <Button onClick={() => navigate("/admin/users")} variant="outline">
+              User Management
+            </Button>
+            
             <Button onClick={() => navigate("/dashboard")} variant="outline">
               Back to Dashboard
             </Button>
