@@ -15,6 +15,7 @@ import AccountSettings from "./pages/AccountSettings";
 import Careers from "./pages/Careers";
 import CareerApplication from "./pages/CareerApplication";
 import NotFound from "./pages/NotFound";
+import AdminSecurity from "./pages/AdminSecurity";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,7 @@ const App = () => (
           <Route path="/account" element={<AccountSettings />} />
           <Route path="/careers" element={<Careers />} />
           <Route path="/careers/apply/:jobId" element={<CareerApplication />} />
+          <Route path="/admin/security" element={<AdminSecurity />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

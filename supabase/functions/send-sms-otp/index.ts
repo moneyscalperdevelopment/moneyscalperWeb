@@ -50,6 +50,92 @@ serve(async (req) => {
       }
     };
 
+    // Helper function to track and flag suspicious IPs
+    const trackSuspiciousIP = async (reason: string) => {
+      try {
+        const { data: existing } = await supabase
+          .from("suspicious_ips")
+          .select("*")
+          .eq("ip_address", ipAddress)
+          .maybeSingle();
+
+        if (existing) {
+          await supabase
+            .from("suspicious_ips")
+            .update({
+              event_count: existing.event_count + 1,
+              last_seen: new Date().toISOString(),
+              reason: reason,
+            })
+            .eq("id", existing.id);
+        } else {
+          await supabase
+            .from("suspicious_ips")
+            .insert({
+              ip_address: ipAddress,
+              reason: reason,
+              event_count: 1,
+            });
+        }
+      } catch (error) {
+        console.error("Failed to track suspicious IP:", error);
+      }
+    };
+
+    // Check if IP is blocked
+    const { data: blockedIP } = await supabase
+      .from("suspicious_ips")
+      .select("blocked")
+      .eq("ip_address", ipAddress)
+      .eq("blocked", true)
+      .maybeSingle();
+
+    if (blockedIP) {
+      await logSecurityEvent("ip_blocked", {
+        reason: "Request from blocked IP address",
+        ip: ipAddress,
+      });
+
+      return new Response(
+        JSON.stringify({
+          success: false,
+          error: "Access denied. This IP address has been blocked due to suspicious activity.",
+        }),
+        {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          status: 403,
+        }
+      );
+    }
+
+    // IP-based rate limiting: Check failed attempts from this IP in last hour
+    const oneHourAgo = new Date(Date.now() - 3600000).toISOString();
+    const { count: ipFailedAttempts } = await supabase
+      .from("security_logs")
+      .select("*", { count: "exact", head: true })
+      .eq("ip_address", ipAddress)
+      .in("event_type", ["failed_verification_attempt", "rate_limit_exceeded", "daily_limit_exceeded"])
+      .gte("created_at", oneHourAgo);
+
+    if (ipFailedAttempts && ipFailedAttempts >= 10) {
+      await trackSuspiciousIP("More than 10 failed attempts in 1 hour");
+      await logSecurityEvent("suspicious_ip_activity", {
+        reason: "Excessive failed attempts from IP",
+        failed_count: ipFailedAttempts,
+      });
+
+      return new Response(
+        JSON.stringify({
+          success: false,
+          error: "Too many failed attempts from your location. Please try again later.",
+        }),
+        {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          status: 429,
+        }
+      );
+    }
+
     const { action, phoneNumber, otpCode } = await req.json();
 
     if (action === "send") {
@@ -238,6 +324,11 @@ serve(async (req) => {
             otp_id: latestOtp.id,
             attempts: newAttempts,
           }, phoneNumber);
+
+          // Track suspicious pattern: multiple failed attempts
+          if (newAttempts >= 3) {
+            await trackSuspiciousIP(`${newAttempts} failed OTP verification attempts`);
+          }
         }
 
         return new Response(
