@@ -244,26 +244,28 @@ export const Auth = ({ onSuccess }: AuthProps) => {
                 onValueChange={handleCountryChange}
                 disabled={loading}
               >
-                <SelectTrigger className="w-[160px] bg-background border-input z-50">
+                <SelectTrigger className="w-[100px] bg-background border-input z-50">
                   <SelectValue>
-                    <span className="flex items-center gap-2">
-                      <span className="text-lg">{selectedCountry.flag}</span>
-                      <span className="font-mono text-sm">{selectedCountry.dialCode}</span>
+                    <span className="flex items-center gap-1.5">
+                      <span className="text-base">{selectedCountry.flag}</span>
+                      <span className="font-mono text-xs">{selectedCountry.dialCode}</span>
                     </span>
                   </SelectValue>
                 </SelectTrigger>
-                <SelectContent className="max-h-[300px] bg-background border-border z-[100]">
+                <SelectContent className="max-h-[280px] bg-background border-border z-[100] w-[280px]">
                   {countries.map((country) => (
                     <SelectItem 
                       key={country.code} 
                       value={country.code}
-                      className="cursor-pointer hover:bg-accent"
+                      className="cursor-pointer hover:bg-accent py-2"
                     >
-                      <span className="flex items-center gap-2">
-                        <span className="text-lg">{country.flag}</span>
-                        <span className="text-sm min-w-[120px]">{country.name}</span>
-                        <span className="font-mono text-xs text-muted-foreground">{country.dialCode}</span>
-                      </span>
+                      <div className="flex items-center justify-between w-full gap-3">
+                        <div className="flex items-center gap-2">
+                          <span className="text-base">{country.flag}</span>
+                          <span className="text-xs font-medium truncate max-w-[140px]">{country.name}</span>
+                        </div>
+                        <span className="font-mono text-xs text-muted-foreground ml-auto">{country.dialCode}</span>
+                      </div>
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -295,7 +297,10 @@ export const Auth = ({ onSuccess }: AuthProps) => {
                   <p className="text-xs text-red-500">{phoneError}</p>
                 )}
                 {phoneNumber && !phoneError && phoneNumber.replace(/\D/g, '').length >= 10 && (
-                  <p className="text-xs text-green-500">Valid {selectedCountry.name} number</p>
+                  <p className="text-xs text-green-500 flex items-center gap-1">
+                    <CheckCircle className="h-3 w-3" />
+                    Valid number
+                  </p>
                 )}
               </div>
             </div>
