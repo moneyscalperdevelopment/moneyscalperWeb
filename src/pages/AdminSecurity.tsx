@@ -5,8 +5,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Shield, AlertTriangle, CheckCircle, XCircle, Activity } from "lucide-react";
+import { Shield, AlertTriangle, CheckCircle, XCircle, Activity, TrendingUp } from "lucide-react";
 import { toast } from "sonner";
+import { LineChart, Line, BarChart, Bar, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
 interface SecurityLog {
   id: string;
@@ -37,6 +38,25 @@ interface SecurityMetrics {
   suspicious_ips: number;
 }
 
+interface ChartData {
+  date: string;
+  successful: number;
+  failed: number;
+  rate_limited: number;
+  generated: number;
+}
+
+interface HourlyData {
+  hour: string;
+  events: number;
+}
+
+interface EventTypeData {
+  name: string;
+  value: number;
+  fill: string;
+}
+
 export default function AdminSecurity() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -50,6 +70,9 @@ export default function AdminSecurity() {
     rate_limit_violations: 0,
     suspicious_ips: 0,
   });
+  const [dailyTrends, setDailyTrends] = useState<ChartData[]>([]);
+  const [hourlyActivity, setHourlyActivity] = useState<HourlyData[]>([]);
+  const [eventTypeBreakdown, setEventTypeBreakdown] = useState<EventTypeData[]>([]);
 
   useEffect(() => {
     checkAdminAccess();
@@ -126,11 +149,97 @@ export default function AdminSecurity() {
           suspicious_ips: ipsData?.length || 0,
         };
         setMetrics(metrics);
+
+        // Calculate daily trends (last 7 days)
+        const dailyData = calculateDailyTrends(logsData);
+        setDailyTrends(dailyData);
+
+        // Calculate hourly activity (last 24 hours)
+        const hourlyData = calculateHourlyActivity(logsData);
+        setHourlyActivity(hourlyData);
+
+        // Calculate event type breakdown
+        const eventBreakdown = calculateEventTypeBreakdown(logsData);
+        setEventTypeBreakdown(eventBreakdown);
       }
     } catch (error) {
       console.error("Error loading security data:", error);
       toast.error("Failed to load security data");
     }
+  };
+
+  const calculateDailyTrends = (logs: SecurityLog[]): ChartData[] => {
+    const last7Days = Array.from({ length: 7 }, (_, i) => {
+      const date = new Date();
+      date.setDate(date.getDate() - (6 - i));
+      return date.toISOString().split('T')[0];
+    });
+
+    return last7Days.map(date => {
+      const dayLogs = logs.filter(log => 
+        log.created_at.startsWith(date)
+      );
+
+      return {
+        date: new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+        successful: dayLogs.filter(l => l.event_type === 'successful_verification').length,
+        failed: dayLogs.filter(l => l.event_type === 'failed_verification_attempt').length,
+        rate_limited: dayLogs.filter(l => 
+          l.event_type === 'rate_limit_exceeded' || 
+          l.event_type === 'daily_limit_exceeded'
+        ).length,
+        generated: dayLogs.filter(l => l.event_type === 'otp_generated').length,
+      };
+    });
+  };
+
+  const calculateHourlyActivity = (logs: SecurityLog[]): HourlyData[] => {
+    const last24Hours = Array.from({ length: 24 }, (_, i) => {
+      const date = new Date();
+      date.setHours(date.getHours() - (23 - i), 0, 0, 0);
+      return date;
+    });
+
+    return last24Hours.map(date => {
+      const hourStart = date.toISOString();
+      const hourEnd = new Date(date.getTime() + 3600000).toISOString();
+
+      const hourLogs = logs.filter(log => 
+        log.created_at >= hourStart && log.created_at < hourEnd
+      );
+
+      return {
+        hour: date.toLocaleTimeString('en-US', { hour: 'numeric', hour12: true }),
+        events: hourLogs.length,
+      };
+    });
+  };
+
+  const calculateEventTypeBreakdown = (logs: SecurityLog[]): EventTypeData[] => {
+    const eventCounts: Record<string, number> = {};
+    
+    logs.forEach(log => {
+      eventCounts[log.event_type] = (eventCounts[log.event_type] || 0) + 1;
+    });
+
+    const colorMap: Record<string, string> = {
+      'successful_verification': '#22C55E',
+      'failed_verification_attempt': '#EF4444',
+      'rate_limit_exceeded': '#F59E0B',
+      'daily_limit_exceeded': '#F59E0B',
+      'otp_generated': '#3B82F6',
+      'expired_otp_attempt': '#6B7280',
+      'suspicious_ip_activity': '#DC2626',
+      'ip_blocked': '#991B1B',
+    };
+
+    return Object.entries(eventCounts)
+      .map(([name, value]) => ({
+        name: name.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+        value,
+        fill: colorMap[name] || '#9CA3AF',
+      }))
+      .sort((a, b) => b.value - a.value);
   };
 
   const toggleIPBlock = async (ip: SuspiciousIP) => {
@@ -277,11 +386,212 @@ export default function AdminSecurity() {
         </div>
 
         {/* Tabs for different views */}
-        <Tabs defaultValue="logs" className="space-y-4">
+        <Tabs defaultValue="analytics" className="space-y-4">
           <TabsList>
+            <TabsTrigger value="analytics">Analytics</TabsTrigger>
             <TabsTrigger value="logs">Security Logs</TabsTrigger>
             <TabsTrigger value="ips">Suspicious IPs</TabsTrigger>
           </TabsList>
+
+          <TabsContent value="analytics" className="space-y-4">
+            {/* Daily Trends Chart */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <TrendingUp className="h-5 w-5 text-primary" />
+                  7-Day Security Trends
+                </CardTitle>
+                <CardDescription>
+                  Daily verification activity over the past week
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <ResponsiveContainer width="100%" height={300}>
+                  <AreaChart data={dailyTrends}>
+                    <defs>
+                      <linearGradient id="colorSuccessful" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#22C55E" stopOpacity={0.3}/>
+                        <stop offset="95%" stopColor="#22C55E" stopOpacity={0}/>
+                      </linearGradient>
+                      <linearGradient id="colorFailed" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#EF4444" stopOpacity={0.3}/>
+                        <stop offset="95%" stopColor="#EF4444" stopOpacity={0}/>
+                      </linearGradient>
+                      <linearGradient id="colorRateLimited" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#F59E0B" stopOpacity={0.3}/>
+                        <stop offset="95%" stopColor="#F59E0B" stopOpacity={0}/>
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+                    <XAxis 
+                      dataKey="date" 
+                      stroke="#9CA3AF"
+                      style={{ fontSize: '12px' }}
+                    />
+                    <YAxis 
+                      stroke="#9CA3AF"
+                      style={{ fontSize: '12px' }}
+                    />
+                    <Tooltip 
+                      contentStyle={{ 
+                        backgroundColor: '#1F2937', 
+                        border: '1px solid #374151',
+                        borderRadius: '8px'
+                      }}
+                    />
+                    <Legend />
+                    <Area 
+                      type="monotone" 
+                      dataKey="successful" 
+                      stroke="#22C55E" 
+                      fillOpacity={1}
+                      fill="url(#colorSuccessful)"
+                      name="Successful"
+                    />
+                    <Area 
+                      type="monotone" 
+                      dataKey="failed" 
+                      stroke="#EF4444" 
+                      fillOpacity={1}
+                      fill="url(#colorFailed)"
+                      name="Failed"
+                    />
+                    <Area 
+                      type="monotone" 
+                      dataKey="rate_limited" 
+                      stroke="#F59E0B" 
+                      fillOpacity={1}
+                      fill="url(#colorRateLimited)"
+                      name="Rate Limited"
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </CardContent>
+            </Card>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              {/* Hourly Activity Chart */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>24-Hour Activity Pattern</CardTitle>
+                  <CardDescription>
+                    Security events by hour (last 24 hours)
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ResponsiveContainer width="100%" height={250}>
+                    <BarChart data={hourlyActivity}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+                      <XAxis 
+                        dataKey="hour" 
+                        stroke="#9CA3AF"
+                        style={{ fontSize: '10px' }}
+                        angle={-45}
+                        textAnchor="end"
+                        height={60}
+                      />
+                      <YAxis 
+                        stroke="#9CA3AF"
+                        style={{ fontSize: '12px' }}
+                      />
+                      <Tooltip 
+                        contentStyle={{ 
+                          backgroundColor: '#1F2937', 
+                          border: '1px solid #374151',
+                          borderRadius: '8px'
+                        }}
+                      />
+                      <Bar 
+                        dataKey="events" 
+                        fill="#3B82F6"
+                        radius={[8, 8, 0, 0]}
+                        name="Events"
+                      />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </CardContent>
+              </Card>
+
+              {/* Event Type Breakdown Chart */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Event Type Distribution</CardTitle>
+                  <CardDescription>
+                    Breakdown of security event types
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ResponsiveContainer width="100%" height={250}>
+                    <BarChart data={eventTypeBreakdown} layout="vertical">
+                      <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
+                      <XAxis 
+                        type="number"
+                        stroke="#9CA3AF"
+                        style={{ fontSize: '12px' }}
+                      />
+                      <YAxis 
+                        type="category"
+                        dataKey="name" 
+                        stroke="#9CA3AF"
+                        style={{ fontSize: '10px' }}
+                        width={120}
+                      />
+                      <Tooltip 
+                        contentStyle={{ 
+                          backgroundColor: '#1F2937', 
+                          border: '1px solid #374151',
+                          borderRadius: '8px'
+                        }}
+                      />
+                      <Bar 
+                        dataKey="value" 
+                        radius={[0, 8, 8, 0]}
+                        name="Count"
+                      />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Success Rate Card */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Verification Success Rate</CardTitle>
+                <CardDescription>
+                  Overall verification performance metrics
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="space-y-2">
+                    <p className="text-sm text-muted-foreground">Success Rate</p>
+                    <p className="text-3xl font-bold text-green-500">
+                      {metrics.total_events > 0 
+                        ? Math.round((metrics.successful_verifications / (metrics.successful_verifications + metrics.failed_attempts)) * 100)
+                        : 0}%
+                    </p>
+                  </div>
+                  <div className="space-y-2">
+                    <p className="text-sm text-muted-foreground">Failure Rate</p>
+                    <p className="text-3xl font-bold text-red-500">
+                      {metrics.total_events > 0 
+                        ? Math.round((metrics.failed_attempts / (metrics.successful_verifications + metrics.failed_attempts)) * 100)
+                        : 0}%
+                    </p>
+                  </div>
+                  <div className="space-y-2">
+                    <p className="text-sm text-muted-foreground">Rate Limit Hit Rate</p>
+                    <p className="text-3xl font-bold text-orange-500">
+                      {metrics.total_events > 0 
+                        ? Math.round((metrics.rate_limit_violations / metrics.total_events) * 100)
+                        : 0}%
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
 
           <TabsContent value="logs" className="space-y-4">
             <Card>
