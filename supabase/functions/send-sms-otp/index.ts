@@ -33,6 +33,65 @@ serve(async (req) => {
     const { action, phoneNumber, otpCode } = await req.json();
 
     if (action === "send") {
+      // Rate limiting: Check if user has requested OTP in the last 60 seconds
+      const oneMinuteAgo = new Date(Date.now() - 60000).toISOString();
+      const { data: recentOtps, error: recentError } = await supabase
+        .from("sms_otp_codes")
+        .select("created_at")
+        .eq("user_id", user.id)
+        .eq("phone_number", phoneNumber)
+        .gt("created_at", oneMinuteAgo)
+        .order("created_at", { ascending: false })
+        .limit(1);
+
+      if (recentError) {
+        console.error("Error checking recent OTPs:", recentError);
+      }
+
+      if (recentOtps && recentOtps.length > 0) {
+        const secondsSinceLastRequest = Math.floor(
+          (Date.now() - new Date(recentOtps[0].created_at).getTime()) / 1000
+        );
+        const waitTime = 60 - secondsSinceLastRequest;
+        
+        return new Response(
+          JSON.stringify({ 
+            success: false, 
+            error: `Please wait ${waitTime} seconds before requesting another code` 
+          }),
+          {
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+            status: 429,
+          }
+        );
+      }
+
+      // Check daily limit: Max 5 OTP requests per phone per day
+      const oneDayAgo = new Date(Date.now() - 86400000).toISOString();
+      const { count: dailyCount, error: countError } = await supabase
+        .from("sms_otp_codes")
+        .select("*", { count: "exact", head: true })
+        .eq("user_id", user.id)
+        .eq("phone_number", phoneNumber)
+        .gt("created_at", oneDayAgo);
+
+      if (countError) {
+        console.error("Error checking daily limit:", countError);
+      }
+
+      if (dailyCount && dailyCount >= 5) {
+        return new Response(
+          JSON.stringify({ 
+            success: false, 
+            error: "Daily SMS limit reached. Please try again tomorrow or use email verification." 
+          }),
+          {
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+            status: 429,
+          }
+        );
+      }
+
       // Generate 6-digit OTP
       const generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
 
