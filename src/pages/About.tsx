@@ -93,7 +93,7 @@ const About = () => {
               About Money Scalper
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
-              Next-gen AI crypto trading & learning platform built to help you trade Bitcoin, Ethereum, and top cryptocurrencies with real-time insights and automation.
+              Money Scalper is a next-generation AI-powered trading and education ecosystem built to help traders analyze, trade, and grow in the cryptocurrency market.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild size="lg" className="text-base">
@@ -178,7 +178,13 @@ const About = () => {
             <div className="space-y-6 text-center">
               <h2 className="text-3xl md:text-4xl font-bold">Welcome to Money Scalper</h2>
               <p className="text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-                Money Scalper is a next-generation AI-powered crypto trading and learning platform designed to help traders make smarter, faster, and more profitable decisions. Built for both beginners and professionals, Money Scalper combines artificial intelligence, market analytics, and expert insights to transform how you trade Bitcoin, Ethereum, and top cryptocurrencies in real time.
+                Money Scalper is a modern learning platform created to help traders understand the markets, master trading platforms, and build strong trading skills from scratch.
+
+                We focus on making trading education simple, practical, and accessible for everyone — whether you are a beginner exploring the basics or an active trader looking to refine your strategies.
+
+                Through step-by-step learning, real-time insights, and easy-to-follow lessons, Money Scalper guides you on how to analyze the market, manage risk, use trading tools effectively, and make confident trading decisions.
+
+                Our mission is to help you learn trading the right way and grow into a smart, independent, and successful trader.
               </p>
               <p className="text-muted-foreground leading-relaxed max-w-3xl mx-auto">
                 We're redefining crypto trading by merging AI technology with deep market knowledge — giving traders a powerful platform to analyze, execute, and automate profitable trading strategies.
