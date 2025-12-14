@@ -45,7 +45,7 @@ const About = () => {
       expertise: "Scalping, Algorithmic Trading, Blockchain Market Analytics"
     },
     {
-      name: "Ankur,
+      name: "Ankur",
       role: "Co-Founder & R&D Head",
       description: "Research & Development Analyst specializing in AI and automation, driving platform development and model optimization.",
       expertise: "AI & Automation, Product Innovation, Predictive Trading Insights"
