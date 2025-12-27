@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      mock_test_leads: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          name: string
+          score: number | null
+          test_completed: boolean
+          total_questions: number | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          name: string
+          score?: number | null
+          test_completed?: boolean
+          total_questions?: number | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string
+          score?: number | null
+          test_completed?: boolean
+          total_questions?: number | null
+        }
+        Relationships: []
+      }
       price_alerts: {
         Row: {
           coin_id: string

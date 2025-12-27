@@ -12,7 +12,7 @@ import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuL
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Auth } from "@/components/auth/Auth";
 import msLogo from "@/assets/ms-logo-3d.jpeg";
-import { Menu, User, Settings, LogOut, Activity, Shield } from "lucide-react";
+import { Menu, User, Settings, LogOut, Activity, Shield, GraduationCap } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -185,6 +185,17 @@ const Header = () => {
                 >
                   Plans
                 </button>
+                <button
+                  onClick={() => {
+                    navigate('/mock-test');
+                    setMobileMenuOpen(false);
+                  }}
+                  className="relative text-left py-3 px-4 rounded-lg bg-gradient-to-r from-primary/20 to-accent/20 hover:from-primary/30 hover:to-accent/30 border border-primary/30 transition-colors text-lg font-medium flex items-center gap-2 overflow-hidden animate-pulse"
+                >
+                  <span className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/20 to-primary/0 animate-shimmer" />
+                  <GraduationCap className="w-5 h-5 text-primary relative z-10" />
+                  <span className="relative z-10 text-primary font-semibold">Mock Test</span>
+                </button>
               </nav>
             </SheetContent>
           </Sheet>
@@ -241,6 +252,17 @@ const Header = () => {
                 <NavigationMenuLink className={navigationMenuTriggerStyle()} onClick={() => scrollToSection('pricing')} style={{
                 cursor: 'pointer'
               }}>Plans</NavigationMenuLink>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuLink 
+                  className={`${navigationMenuTriggerStyle()} relative overflow-hidden bg-gradient-to-r from-primary/20 to-accent/20 hover:from-primary/30 hover:to-accent/30 border border-primary/30 animate-pulse`}
+                  onClick={() => navigate('/mock-test')}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <span className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/20 to-primary/0 animate-shimmer" />
+                  <GraduationCap className="w-4 h-4 mr-1 text-primary" />
+                  <span className="relative z-10 text-primary font-semibold">Mock Test</span>
+                </NavigationMenuLink>
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
@@ -335,7 +357,7 @@ const Header = () => {
             <Dialog open={authDialogOpen} onOpenChange={setAuthDialogOpen}>
               <DialogTrigger asChild>
                 <Button className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all duration-300 text-xs sm:text-sm px-3 sm:px-4 py-2">
-                  Get Started
+                  Login
                 </Button>
               </DialogTrigger>
               <DialogContent className="w-[90vw] max-w-[450px]">

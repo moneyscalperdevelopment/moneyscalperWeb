@@ -19,6 +19,9 @@ export default {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        "electric-blue": "hsl(var(--electric-blue))",
+        "bright-cyan": "hsl(var(--bright-cyan))",
+        "card-elevated": "hsl(var(--card-elevated))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -57,11 +60,7 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        "cyber-green": "hsl(var(--cyber-green))",
-        "electric-blue": "hsl(var(--electric-blue))",
-        "neon-cyan": "hsl(var(--neon-cyan))",
         "neon-violet": "hsl(var(--neon-violet))",
-        "cyber-orange": "hsl(var(--cyber-orange))",
       },
       borderRadius: {
         lg: "var(--radius)",
